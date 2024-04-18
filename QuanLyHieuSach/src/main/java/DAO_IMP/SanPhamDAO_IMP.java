@@ -2,6 +2,8 @@ package DAO_IMP;
 
 import java.util.ArrayList;
 
+
+
 import DAO.SanPham_DAO;
 import entity.SanPham;
 import jakarta.persistence.EntityManager;
@@ -20,6 +22,7 @@ public class SanPhamDAO_IMP implements SanPham_DAO{
 	@Override
 	public SanPham layThongTinSanPham(String maSanPham) {
 		// TODO Auto-generated method stub
+		
 		return em.find(SanPham.class, maSanPham);
 	}
 
@@ -90,6 +93,7 @@ public class SanPhamDAO_IMP implements SanPham_DAO{
                 .setParameter("tenSanPham", tenSanPham)
                 .getSingleResult();
 	}
+
 	
 	
 

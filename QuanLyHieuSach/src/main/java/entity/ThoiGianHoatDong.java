@@ -28,8 +28,8 @@ public class ThoiGianHoatDong {
 	@JoinColumn(name = "MaNV")
 	private NhanVien nhanVien;
     private LocalDate  ngayDangNhap;
-    private  LocalTime thoiGianDangNhap;
-     private LocalTime thoiGianDangXuat;
+    private LocalTime thoiGianDangNhap;
+    private LocalTime thoiGianDangXuat;
     private LocalTime thoiGianDaLam;
    
     public ThoiGianHoatDong(String maThoiGian, NhanVien nhanVien, LocalDate ngayDangNhap,  LocalTime thoiGianDangNhap, LocalTime thoiGianDaLam) {

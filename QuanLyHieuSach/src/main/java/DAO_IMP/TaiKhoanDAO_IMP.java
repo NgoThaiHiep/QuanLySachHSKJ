@@ -18,6 +18,7 @@ public class TaiKhoanDAO_IMP implements TaiKhoan_DAO{
 		em = Persistence.createEntityManagerFactory("QuanLyHieuSach MSSQL")
 				.createEntityManager();
 	}
+	
 	@Override
 	public ArrayList<TaiKhoan> layDanhSachTaiKhoan() {
 		// TODO Auto-generated method stub

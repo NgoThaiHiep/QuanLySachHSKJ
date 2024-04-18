@@ -26,10 +26,7 @@ public class HoaDonDAO_IMP implements HoaDon_DAO{
 		// TODO Auto-generated method stub
 		Date currentDate = new Date();
 		SimpleDateFormat formatterDay = new SimpleDateFormat("ddMMyy");
-		String formattedDate = "";
-	        
-	           
-	             
+		String formattedDate = "";  
 	        for (int i = 1; i < 9999; i++) {
 	            // Định dạng số thành chuỗi và thêm các số 0 bổ sung để đảm bảo đủ 5 chữ số
 	            formattedDate =  formatterDay.format(currentDate) + nv.getMaNV().substring(2, 6)+  String.format("%04d", i);
@@ -59,26 +56,18 @@ public class HoaDonDAO_IMP implements HoaDon_DAO{
             tx.commit();
             return true;
         } catch (Exception e) {
-        	e.printStackTrace();
-        	            tx.rollback();
-        	            
+			tx.rollback();
+			e.printStackTrace();
         }
 		return false;
 	}
 
-	@Override
-	public HoaDon layHoaDon(String ma, String ngay) {
-		// TODO Auto-generated method stub
-		return em.createQuery("select c from HoaDon c where c.maHoaDon = :ma and c.ngayLap = :ngay", HoaDon.class)
-                .setParameter("ma", ma)
-                .setParameter("ngay", ngay)
-                .getSingleResult();
-	}
-
+	
 	@Override
 	public ArrayList<HoaDon> layDanhSachHoaDon() {
 		// TODO Auto-generated method stub
-		return null;
+		return (ArrayList<HoaDon> )em.createQuery("select c from HoaDon c", HoaDon.class)
+                .getResultList();
 	}
 
 	@Override
@@ -153,6 +142,14 @@ public class HoaDonDAO_IMP implements HoaDon_DAO{
                 .setParameter("ngay", ngayChon)
                 .setParameter("nv", nv)
                 .getResultList();
+	}
+	@Override
+	public HoaDon layHoaDon(String ma, LocalDate ngay) {
+		// TODO Auto-generated method stub
+		return em.createQuery("select c from HoaDon c where c.maHoaDon = :ma and c.ngayLap = :ngay", HoaDon.class)
+                .setParameter("ma", ma)
+                .setParameter("ngay", ngay)
+                .getSingleResult();
 	}
 	
 

@@ -8,29 +8,45 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import DAO.ChiTietHoaDon_DAO;
+import DAO.HangCho_DAO;
+import DAO.HoaDon_DAO;
 import DAO.KhachHang_DAO;
 import DAO.MaXacNhan_DAO;
 import DAO.NhanVien_DAO;
 import DAO.SanPham_DAO;
+import DAO.ThoiGianHoatDong_DAO;
 import DAO.VanPhongPham_DAO;
+import DAO_IMP.ChiTietHoaDonDAO_IMP;
 import DAO_IMP.ChucVuDAO_IMP;
+import DAO_IMP.HangChoDAO_IMP;
+import DAO_IMP.HoaDonDAO_IMP;
 import DAO_IMP.KhachHangDAO_IMP;
 import DAO_IMP.MaXacNhanDAO_IMP;
 import DAO_IMP.NhanVienDAO_IMP;
 import DAO_IMP.SachDAO_IMP;
 import DAO_IMP.SanPhamDAO_IMP;
 import DAO_IMP.TaiKhoanDAO_IMP;
+import DAO_IMP.ThoiGianHoatDongDAO_IMP;
 import DAO_IMP.VanPhongPhamDAO_IMP;
+import entity.HoaDon;
 import entity.KhachHang;
 import entity.MaXacNhan;
 import entity.NhanVien;
 import entity.Sach;
 import entity.SanPham;
 import entity.TaiKhoan;
+import entity.ThoiGianHoatDong;
 import entity.VanPhongPham;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class main {
 	public static void main(String[] args) {
@@ -334,6 +350,7 @@ public class main {
 				System.out.println(sanPham_DAO.layThongTinSanPham("VP00001"));
 				
 				JsonObject jsonObject = GSON.fromJson(json, JsonObject.class);
+				
 		        String tacGia = jsonObject.get("tacGia").toString();
 		        int namXuatBan = jsonObject.get("namXuatBan").getAsInt();
 		        int soTrang = jsonObject.get("soTrang").getAsInt();
@@ -416,10 +433,72 @@ public class main {
 				 System.out.println(khachHang_DAO.layThongTinKhachHang_TheoMaKH("KH00001"));
 				 System.out.println(khachHang_DAO.generateVerifyCodeKH());
 				 System.out.println(khachHang_DAO.generateVerifyCode_KhachHangLe());
-				 
-				 
-				 
+				
 				 break;
+			 case 8:
+				 HangCho_DAO hangCho_DAO = new HangChoDAO_IMP();
+				 hangCho_DAO.DeleteHangChoQuaNgay();
+				 break;
+			 case 9 :
+				 HoaDon hoaDon = new HoaDon("HD00001", LocalDate.now(), new NhanVien("21081841"), new KhachHang("KH00001"), 100000.000, 10000.000, 90000.000, 10.000, 90000.000);
+				 HoaDon_DAO hoaDon_DAO = new HoaDonDAO_IMP() ;
+//				 hoaDon_DAO.InsertHoaDon(hoaDon);
+				 hoaDon_DAO.layDanhSachHoaDon().forEach(System.out::println);
+				 hoaDon_DAO.layHoaDon("HD00001", LocalDate.parse("2024-04-18"));
+				 System.out.println( hoaDon_DAO.layHoaDon("HD00001", LocalDate.parse("2024-04-18")));
+				 System.out.println(LocalDate.parse("2024-04-18"));
+				 break;
+			 case 10:
+				 ChiTietHoaDon_DAO chiTietHoaDon_DAO = new ChiTietHoaDonDAO_IMP();
+				 
+				 sanPham_DAO = new SanPhamDAO_IMP();
+				 SanPham sp = sanPham_DAO.layThongTinSanPham("Sach00001");
+				 hoaDon_DAO = new HoaDonDAO_IMP();
+				 hoaDon = hoaDon_DAO.layHoaDon("HD00001", LocalDate.parse("2024-04-18"));
+				 chiTietHoaDon_DAO.InsertCTHoaDon(hoaDon, 30, 10000, sp);
+				 chiTietHoaDon_DAO.layDanhSachCTHoaDon().forEach(System.out::println);
+				 sanPham_DAO.updateSoLuong("Sach00001", 30);
+				System.out.println();
+				 break;
+				 
+		        case 11:
+		        	LocalDate localDate = LocalDate.now();
+		        	nv = nhanVienDAO_IMP.layThongTinNhanVien(new NhanVien("21081841"));
+		        	ThoiGianHoatDong tghd = new ThoiGianHoatDong(null, nv, localDate, null, null);
+		        	ThoiGianHoatDong_DAO thoiGianHoatDong_DAO = new ThoiGianHoatDongDAO_IMP();
+		        	
+//		        	System.out.println(tghd_DAO.kiemTraDangNhapTrongNgay(tghd, startTimeLamViec, endTime));
+//		        	System.out.println(tghd);
+//		        	
+		        	
+		        	 LocalTime startTimeLamViec = LocalTime.of(18,50,23);
+		        	 LocalTime endTime = LocalTime.of(23, 59, 59);
+		        	 tghd.setThoiGianDangNhap(startTimeLamViec);
+		        	 tghd.setThoiGianDangXuat(endTime);
+		        	 System.out.println(tghd);
+		        	 System.out.println(thoiGianHoatDong_DAO.layThoiGianHoatDong(tghd));
+//		        	 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//		        		LocalTime loCalTime = LocalTime.now();
+//		           	 String catChuoi = loCalTime+"";
+//		            
+//	                LocalDate localDateNam = LocalDate.now();
+//	                String formattedTime = loCalTime.format(formatter);
+//	               
+//	               
+//	                Date currentDate = new Date();
+//	                SimpleDateFormat formatterDay = new SimpleDateFormat("ddMMyy");
+//	                String formattedDate = formatterDay.format(currentDate);
+//	        
+//	                String maLamViec = formattedDate+ formattedTime.substring(0,2) +formattedTime.substring(3,5) + nv.getMaNV();
+//	                catChuoi = catChuoi.substring(0, 8); 
+//	                LocalTime thoiGianDangNhap = LocalTime.parse(catChuoi, formatter);
+//	                ThoiGianHoatDong tghd = new ThoiGianHoatDong(maLamViec, nv, localDateNam, thoiGianDangNhap);
+//	                
+//	                thoiGianHoatDong_DAO.insertThoiGianLam(tghd);
+		        	
+		        	
+		        	
+		        	break;
 			}
 			
 			 

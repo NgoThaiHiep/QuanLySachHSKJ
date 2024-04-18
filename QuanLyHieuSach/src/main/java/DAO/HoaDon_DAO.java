@@ -10,7 +10,7 @@ public interface HoaDon_DAO {
 	public String generateHoaDon(NhanVien nv);
 	public boolean kiemTraMaHoaDon(String code);
 	public boolean InsertHoaDon(HoaDon hd);
-	public HoaDon layHoaDon(String ma,String ngay);
+	public HoaDon layHoaDon(String ma, LocalDate ngay);
 	public ArrayList<HoaDon> layDanhSachHoaDon();
 	public ArrayList<HoaDon> layDanhSachHoaDonTheoNgay(LocalDate ngayChon);
 	public ArrayList<HoaDon> layDanhSachHoaDonTheoThang(LocalDate ngayChon);
