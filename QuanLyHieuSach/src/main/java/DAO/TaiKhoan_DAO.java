@@ -17,7 +17,7 @@ public interface TaiKhoan_DAO {
 //	public boolean CheckEmailLost(NhanVien nv,TaiKhoan tk);
 //	public boolean updateMaXacNhanLost(TaiKhoan tk);
 	public boolean upDateMatKhau(NhanVien nhanVien, String matKhauCu, String matKhauMoi);
-	public boolean updataPasswordLost(NhanVien nhanVien,String pass,String trangThai);
-	public boolean updataTinhTrangDangNhap(NhanVien nhanVien,String trangThai);
+	public boolean updataPasswordLost(String taiKhoan, String matKhauMoi, String trangThai);
+	public boolean updataTinhTrangDangNhap(String taiKhoan, String trangThai);
 	public boolean xoataikhoan(String id);
 }

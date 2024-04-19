@@ -1,8 +1,6 @@
 package DAO_IMP;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 import java.time.LocalTime;
 
 import DAO.ThoiGianHoatDong_DAO;
@@ -11,7 +9,7 @@ import entity.ThoiGianHoatDong;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import jakarta.transaction.Transactional.TxType;
+
 
 
 public class ThoiGianHoatDongDAO_IMP implements ThoiGianHoatDong_DAO {

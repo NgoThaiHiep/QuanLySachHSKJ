@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
+  </SyntheticProperties>
+  <Events>
+    <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="formMouseMoved"/>
+  </Events>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="lblSoDienThoai" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblMaXacNhan" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel2" alignment="0" pref="79" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblEmail1" min="-2" pref="62" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="txtSoDienThoai" min="-2" pref="71" max="-2" attributes="0"/>
+                      <EmptySpace pref="46" max="32767" attributes="0"/>
+                      <Component id="btnGuiMa" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnXacNhan" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtMatKhauMoi" min="-2" pref="71" max="-2" attributes="0"/>
+                          <Component id="txtMaXacNhan" min="-2" pref="71" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lblPhuongThucXacNhanKhac" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
+                  <Component id="lblEmail" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblSoDienThoai" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtSoDienThoai" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGuiMa" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblMaXacNhan" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtMaXacNhan" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtMatKhauMoi" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lblPhuongThucXacNhanKhac" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblEmail" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnXacNhan" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblEmail1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="lblSoDienThoai">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="S&#x1ed1; &#x111;i&#x1ec7;n tho&#x1ea1;i"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblMaXacNhan">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="M&#xe3; x&#xe1;c nh&#x1ead;n"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="M&#x1ead;t kh&#x1ea9;u m&#x1edb;i"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblPhuongThucXacNhanKhac">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n ph&#x1b0;&#x1a1;ng th&#x1ee9;c x&#xe1;c nh&#xe2;n kh&#xe1;c"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblEmail">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;u&gt;Email&lt;/u&gt;&lt;/html&gt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="lblEmailMouseMoved"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblEmailMousePressed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnXacNhan">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="X&#xe1;c nh&#x1ead;n"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXacNhanActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtSoDienThoai">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSoDienThoaiActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtMaXacNhan">
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtMatKhauMoi">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnGuiMa">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="G&#x1eed;i m&#xe3;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblEmail1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;u&gt;&#x110;&#x103;ng nh&#x1ead;p&lt;/u&gt;&lt;/html&gt;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="lblEmail1MouseMoved"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblEmail1MousePressed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>

@@ -94,7 +94,7 @@ public class TaiKhoanDAO_IMP implements TaiKhoan_DAO{
 
 
 	@Override
-	public boolean updataPasswordLost(NhanVien nhanVien, String matKhauMoi, String trangThai) {
+	public boolean updataPasswordLost(String taiKhoan, String matKhauMoi, String trangThai) {
 		// TODO Auto-generated method stub
 		
 		EntityTransaction tx = em.getTransaction();
@@ -108,7 +108,7 @@ public class TaiKhoanDAO_IMP implements TaiKhoan_DAO{
 					)
 					 .setParameter("matKhauMoi", matKhauMoi)
 					 .setParameter("trangThai", trangThai)
-					 .setParameter("tk", nhanVien)
+					 .setParameter("tk", taiKhoan)
 					.executeUpdate();
 			tx.commit();
 			return updateCount > 0;
@@ -123,7 +123,7 @@ public class TaiKhoanDAO_IMP implements TaiKhoan_DAO{
 	}
 
 	@Override
-	public boolean updataTinhTrangDangNhap(NhanVien nhanVien, String trangThai) {
+	public boolean updataTinhTrangDangNhap(String taiKhoan, String trangThai) {
 		// TODO Auto-generated method stub
 		EntityTransaction tx = em.getTransaction();
 		try {
@@ -133,7 +133,7 @@ public class TaiKhoanDAO_IMP implements TaiKhoan_DAO{
 			        "SET trangThai = :trangThai " +
 					"WHERE tenTK = :tenTk"
 					).setParameter("trangThai", trangThai)
-					.setParameter("tenTk", nhanVien)
+					.setParameter("tenTk", taiKhoan)
 					.executeUpdate();
 			tx.commit();
 			return true;

@@ -12,8 +12,8 @@ public interface NhanVien_DAO {
 	public ArrayList<NhanVien> layDanhSachNhanVien();
 	public ArrayList<NhanVien> timKiemDanhSachTaiKhoanTheoTenDangNhap(String TenDangNhap);
 	
-//	public String generateVerifyCode();
-//	public boolean checkDuplicateCode(String code);
+	public String generateVerifyCode();
+	public boolean checkDuplicateCode(String code);
 	
 	public boolean InsertNhanVien(NhanVien nv);
 	public boolean capNhatTrangThaiNhanVien(String maNV,String trangThai);

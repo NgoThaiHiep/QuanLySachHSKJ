@@ -1,6 +1,6 @@
 package DAO_IMP;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import DAO.ChucVu_DAO;
 import entity.ChucVu;
@@ -73,9 +73,9 @@ public class ChucVuDAO_IMP implements ChucVu_DAO{
 	}
 
 	@Override
-	public List<ChucVu> getDSChucVu() {
+	public ArrayList<ChucVu> getDSChucVu() {
 		// TODO Auto-generated method stub
-		return em.createQuery("select c  from ChucVu c", ChucVu.class)
+		return (ArrayList<ChucVu>) em.createQuery("select c  from ChucVu c", ChucVu.class)
 				.getResultList();
 	}
 

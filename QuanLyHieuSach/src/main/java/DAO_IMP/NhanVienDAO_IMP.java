@@ -1,6 +1,9 @@
 package DAO_IMP;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
 
 import DAO.NhanVien_DAO;
 import entity.NhanVien;
@@ -106,6 +109,26 @@ public class NhanVienDAO_IMP implements NhanVien_DAO {
 						NhanVien.class)
 				.setParameter("Email", email)
 				.getSingleResult();
+	}
+	@Override
+	public String generateVerifyCode() {
+		  DecimalFormat df = new DecimalFormat("000000");
+          Random ran = new Random();
+
+          // Lấy hai số cuối cùng của năm
+          Calendar calendar = Calendar.getInstance();
+          int year = calendar.get(Calendar.YEAR) % 100;
+
+          String code;
+          do {
+              code = df.format(year * 10000 + ran.nextInt(10000));
+          } while (checkDuplicateCode(code));
+      return code;
+	}
+	@Override
+	public boolean checkDuplicateCode(String code) {
+		// TODO Auto-generated method stub
+		return em.find(NhanVien.class, code) != null;
 	}
 
 }

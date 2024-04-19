@@ -1,6 +1,7 @@
 package DAO_IMP;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -118,6 +119,15 @@ public class KhachHangDAO_IMP implements KhachHang_DAO{
 			// TODO: handle exception
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<KhachHang> danhSachKhachHangTheoSDT(String sdt) {
+		// TODO Auto-generated method stub
+		return (ArrayList<KhachHang>) 
+				em.createQuery("select c from KhachHang c where c.soDienThoai like :sdt", KhachHang.class)
+				.setParameter("sdt", sdt)
+				.getResultList();
 	}
 
 }

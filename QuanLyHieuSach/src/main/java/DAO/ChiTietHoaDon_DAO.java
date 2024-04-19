@@ -12,4 +12,5 @@ public interface ChiTietHoaDon_DAO {
 	public boolean DeleteCTHoaDon(HoaDon hd,SanPham sanPham);
 	public boolean DeleteCTHoaDon(HoaDon hd);
 	public ArrayList<ChiTietHoaDon> layDanhSachCTHoaDon();
+	public ArrayList<ChiTietHoaDon> layDanhSachCTHoaDonTheoMa(String maHoaDon);
 }

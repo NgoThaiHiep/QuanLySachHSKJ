@@ -16,7 +16,7 @@ import DAO.MaXacNhan_DAO;
 import DAO.NhanVien_DAO;
 import DAO.SanPham_DAO;
 import DAO.ThoiGianHoatDong_DAO;
-import DAO.VanPhongPham_DAO;
+
 import DAO_IMP.ChiTietHoaDonDAO_IMP;
 import DAO_IMP.ChucVuDAO_IMP;
 import DAO_IMP.HangChoDAO_IMP;
@@ -28,7 +28,7 @@ import DAO_IMP.SachDAO_IMP;
 import DAO_IMP.SanPhamDAO_IMP;
 import DAO_IMP.TaiKhoanDAO_IMP;
 import DAO_IMP.ThoiGianHoatDongDAO_IMP;
-import DAO_IMP.VanPhongPhamDAO_IMP;
+
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.MaXacNhan;
@@ -37,16 +37,14 @@ import entity.Sach;
 import entity.SanPham;
 import entity.TaiKhoan;
 import entity.ThoiGianHoatDong;
-import entity.VanPhongPham;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
+
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
+
+
 
 public class main {
 	public static void main(String[] args) {
@@ -100,12 +98,14 @@ public class main {
 					c = sc.nextInt();
 					switch (c) {
 					case 1 :
-						 
-//						 ChucVu chucVu = new ChucVu();
-//						 
-//						 chucVu.setMaChucVu("CV01");
-//						 chucVu.setTenChucVu("Giam doc");
-//						 chucVu_DAO_imp.themChucVu(chucVu);
+						String cellValue = "CV01";
+					SanPham	sanPham = new SanPham() {
+                     	   @Override
+								public String getMaSanPham() {
+									return (String) cellValue;
+								}
+                        };
+                        System.out.println(sanPham.getMaSanPham());
 						break;
 					case 2:
 						 chucVu_DAO_imp.getDSChucVu().forEach(
@@ -371,6 +371,8 @@ public class main {
 		        
 		        System.out.println("-----------------------------------------");
 		        System.out.println("Lấy danh sách sản phẩm");
+		       
+		        System.out.println(json);
 		        
 		        json = GSON.toJson(sanPham_DAO.layDanhSachSanPham());
 		        JsonArray jsonArray = GSON.fromJson(json, JsonArray.class);

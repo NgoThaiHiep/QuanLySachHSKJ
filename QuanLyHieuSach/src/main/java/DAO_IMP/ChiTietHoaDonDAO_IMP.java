@@ -64,5 +64,14 @@ public class ChiTietHoaDonDAO_IMP implements ChiTietHoaDon_DAO{
 		return (ArrayList<ChiTietHoaDon>) em.createQuery("select c from ChiTietHoaDon c",ChiTietHoaDon.class)
 				.getResultList();
 	}
+	@Override
+	public ArrayList<ChiTietHoaDon> layDanhSachCTHoaDonTheoMa(String maHoaDon) {
+		// TODO Auto-generated method stub
+		return (ArrayList<ChiTietHoaDon>) em.createQuery("select c from ChiTietHoaDon c where c.hoaDon.maHoaDon = :maHoaDon", ChiTietHoaDon.class)
+				.setParameter("maHoaDon", maHoaDon)
+				.getResultList()
+				;
+	}
+	
 
 }

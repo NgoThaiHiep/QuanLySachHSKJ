@@ -28,6 +28,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
 		<attributes>
+			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -36,5 +37,19 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="src/main/java/Li/jasperreports-6.20.5.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/miglayout-core.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/miglayout-swing.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/TimingFramework-0.55.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/AbsoluteLayout.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/poi-3.15.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/poi-examples-3.15.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/poi-excelant-3.15.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/poi-ooxml-3.15.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/poi-ooxml-schemas-3.15.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/poi-scratchpad-3.15.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/flatlaf-3.2.5.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/flatlaf-extras-3.2.5.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/flatlaf-fonts-roboto-2.137.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
