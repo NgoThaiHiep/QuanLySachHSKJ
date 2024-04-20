@@ -471,7 +471,7 @@ public void inHoaDon() throws JRException {
                 }
                 
             }
-           
+           //s
             cboKhuyenMai.setSelectedItem("Không áp mã");
 }
     

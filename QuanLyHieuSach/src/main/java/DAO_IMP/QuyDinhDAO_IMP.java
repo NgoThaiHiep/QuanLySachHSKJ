@@ -16,6 +16,7 @@ public class QuyDinhDAO_IMP implements QuyDinh_DAO {
 		em = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME).createEntityManager();
 	}
 
+	
 	@Override
 	public List<QuyDinh> layDuLieuQuyDinh() {
 		return em.createNamedQuery("QuyDinh.findAll", QuyDinh.class)
