@@ -1,15 +1,19 @@
 
 package Pannel;
 
-import ConnectDB.ConnectDB;
-import DAO.CaLam_DAO;
+
+import DAO.CaLamViec_DAO;
 import DAO.ChucVu_DAO;
 import DAO.NhanVien_DAO;
 import DAO.TaiKhoan_DAO;
-import Entity.CaLamViec;
-import Entity.ChucVu;
-import Entity.NhanVien;
-import Entity.TaiKhoan;
+import DAO_IMP.CaLamViecDAO_IMP;
+import DAO_IMP.ChucVuDAO_IMP;
+import DAO_IMP.NhanVienDAO_IMP;
+import DAO_IMP.TaiKhoanDAO_IMP;
+import entity.CaLamViec;
+import entity.ChucVu;
+import entity.NhanVien;
+import entity.TaiKhoan;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -20,7 +24,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -54,11 +57,15 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 /**
  *
- * @author FPTSHOP
+ * @author NTH
  */
 public class pnlTraCuuNhanVien extends javax.swing.JPanel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * Creates new form ThemNhanVien
      */
     
@@ -75,7 +82,7 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
     private NhanVien nv;
     private TaiKhoan_DAO taiKhoan_DAO;
     private ChucVu_DAO chucVu_DAO;
-    private CaLam_DAO caLam_DAO;
+    private CaLamViec_DAO caLam_DAO;
     private static final int HEIGHT = 189;
      private static final int WIDTH= 174;
     public pnlTraCuuNhanVien(TaiKhoan tk) throws IOException, SQLException {
@@ -87,14 +94,14 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         lblCaLam.setVisible(false);
         cboCaLamViec.setVisible(false);
         
-         chucVu_DAO = new ChucVu_DAO();
-       ArrayList<ChucVu> dsChucVu = chucVu_DAO.layDanhSachChucVu();
+         chucVu_DAO = new ChucVuDAO_IMP();
+       ArrayList<ChucVu> dsChucVu = chucVu_DAO.getDSChucVu();
         for (ChucVu chucVu : dsChucVu) {
             cboChucVu.addItem(chucVu.getTenChucVu());
         }
        cboChucVu.setSelectedItem("Quản lý");
         
-        caLam_DAO = new CaLam_DAO();    
+        caLam_DAO = new CaLamViecDAO_IMP();    
         ArrayList<CaLamViec> dsCaLamViec = caLam_DAO.layDanhSachCaLamViec();
         for (CaLamViec caLam : dsCaLamViec) {
            cboCaLamViec.addItem(caLam.getTenCa());
@@ -106,11 +113,11 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                nhanVien_DAO = new NhanVien_DAO();
-                chucVu_DAO = new ChucVu_DAO();
-                ArrayList<ChucVu> dsChucVu = chucVu_DAO.layDanhSachChucVu();
+                nhanVien_DAO = new NhanVienDAO_IMP();
+                chucVu_DAO = new ChucVuDAO_IMP();
+                ArrayList<ChucVu> dsChucVu = chucVu_DAO.getDSChucVu();
 
-                caLam_DAO = new CaLam_DAO();
+                caLam_DAO = new CaLamViecDAO_IMP();
                 ArrayList<CaLamViec> dsCaLam = caLam_DAO.layDanhSachCaLamViec();
 
                 ArrayList<NhanVien> dsNV = nhanVien_DAO.layDanhSachNhanVien();
@@ -127,9 +134,9 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
                     row[1] = nhanVien.getHoTenNhanVien();
                     row[2] = nhanVien.getCCCD();
                     row[3] = nhanVien.getNgaySinh();
-                    row[4] = nhanVien.getGioiTinh() ?   "Nam" :"Nữ";
+                    row[4] = nhanVien.getGioiTinh() ;
                     row[5] = nhanVien.getSoDienThoai();
-                    row[6] =nhanVien.getEmail();
+                    row[6] = nhanVien.getEmail();
                     row[7] = nhanVien.getDiaChi();
                     row[8] = nhanVien.getTrangThai();
                     row[9] = nhanVien.getHinhAnh();
@@ -169,13 +176,6 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         });
     }
     public void init() throws IOException, SQLException{
-        try {
-            ConnectDB.getInstance().connect();
-	}catch (SQLException e) {
-	// TODO: handle exception
-            e.printStackTrace();
-	}
-        
         Timer timeXuatHienDiaChi = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -760,7 +760,7 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
 
     private void cboQuanHuyenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboQuanHuyenActionPerformed
         // TODO add your handling code here:
-        String t = cboQuanHuyen.getSelectedItem()+"";
+//        String t = cboQuanHuyen.getSelectedItem()+"";
 
         cboQuanHuyen.addItem(q);
         // System.out.println(districtComboBox.getSelectedItem()+"");
@@ -810,16 +810,14 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         String ngay = date.getSelectedDate().getYear() +"-"+date.getSelectedDate().getMonth()+"-"+ date.getSelectedDate().getDay();
         LocalDate ngaySinh = LocalDate.parse(ngay, formatter);
        
-        boolean gioiTinh = true;
-        if(!cboGioiTinh.getSelectedItem().equals("Nam")){
-            gioiTinh = false;
-        }
+        String gioiTinh = cboGioiTinh.getSelectedItem()+"";
+        
         String email = txtEmail.getText();
         String soDienThoai = txtSoDienThoai.getText();
         //String diaChi = cboTinhThanhPho.getSelectedItem() +"-"+cboQuanHuyen.getSelectedItem()+"-"+cboPhuongXa.getSelectedItem();
         String chucVu_Txt = "";
-        chucVu_DAO = new ChucVu_DAO();
-        ArrayList<ChucVu> dsChucVu = chucVu_DAO.layDanhSachChucVu();
+        chucVu_DAO = new ChucVuDAO_IMP();
+        ArrayList<ChucVu> dsChucVu = chucVu_DAO.getDSChucVu();
         for (ChucVu chucVu : dsChucVu) {
             if(chucVu.getTenChucVu().equals(cboChucVu.getSelectedItem()))
                 chucVu_Txt = chucVu.getMaChucVu();
@@ -830,7 +828,7 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         String caLam_Txt = "";
         CaLamViec clv ;
         clv = new CaLamViec("");
-        caLam_DAO = new CaLam_DAO(); 
+        caLam_DAO = new CaLamViecDAO_IMP(); 
         ArrayList<CaLamViec> dsCaLam = caLam_DAO.layDanhSachCaLamViec();
         if(!chucVu_Txt.equals("QL")){
             for (CaLamViec caLamViec : dsCaLam) {
@@ -845,9 +843,9 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         String trangThai = cboTrangThai.getSelectedItem()+"";
         String hinhAnh = selectedFile.getAbsolutePath();
 
-        nhanVien_DAO = new NhanVien_DAO();
-        taiKhoan_DAO = new TaiKhoan_DAO();
-        TaiKhoan taiKhoan = new TaiKhoan(maNhanVien, "123456");
+        nhanVien_DAO = new NhanVienDAO_IMP();
+        taiKhoan_DAO = new TaiKhoanDAO_IMP();
+       
         
          String diaChi = "";
         if(!cboTinhThanhPho.getSelectedItem().equals("Tỉnh/Thành phố")){
@@ -860,7 +858,9 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
                 }
             
         }
-        nv = new NhanVien(maNhanVien, tenNhanVieninput, cccd, ngaySinh, gioiTinh, email, soDienThoai, cv,  taiKhoan, clv, trangThai, hinhAnh,diaChi);
+        nv = new NhanVien(maNhanVien, tenNhanVieninput, cccd,ngaySinh, gioiTinh, email, soDienThoai, cv, clv, trangThai, hinhAnh, diaChi);
+        TaiKhoan taiKhoan = new TaiKhoan(nv, "123456","Đã đăng xuất");
+        taiKhoan_DAO.inserTaiKhoan(taiKhoan);
         System.out.println(nv);
         System.out.println(nv.getDiaChi());
         if (nhanVien_DAO.capNhatNhanVien(nv)) {
@@ -926,7 +926,7 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         // Đặt độ trong suốt cho modal
         float modalOpacity = 0.7f;
         AlphaComposite modalAlpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, modalOpacity);
-        modalDialog.setOpacity(modalOpacity);
+        modalDialog.setOpacity(modalAlpha.getAlpha());
 
         // Đóng cửa sổ modal khi bất kỳ sự kiện click chuột nào xảy ra
         modalDialog.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -969,8 +969,8 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         txtSoDienThoai.setText("");
         txtSoDienThoai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         
-        Calendar calendar1 = Calendar.getInstance();
-        int year1 = calendar1.get(Calendar.YEAR) % 100;
+//        Calendar calendar1 = Calendar.getInstance();
+//        int year1 = calendar1.get(Calendar.YEAR) % 100;
         
         
         date.toDay();
@@ -1226,7 +1226,7 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
 		XSSFSheet sheet = wb.getSheetAt(0);
 		//Lấy các giá trị trong các cột
-		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
 		int v = 0;
 		for(Row row:sheet) {
 			
@@ -1251,8 +1251,8 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
                     //Đọc file từ Sheet 1 (bắt đầu từ số 0)
                     XSSFSheet sheet = wb.getSheetAt(0);
                     //Lấy các giá trị trong các cột
-                    FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
-                    int v = 0;
+//                    FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//                    int v = 0;
                     for(Row row:sheet) {
                             
                         if(row.getCell(1) !=null ) {
@@ -1276,7 +1276,7 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
 		XSSFSheet sheet = wb.getSheetAt(0);
 		//Lấy các giá trị trong các cột
-		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
 		//Duyệt các row
                 
 		int v = 0;
@@ -1311,7 +1311,7 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
 		XSSFSheet sheet = wb.getSheetAt(0);
 		//Lấy các giá trị trong các cột
-		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
 		//Duyệt các row
 		int v = 0;
                
@@ -1624,11 +1624,11 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
         });
     }
     private void capNhatDanhSachNhanVien(){
-        nhanVien_DAO = new NhanVien_DAO();
-        chucVu_DAO = new ChucVu_DAO();
-        ArrayList<ChucVu> dsChucVu = chucVu_DAO.layDanhSachChucVu();
+        nhanVien_DAO = new NhanVienDAO_IMP();
+        chucVu_DAO = new ChucVuDAO_IMP();
+        ArrayList<ChucVu> dsChucVu = chucVu_DAO.getDSChucVu();
        
-        caLam_DAO = new CaLam_DAO();
+        caLam_DAO = new CaLamViecDAO_IMP();
         ArrayList<CaLamViec> dsCaLam = caLam_DAO.layDanhSachCaLamViec();
         
         ArrayList<NhanVien> dsNV = nhanVien_DAO.layDanhSachNhanVien();
@@ -1643,7 +1643,7 @@ public class pnlTraCuuNhanVien extends javax.swing.JPanel {
             row[1] = nhanVien.getHoTenNhanVien();
             row[2] = nhanVien.getCCCD();
             row[3] = nhanVien.getNgaySinh();
-            row[4] = nhanVien.getGioiTinh() ?   "Nam" :"Nữ";
+            row[4] = nhanVien.getGioiTinh();
             row[5] = nhanVien.getSoDienThoai();
             row[6] =nhanVien.getEmail();
             row[7] = nhanVien.getDiaChi();

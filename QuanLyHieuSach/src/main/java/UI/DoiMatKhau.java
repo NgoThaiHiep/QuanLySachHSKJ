@@ -3,8 +3,9 @@ package UI;
 
 import DAO.NhanVien_DAO;
 import DAO.TaiKhoan_DAO;
-import Entity.NhanVien;
-import Entity.TaiKhoan;
+import DAO_IMP.TaiKhoanDAO_IMP;
+import entity.NhanVien;
+import entity.TaiKhoan;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ public class DoiMatKhau extends javax.swing.JFrame {
     public DoiMatKhau(TaiKhoan tk) {
         this.tk = tk;
         initComponents();
-        taiKhoan_DAO = new TaiKhoan_DAO();
+        taiKhoan_DAO = new TaiKhoanDAO_IMP();
         init();
     }
     

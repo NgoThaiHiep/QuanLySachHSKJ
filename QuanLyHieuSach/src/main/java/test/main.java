@@ -1,6 +1,7 @@
 package test;
 
 
+import java.util.Date;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -37,18 +38,20 @@ import entity.Sach;
 import entity.SanPham;
 import entity.TaiKhoan;
 import entity.ThoiGianHoatDong;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
-
-
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 
 
 public class main {
 	public static void main(String[] args) {
-//		 EntityManagerFactory emf = Persistence.createEntityManagerFactory("QuanLyHieuSach MSSQL");
+		 EntityManagerFactory emf = Persistence.createEntityManagerFactory("QuanLyHieuSach MSSQL");
 //		 EntityManager em = emf.createEntityManager();
 		
 
@@ -154,7 +157,7 @@ public class main {
 						
 						break;
 					case 3:
-							
+							System.out.println(nhanVienDAO_IMP.timKiemNhanVienTheoMaNV("21081841"));
 						break;
 					case 4:
 						break;
@@ -234,7 +237,7 @@ public class main {
                     	System.out.println("tên tài khoản: "+tenTK.trim());
                     	mkm = "123456";
                     	NhanVien nv =  nhanVienDAO_IMP.layThongTinNhanVien(new NhanVien(tenTK));
-                    	taiKhoanDAO_IMP2.updataPasswordLost(nv, mkm, "Đã đăng xuất");
+                    	
                         break;
                     case 7:
                     	taiKhoanDAO_IMP2 = new TaiKhoanDAO_IMP();
@@ -249,7 +252,7 @@ public class main {
                     	nhanVienDAO_IMP = new NhanVienDAO_IMP();
                     	nv =  nhanVienDAO_IMP.layThongTinNhanVien(new NhanVien(tenTK));
                     	
-                    	taiKhoanDAO_IMP2.updataTinhTrangDangNhap(nv, trangThai);
+//                    	taiKhoanDAO_IMP2.updataTinhTrangDangNhap(nv, trangThai);
                     	
                     	break;
                     case 8:
@@ -472,13 +475,7 @@ public class main {
 //		        	System.out.println(tghd_DAO.kiemTraDangNhapTrongNgay(tghd, startTimeLamViec, endTime));
 //		        	System.out.println(tghd);
 //		        	
-		        	
-		        	 LocalTime startTimeLamViec = LocalTime.of(18,50,23);
-		        	 LocalTime endTime = LocalTime.of(23, 59, 59);
-		        	 tghd.setThoiGianDangNhap(startTimeLamViec);
-		        	 tghd.setThoiGianDangXuat(endTime);
-		        	 System.out.println(tghd);
-		        	 System.out.println(thoiGianHoatDong_DAO.layThoiGianHoatDong(tghd));
+//		        	
 //		        	 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 //		        		LocalTime loCalTime = LocalTime.now();
 //		           	 String catChuoi = loCalTime+"";
@@ -494,12 +491,22 @@ public class main {
 //	                String maLamViec = formattedDate+ formattedTime.substring(0,2) +formattedTime.substring(3,5) + nv.getMaNV();
 //	                catChuoi = catChuoi.substring(0, 8); 
 //	                LocalTime thoiGianDangNhap = LocalTime.parse(catChuoi, formatter);
-//	                ThoiGianHoatDong tghd = new ThoiGianHoatDong(maLamViec, nv, localDateNam, thoiGianDangNhap);
+//	                tghd = new ThoiGianHoatDong(maLamViec, nv, localDateNam, thoiGianDangNhap);
 //	                
 //	                thoiGianHoatDong_DAO.insertThoiGianLam(tghd);
 		        	
 		        	
 		        	
+
+		        	 LocalTime startTimeLamViec = LocalTime.of(18,00,00);
+		        	 LocalTime endTime = LocalTime.of(23, 59, 59);
+//		        	 tghd.setThoiGianDangNhap(startTimeLamViec);
+//		        	 tghd.setThoiGianDangXuat(endTime);
+//		        	 System.out.println(tghd);
+		        	 tghd.setNgayDangNhap(localDate);
+//		        	 System.out.println(thoiGianHoatDong_DAO.kiemTraDangNhapTrongNgayString(tghd, startTimeLamViec+"", endTime+""));
+		        	System.out.println(thoiGianHoatDong_DAO.kiemTraDangNhapTrongNgay(tghd, startTimeLamViec, endTime));
+		        	System.out.println(tghd);
 		        	break;
 			}
 			

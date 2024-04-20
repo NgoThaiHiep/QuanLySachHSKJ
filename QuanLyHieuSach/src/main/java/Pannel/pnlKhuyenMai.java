@@ -2,41 +2,32 @@
 package Pannel;
 import DAO.GiamGiaSanPham_DAO;
 import DAO.KhuyenMaiThanhToan_DAO;
-import DAO.LoaiSanPham_DAO;
-import DAO.Sach_DAO;
-import DAO.VanPhongPham_DAO;
-import Entity.GiamGiaSanPham;
-import Entity.KhuyenMaiThanhToan;
-import Entity.LoaiSanPham;
-import Entity.Sach;
-import Entity.SanPham;
-import Entity.VanPhongPham;
+import DAO.SanPham_DAO;
+import DAO_IMP.GiamGiaSanPhamDAO_IMP;
+import DAO_IMP.KhuyenMaiThanhToanDAO_IMP;
+import DAO_IMP.SanPhamDAO_IMP;
+import entity.GiamGiaSanPham;
+import entity.KhuyenMaiThanhToan;
+import entity.Sach;
+import entity.SanPham;
 import ServiceUser.SelectedDate;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Array;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
-import javax.swing.text.PlainDocument;
+
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,13 +36,11 @@ import java.awt.event.ActionListener;
  * @author FPTSHOP
  */
 public class pnlKhuyenMai extends javax.swing.JPanel {
-
-    private Sach_DAO sach_DAO;
-    private VanPhongPham_DAO vanPhongPham_DAO;
+	private static final Gson Gson = new Gson();
+    private static final long serialVersionUID = 1L;
     private KhuyenMaiThanhToan_DAO khuyenMaiThanhToan_DAO;
     private GiamGiaSanPham_DAO giamGiaSanPham_DAO;
-    private LoaiSanPham_DAO loaiSanPham_DAO;
-
+    private SanPham_DAO sanPham_DAO;
     /**
      * Creates new form pnlKhuyenMai
      */
@@ -76,7 +65,7 @@ public class pnlKhuyenMai extends javax.swing.JPanel {
         
     }
     public void capNhatTinhTrang(){
-        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
         ArrayList<KhuyenMaiThanhToan> dsKhuyenMaiGiaTien= khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_GiaTien();
         for (KhuyenMaiThanhToan khuyenMaiThanhToan : dsKhuyenMaiGiaTien) {
             String tinhTrang = handleDateChange_CapNhatTinhTrang(khuyenMaiThanhToan.getNgayBatDau(),khuyenMaiThanhToan.getNgayKetThuc());
@@ -89,7 +78,7 @@ public class pnlKhuyenMai extends javax.swing.JPanel {
             System.out.println(tinhTrang);
             khuyenMaiThanhToan_DAO.update_tinhTrang(khuyenMaiThanhToan.getMaKhuyenMai(),tinhTrang);
         }
-        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
         ArrayList<GiamGiaSanPham> dsGiamGia =  giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham();
         for (GiamGiaSanPham giamGiaSanPham : dsGiamGia) {
          String tinhTrang = handleDateChange_CapNhatTinhTrang(giamGiaSanPham.getNgayBatDau(),giamGiaSanPham.getNgayKetThuc());
@@ -170,17 +159,14 @@ public class pnlKhuyenMai extends javax.swing.JPanel {
     }
     
     public void duLieu(){
-        sach_DAO = new Sach_DAO();
-        vanPhongPham_DAO = new VanPhongPham_DAO();
-        
-        ArrayList<Sach> dssach = sach_DAO.layDanhSanPhamSach();
-        for (Sach sach : dssach) {
-           txtSanPham1.addItemSuggestion(sach.getTenSanPham());
-       }
-        ArrayList<VanPhongPham> dsvpp = vanPhongPham_DAO.layDanhSanPhamVanPhongPham();
-         // Tạo một ArrayList mới để chứa cả hai danh sách
-         for (VanPhongPham vanPhongPham : dsvpp) {
-            txtSanPham1.addItemSuggestion(vanPhongPham.getTenSanPham());
+    	sanPham_DAO = new SanPhamDAO_IMP();
+    	 String json = Gson.toJson(sanPham_DAO.layDanhSachSanPham());
+         JsonArray jsonArray = Gson.fromJson(json, JsonArray.class);
+         for (JsonElement jsonElement : jsonArray) {
+         
+         	String tenSanPham = jsonElement.getAsJsonObject().get("tenSanPham").getAsString();
+         	 txtSanPham1.addItemSuggestion(tenSanPham);
+            
        }
       
    }
@@ -696,7 +682,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
         // TODO add your handling code here:
          int row = tblDanhSachKhuyenMai.getSelectedRow();
         if(radGiaTien.isSelected()){
-            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
             ArrayList<KhuyenMaiThanhToan> dsKhuyenMaiThanhToan = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_GiaTien();
             String ma = tblDanhSachKhuyenMai.getValueAt(row, 0).toString();
             for (KhuyenMaiThanhToan khuyenMaiThanhToan : dsKhuyenMaiThanhToan) {
@@ -725,7 +711,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                 }
             }
         }else if(radTyLe.isSelected()){
-            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
             ArrayList<KhuyenMaiThanhToan> dsKhuyenMaiThanhToan = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_TyLe();
             String ma = tblDanhSachKhuyenMai.getValueAt(row, 0).toString();
             for (KhuyenMaiThanhToan khuyenMaiThanhToan : dsKhuyenMaiThanhToan) {
@@ -774,7 +760,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                     int ngayKetThuc = Integer.parseInt( tblDanhSachKhuyenMai.getValueAt(row, 4).toString().substring(8,10));
                     dateNgayKetThuc.setSelectedDate(new SelectedDate(ngayKetThuc,thangKetThuc,namKetThuc));
                     if(radGiaTienSanPham.isSelected()){
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         ArrayList<GiamGiaSanPham> dsGiamGia = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham_GiaTien(1);
                         for (GiamGiaSanPham giamGiaSanPham_GiaTien : dsGiamGia) {
                             if(ma.equals(giamGiaSanPham_GiaTien.getMaGiamGiaSanPham())){
@@ -783,7 +769,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                             }
                         }
                     }else if (radTyLeSanPham.isSelected()){
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         ArrayList<GiamGiaSanPham> dsGiamGia = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham_TyLe(2);
                         for (GiamGiaSanPham giamGiaSanPham_TyLe : dsGiamGia) {
                         if(ma.equals(giamGiaSanPham_TyLe.getMaGiamGiaSanPham())){
@@ -815,7 +801,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                         dateNgayKetThuc.setSelectedDate (new SelectedDate(ngayKetThuc,thangKetThuc,namKetThuc));
                    
                     if(radGiaTienSanPham.isSelected()){
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         ArrayList<GiamGiaSanPham> dsGiamGia = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham_GiaTien( loai);
                         for (GiamGiaSanPham giamGiaSanPham_GiaTien : dsGiamGia) {
                             if(ma.equals(giamGiaSanPham_GiaTien.getMaGiamGiaSanPham())){
@@ -824,7 +810,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                             }
                         }
                     }else if (radTyLeSanPham.isSelected()){
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         ArrayList<GiamGiaSanPham> dsGiamGia = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham_TyLe( loai1);
                         for (GiamGiaSanPham giamGiaSanPham_TyLe : dsGiamGia) {
                         if(ma.equals(giamGiaSanPham_TyLe.getMaGiamGiaSanPham())){
@@ -877,16 +863,13 @@ public void kiemTraDuLieuFloat(JTextField textField){
         tatChiTiet.setText("");
     }
     public void maHoaDon_TyLe(JLabel lbl){
-        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
-        try {
+        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
+ 
             if(radGiaTien.isSelected()){
                 lbl.setText(khuyenMaiThanhToan_DAO.generateMaKhuyenMai_GiaTri());
             }else
                 lbl.setText( khuyenMaiThanhToan_DAO.generateMaKhuyenMai_TyLe());
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(pnlKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
     private void radGiaTienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGiaTienActionPerformed
         // TODO add your handling code here:
@@ -903,13 +886,8 @@ public void kiemTraDuLieuFloat(JTextField textField){
         tatChiTiet.setText("");
     }
     public void maHoaDon_GiaTri(JLabel lbl){
-        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
-        try {
-           lbl.setText( khuyenMaiThanhToan_DAO.generateMaKhuyenMai_GiaTri());
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(pnlKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
+        lbl.setText( khuyenMaiThanhToan_DAO.generateMaKhuyenMai_GiaTri());
     }
     public void giaTienRad(){
         lblViTri1.setText("Số tiền giảm");
@@ -998,16 +976,14 @@ public void kiemTraDuLieuFloat(JTextField textField){
         }
     }
     public void maHoaDon_SanPham(JLabel lbl){
-        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
-        try {
+        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
+      
             if(radGiaTienSanPham.isSelected()){
                 lbl.setText( giamGiaSanPham_DAO.generateGiamGiaSanPham_GiaTien());
             }else{
                 lbl.setText( giamGiaSanPham_DAO.generateGiamGiaSanPham_TyLe());
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(pnlKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
     private void txtGiaTien1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGiaTien1ActionPerformed
         // TODO add your handling code here:
@@ -1252,7 +1228,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
     
     public void themTyLeKhuyenMai(){
             KhuyenMaiThanhToan khuyenMaiThanhToan_tyLe = khuyenMaiThanhToan_TyLe();
-            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
             
             ArrayList<KhuyenMaiThanhToan> dsKhuyenMai = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_TyLe();
             int dem = 0;
@@ -1300,7 +1276,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
     }
     public void themGiaTienKhuyenMai(){
             KhuyenMaiThanhToan khuyenMaiThanhToan_GiaTien = khuyenMaiThanhToan_GiaTien();
-            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
             ArrayList<KhuyenMaiThanhToan> dsKhuyenMai = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_GiaTien();
             int dem = 0;
             for (KhuyenMaiThanhToan khuyenMaiThanhToan : dsKhuyenMai) {
@@ -1347,14 +1323,14 @@ public void kiemTraDuLieuFloat(JTextField textField){
         // TODO add your handling code here:
         
         if(radGiaTien.isSelected()){
-                  khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+                  khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
                    KhuyenMaiThanhToan khuyenMaiThanhToan_GiaTien = khuyenMaiThanhToan_GiaTien();
                 if(khuyenMaiThanhToan_DAO.capNhatTyLe_KhuyenMai(khuyenMaiThanhToan_GiaTien)){
                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
                    danhSachKhuyenMai_GiaTien();
                 }
         }else if(radTyLe.isSelected()){
-            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
              KhuyenMaiThanhToan khuyenMaiThanhToan_tyLe = khuyenMaiThanhToan_TyLe();
              if(khuyenMaiThanhToan_DAO.capNhatTyLe_KhuyenMai(khuyenMaiThanhToan_tyLe)){
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");
@@ -1426,7 +1402,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
     public void capNhatGiaTungSanPham(){
         if(radGiaTienSanPham.isSelected()){
                     GiamGiaSanPham giamGiaSanPham = giamGiaSanPham_GiaTien(1);
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         ArrayList<GiamGiaSanPham> dsGiamGiaSanPham = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham();
                         int cotMoc = 0;
                         String ma = "";
@@ -1443,7 +1419,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                         }
                 }else if(radTyLeSanPham.isSelected()){
                         GiamGiaSanPham giamGiaSanPham = giamGiaSanPham_TyLe(2);
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         ArrayList<GiamGiaSanPham> dsGiamGiaSanPham = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham();
                         int cotMoc = 0;
                         String ma = "";
@@ -1463,13 +1439,13 @@ public void kiemTraDuLieuFloat(JTextField textField){
     public void capNhatToanBoGiaGiam_SanPham(int loai1, int loai2){
         if(radGiaTienSanPham.isSelected()){
                     GiamGiaSanPham giamGiaSanPham = giamGiaSanPham_GiaTien_SanPham(loai1);
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         if(giamGiaSanPham_DAO.updateGiamGiaSanPham_GiaTien(giamGiaSanPham)){
                            JOptionPane.showMessageDialog(this, "Đã cập nhật");
                         }
                 }else if(radTyLeSanPham.isSelected()){
                         GiamGiaSanPham giamGiaSanPham = giamGiaSanPham_TyLe_SanPham(loai2);
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         if(giamGiaSanPham_DAO.updateGiamGiaSanPham_TyLe(giamGiaSanPham)){
                            JOptionPane.showMessageDialog(this, "Đã cập nhật");
                         }
@@ -1478,7 +1454,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
     public void themGiamGiaTungSanPham(){
          if(radGiaTienSanPham.isSelected()){
                     GiamGiaSanPham giamGiaSanPham = giamGiaSanPham_GiaTien(1);
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         ArrayList<GiamGiaSanPham> dsGiamGiaSanPham = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham();
                         int cotMoc = 0;
                         String ma = "";
@@ -1499,7 +1475,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                         } 
                 }else if(radTyLeSanPham.isSelected()){
                         GiamGiaSanPham giamGiaSanPham = giamGiaSanPham_TyLe(2);
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         ArrayList<GiamGiaSanPham> dsGiamGiaSanPham = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham();
                         int cotMoc = 0;
                         String ma = "";
@@ -1523,13 +1499,13 @@ public void kiemTraDuLieuFloat(JTextField textField){
     public void themToanBoGiamGia(int loai1,int loai2){
         if(radGiaTienSanPham.isSelected()){
                     GiamGiaSanPham giamGiaSanPham = giamGiaSanPham_GiaTien_SanPham(loai1);
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         if(giamGiaSanPham_DAO.themGiamGiaSanPham_GiaTien(giamGiaSanPham)){
                            JOptionPane.showMessageDialog(this, "Đã thêm");
                         }
                 }else if(radTyLeSanPham.isSelected()){
                         GiamGiaSanPham giamGiaSanPham = giamGiaSanPham_TyLe_SanPham(loai2);
-                        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+                        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
                         if(giamGiaSanPham_DAO.themGiamGiaSanPham_TyLe(giamGiaSanPham)){
                            JOptionPane.showMessageDialog(this, "Đã thêm");
                         }
@@ -1540,24 +1516,16 @@ public void kiemTraDuLieuFloat(JTextField textField){
             String maKhuyenMai = lblMaKhuyenMaiKyTu.getText();
             String tenKhuyenMai = txtTenKhuyenMai.getText();
             String tenSanPham = txtSanPham1.getText();
+            
             String maSanPham = "";
-                sach_DAO = new Sach_DAO();
-                vanPhongPham_DAO = new VanPhongPham_DAO();
-
-                ArrayList<Sach> dssach = sach_DAO.layDanhSanPhamSach();
-                for (Sach sach : dssach) {
-                    if(tenSanPham.equals(sach.getTenSanPham()))
-                        maSanPham = sach.getMaSanPham();
-                }
-                ArrayList<VanPhongPham> dsvpp = vanPhongPham_DAO.layDanhSanPhamVanPhongPham();
-                 // Tạo một ArrayList mới để chứa cả hai danh sách
-                for (VanPhongPham vanPhongPham : dsvpp) {
-                     if(tenSanPham.equals(vanPhongPham.getTenSanPham()))
-                        maSanPham = vanPhongPham.getMaSanPham();
-                }
-                
-               
-                
+            sanPham_DAO = new SanPhamDAO_IMP();
+            String json = Gson.toJson(sanPham_DAO.layDanhSachSanPham());
+            JsonArray jsonArray = Gson.fromJson(json, JsonArray.class);
+            for (JsonElement jsonElement : jsonArray) {
+            	if(jsonElement.getAsJsonObject().get("tenSanPham").getAsString().equals(tenSanPham))
+            		maSanPham = jsonElement.getAsJsonObject().get("maSanPham").getAsString();
+            	
+            }
                 String txtsoTienGiam= txtSanPham3.getText().replaceAll("[^\\d.]+", "");
                 float soTienGiam = Float.parseFloat(txtsoTienGiam);
                 
@@ -1565,7 +1533,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                 LocalDate ngayKetThuc = ngay(dateNgayKetThuc);
                 String chiTiet = tatChiTiet.getText();
                 String tinhTrang = handleDateChange(dateNgayBatDau, dateNgayKetThuc);
-                SanPham sanPham = new SanPham(maSanPham); 
+                SanPham sanPham = new Sach(maSanPham);
                 return new GiamGiaSanPham(maKhuyenMai, tenKhuyenMai, sanPham, soTienGiam, ngayBatDau, ngayKetThuc, tinhTrang, chiTiet, loai);
     }
     public GiamGiaSanPham giamGiaSanPham_GiaTien_SanPham(int loai){
@@ -1579,27 +1547,23 @@ public void kiemTraDuLieuFloat(JTextField textField){
         String tinhTrang = handleDateChange(dateNgayBatDau, dateNgayKetThuc);
        
         
-        return new GiamGiaSanPham(maKhuyenMai, tenKhuyenMai, new SanPham(""), soTienGiam, ngayBatDau, ngayKetThuc, tinhTrang, chiTiet, loai);
+        return new GiamGiaSanPham(maKhuyenMai, tenKhuyenMai, new Sach(""), soTienGiam, ngayBatDau, ngayKetThuc, tinhTrang, chiTiet, loai);
     }
     public GiamGiaSanPham giamGiaSanPham_TyLe(int loai){
             String maKhuyenMai = lblMaKhuyenMaiKyTu.getText();
             String tenKhuyenMai = txtTenKhuyenMai.getText();
             String tenSanPham = txtSanPham1.getText();
             String maSanPham = "";
-                sach_DAO = new Sach_DAO();
-                vanPhongPham_DAO = new VanPhongPham_DAO();
-
-                ArrayList<Sach> dssach = sach_DAO.layDanhSanPhamSach();
-                for (Sach sach : dssach) {
-                    if(tenSanPham.equals(sach.getTenSanPham()))
-                        maSanPham = sach.getMaSanPham();
-                }
-                ArrayList<VanPhongPham> dsvpp = vanPhongPham_DAO.layDanhSanPhamVanPhongPham();
-                 // Tạo một ArrayList mới để chứa cả hai danh sách
-                for (VanPhongPham vanPhongPham : dsvpp) {
-                     if(tenSanPham.equals(vanPhongPham.getTenSanPham()))
-                        maSanPham = vanPhongPham.getMaSanPham();
-                }
+            
+            
+            sanPham_DAO = new SanPhamDAO_IMP();
+            String json = Gson.toJson(sanPham_DAO.layDanhSachSanPham());
+            JsonArray jsonArray = Gson.fromJson(json, JsonArray.class);
+            for (JsonElement jsonElement : jsonArray) {
+            	if(jsonElement.getAsJsonObject().get("tenSanPham").getAsString().equals(tenSanPham))
+            		maSanPham = jsonElement.getAsJsonObject().get("maSanPham").getAsString();
+            	
+            }
                 
                 LocalDate ngayBatDau = ngay(dateNgayBatDau);
                 LocalDate ngayKetThuc = ngay(dateNgayKetThuc);
@@ -1607,7 +1571,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                 float tyLe = Float.parseFloat(txtTyLe);
                 String chiTiet = tatChiTiet.getText();
                 String tinhTrang = handleDateChange(dateNgayBatDau, dateNgayKetThuc);
-                SanPham sanPham = new SanPham(maSanPham); 
+                SanPham sanPham = new Sach(maSanPham); 
                 return new GiamGiaSanPham(maKhuyenMai, tenKhuyenMai, sanPham, ngayBatDau, ngayKetThuc, tinhTrang, chiTiet, loai, tyLe);
     }
     public GiamGiaSanPham giamGiaSanPham_TyLe_SanPham(int loai){
@@ -1624,7 +1588,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
                
                 String chiTiet = tatChiTiet.getText();
                 String tinhTrang = handleDateChange(dateNgayBatDau, dateNgayKetThuc);
-                SanPham sanPham = new SanPham(maSanPham); 
+                SanPham sanPham = new Sach(maSanPham); 
                 return new GiamGiaSanPham(maKhuyenMai, tenKhuyenMai, sanPham, ngayBatDau, ngayKetThuc, tinhTrang, chiTiet, loai, tyLe);
     }
     public void danhSachGiamGia(){
@@ -1669,15 +1633,12 @@ public void kiemTraDuLieuFloat(JTextField textField){
         String colTieuDe[] = new String [] {"Mã Khuyến mãi", "Tên Khuyến mãi","Tên sản phẩm", "Ngày bắt đầu", "Ngày kết thúc", "Tình trạng"};
         DefaultTableModel model =  new DefaultTableModel(colTieuDe,0);
         Object[] row = null;
-        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
-        ArrayList<Sach> dssach = sach_DAO.layDanhSanPhamSach();
-        ArrayList<VanPhongPham> dsvpp = vanPhongPham_DAO.layDanhSanPhamVanPhongPham();
-         // Tạo một ArrayList mới để chứa cả hai danh sách
-        ArrayList<Object> combinedList = new ArrayList<>();
-        // Thêm danh sách sách vào danh sách kết hợp
-        combinedList.addAll(dssach);
-        // Thêm danh sách văn phòng phẩm vào danh sách kết hợp
-        combinedList.addAll(dsvpp);
+        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
+        
+        sanPham_DAO = new SanPhamDAO_IMP();
+        String json = Gson.toJson(sanPham_DAO.layDanhSachSanPham());
+        JsonArray jsonArray = Gson.fromJson(json, JsonArray.class);
+
         ArrayList<GiamGiaSanPham> dsGiamGiaSanPham = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham();
                 for (GiamGiaSanPham giamGiaSanPham : dsGiamGiaSanPham) {
                    if(giamGiaSanPham.getLoai()==loai){
@@ -1685,17 +1646,9 @@ public void kiemTraDuLieuFloat(JTextField textField){
                     row = new Object[12];
                       row[0] =  giamGiaSanPham.getMaGiamGiaSanPham();
                       row[1] =  giamGiaSanPham.getTenGiamGia();
-                        for (Object item : combinedList) {
-                            if (item instanceof Sach) {
-                               Sach sach = (Sach) item;
-                               if(sach.getMaSanPham().equals(giamGiaSanPham.getSanPham().getMaSanPham()))
-                                   row[2] = sach.getTenSanPham();
-                           }else if (item instanceof VanPhongPham) {
-                               VanPhongPham vpp = (VanPhongPham) item;
-                               if(vpp.getMaSanPham().equals(giamGiaSanPham.getSanPham().getMaSanPham()))
-                                   row[2] = vpp.getTenSanPham();
-                               // Thực hiện các thao tác với đối tượng VanPhongPham
-                           }
+                      	for (JsonElement jsonElement : jsonArray) {
+                           if(jsonElement.getAsJsonObject().get("maSanPham").getAsString().equals(giamGiaSanPham.getSanPham().getMaSanPham()))
+                              row[2] = jsonElement.getAsJsonObject().get("maSanPham").getAsString();
                        }
                       row[3] =  giamGiaSanPham.getNgayBatDau();
                       row[4] =  giamGiaSanPham.getNgayKetThuc();
@@ -1711,7 +1664,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
         String colTieuDe[] = new String [] {"Mã Khuyến mãi", "Tên Khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Tình trạng"};
         DefaultTableModel model =  new DefaultTableModel(colTieuDe,0);
         Object[] row = null;
-        giamGiaSanPham_DAO = new GiamGiaSanPham_DAO();
+        giamGiaSanPham_DAO = new GiamGiaSanPhamDAO_IMP();
         ArrayList<GiamGiaSanPham> dsGiamGiaSanPham = giamGiaSanPham_DAO.layDanhSachGiamGiaSanPham();
                 for (GiamGiaSanPham giamGiaSanPham : dsGiamGiaSanPham) {
                    if(giamGiaSanPham.getLoai()==loai){
@@ -1733,7 +1686,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
         String colTieuDe[] = new String [] {"Mã Khuyến mãi", "Tên Khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Tình trạng", "Số lượng"};
         DefaultTableModel model =  new DefaultTableModel(colTieuDe,0);
         Object[] row;
-        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
         ArrayList<KhuyenMaiThanhToan> dsKhuyenMaiThanhToan = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_TyLe();
         for (KhuyenMaiThanhToan khuyenMaiThanhToan : dsKhuyenMaiThanhToan) {
               row = new Object[12];
@@ -1754,7 +1707,7 @@ public void kiemTraDuLieuFloat(JTextField textField){
         String colTieuDe[] = new String [] {"Mã Khuyến mãi", "Tên Khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Tình trạng", "Số lượng"};
         DefaultTableModel model =  new DefaultTableModel(colTieuDe,0);
         Object[] row;
-        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+        khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
         ArrayList<KhuyenMaiThanhToan> dsKhuyenMaiThanhToan = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_GiaTien();
         for (KhuyenMaiThanhToan khuyenMaiThanhToan : dsKhuyenMaiThanhToan) {
             

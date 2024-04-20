@@ -22,27 +22,35 @@ public class ThoiGianHoatDongDAO_IMP implements ThoiGianHoatDong_DAO {
 	
 	@Override
 	public boolean kiemTraDangNhapTrongNgay(ThoiGianHoatDong tghd, LocalTime thoiGianBatDauCa, LocalTime thoiGianKetThucCa) {
-		EntityTransaction tx = em.getTransaction();
-		try {
-			tx.begin();
-			//sử dung sql java hibernate 
-			NhanVien nv = em.find(NhanVien.class, tghd.getNhanVien().getMaNV());
-			em.createQuery( "select c from ThoiGianHoatDong c where c.nhanVien = :NhanVienID and c.ngayDangNhap = :NgayDangNhap and c.thoiGianDangNhap >= :ThoiGianBatDau and c.thoiGianDangXuat <= :ThoiGianKetThuc")
-			.setParameter("NhanVienID", nv )
-			.setParameter("NgayDangNhap", tghd.getNgayDangNhap())
-			.setParameter("ThoiGianBatDau", thoiGianBatDauCa)
-			.setParameter("ThoiGianKetThuc", thoiGianKetThucCa);
-			tx.commit();
-			return true;
-			
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			tx.rollback();
-		}
-		return false;
+		 boolean result =  em.createQuery(
+	            "SELECT c FROM ThoiGianHoatDong c WHERE c.nhanVien = :NhanVien AND c.ngayDangNhap = :NgayDangNhap "
+	            + "AND CAST(:ThoiGianBatDau AS time) <= CAST(c.thoiGianDangNhap AS time) "
+	            + "AND CAST(:ThoiGianKetThuc AS time) >= CAST(c.thoiGianDangNhap AS time)"
+	            ,
+	            ThoiGianHoatDong.class)
+	            .setParameter("NhanVien", em.find(NhanVien.class, tghd.getNhanVien().getMaNV()))
+	            .setParameter("NgayDangNhap", tghd.getNgayDangNhap())
+	            .setParameter("ThoiGianBatDau", java.sql.Time.valueOf(thoiGianBatDauCa))
+	            .setParameter("ThoiGianKetThuc", java.sql.Time.valueOf(thoiGianKetThucCa))
+	            .getResultList().size() > 0;
+	    if (result) {
+          ThoiGianHoatDong td =   em.createQuery ("SELECT c FROM ThoiGianHoatDong c WHERE c.nhanVien = :NhanVien AND c.ngayDangNhap = :NgayDangNhap "
+   	            + "AND CAST(:ThoiGianBatDau AS time) <= CAST(c.thoiGianDangNhap AS time) "
+   	            + "AND CAST(:ThoiGianKetThuc AS time) >= CAST(c.thoiGianDangNhap AS time)"
+   	            ,
+   	            ThoiGianHoatDong.class)
+   	            .setParameter("NhanVien", em.find(NhanVien.class, tghd.getNhanVien().getMaNV()))
+   	            .setParameter("NgayDangNhap", tghd.getNgayDangNhap())
+   	            .setParameter("ThoiGianBatDau", java.sql.Time.valueOf(thoiGianBatDauCa))
+   	            .setParameter("ThoiGianKetThuc", java.sql.Time.valueOf(thoiGianKetThucCa))
+   	            .getSingleResult();
+           tghd.setMaThoiGian(td.getMaThoiGian());
+           tghd.setThoiGianDaLam(td.getThoiGianDaLam());
+        }
+	    return result;
 	}
+
+
 	
 		
 
@@ -79,6 +87,8 @@ public class ThoiGianHoatDongDAO_IMP implements ThoiGianHoatDong_DAO {
 	        .setParameter("ThoiGianKetThuc", tghd.getThoiGianDangXuat())
 	        .getSingleResult();
 	}
+
+	
 
 
 

@@ -1,14 +1,23 @@
 
 package UI;
 
-import Entity.NhanVien;
-import Entity.TaiKhoan;
+import entity.MaXacNhan;
+import entity.NhanVien;
+import entity.TaiKhoan;
 import ServiceUser.ModelMessage;
 import ServiceUser.ServiceMail;
+import DAO.MaXacNhan_DAO;
+import DAO.NhanVien_DAO;
 import DAO.TaiKhoan_DAO;
+import DAO_IMP.MaXacNhanDAO_IMP;
+import DAO_IMP.NhanVienDAO_IMP;
+import DAO_IMP.TaiKhoanDAO_IMP;
+
 import java.awt.Component;
 import java.awt.Cursor;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ActionMap;
@@ -23,10 +32,13 @@ import javax.swing.JComponent;
 public class QuenMatKhauEmail extends javax.swing.JFrame {
     private javax.swing.JLabel validationLabel;
     private TaiKhoan_DAO taiKhoan_DAO;
+    private NhanVien_DAO nhanVien_DAO;
     private TaiKhoan tk;
     private NhanVien nv;
     private String code = null;
     private Component frame;
+	private MaXacNhan_DAO maXacNhan_DAO;
+	private MaXacNhan mxn;
     /**
      * Creates new form QuenMatKhau
      */
@@ -44,7 +56,7 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
         btnGuiMaEmail.setVisible(false);
         validationLabel = new javax.swing.JLabel();
         validationLabel.setText("validationLabel");
-        taiKhoan_DAO = new TaiKhoan_DAO();
+        taiKhoan_DAO = new TaiKhoanDAO_IMP();
         txtMaXacNhan.setVisible(false);
         lblMaXacNhan.setVisible(false);
         duLieuEmail();
@@ -211,26 +223,30 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
     
     private void btnGuiMaEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuiMaEmailActionPerformed
         // TODO add your handling code here:
-         try {
+       
                 sleep();
-                taiKhoan_DAO.CheckEmailLost(nv, tk);
-                taiKhoan_DAO.updateMaXacNhanLost(tk);
-                sendMain(nv, tk);
-                code = tk.getMaXacNhan(); 
+//                taiKhoan_DAO.CheckEmailLost(nv, tk);
+                nhanVien_DAO = new NhanVienDAO_IMP();
+                maXacNhan_DAO = new MaXacNhanDAO_IMP();
+                code = maXacNhan_DAO.generateVerifyCode();
+                nhanVien_DAO.checkDuplicateEmail(txtEmail.getText(), "Đang làm");
+                mxn = new MaXacNhan(nv, txtEmail.getText(), code, LocalDateTime.now());
+               
+                maXacNhan_DAO.themMaXacNhan(mxn);
+                sendMain(nv, mxn);
+               
                 txtMaXacNhan.setVisible(true);
                 lblMaXacNhan.setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(QuenMatKhauEmail.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }//GEN-LAST:event_btnGuiMaEmailActionPerformed
- private void sendMain(NhanVien nv,TaiKhoan tk) {
+ private void sendMain(NhanVien nv,MaXacNhan mxn) {
 	        new Thread(new Runnable() {
 	            @Override
 	            public void run() {
 	                
-	               ModelMessage ms = new ServiceMail().sendMain(nv.getEmail(),tk.getMaXacNhan() );
+	               ModelMessage ms = new ServiceMail().sendMain(nv.getEmail(),mxn.getMaXacNhan() );
 	                if (ms.isSuccess()) {
-	                        System.out.println("Gửi thành công tới mail : "+txtEmail.getText());
+	                        System.out.println("Gửi thành công tới mail : "+mxn.getEmail());
 	                } else {
                                 System.out.println("Email không tồn tại");
 	                }
@@ -248,18 +264,18 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(null,"Chưa điền đủ thông tin");
         }else{
             javax.swing.JOptionPane.showMessageDialog(null,"Tài khoản đã thay đổi trở về màn hình đăng nhập");
-            try {
-                if( taiKhoan_DAO.updataPasswordLost(tk.getTenTK(), txtMatKhauMoi.getText())){
+           
+            	nhanVien_DAO = new NhanVienDAO_IMP();
+            	 NhanVien nhanVien  =  nhanVien_DAO.timKiemNhanVienTheoEmail(txtEmail.getText());
+                if( taiKhoan_DAO.updataPasswordLost(nhanVien.getMaNV(), txtMatKhauMoi.getText(), "Đã đăng xuất")){
                     System.out.println(tk.getTenTK());
                     System.out.println(txtMatKhauMoi.getText());
                             
-                    DangNhap dangNhap = new DangNhap ();
+                    DangNhap1 dangNhap = new DangNhap1 ();
                     this.setVisible(false);
                     dangNhap.setVisible(true);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(QuenMatKhauEmail.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          
             
         }    
     }
@@ -337,13 +353,15 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 if( validateData(txtEmail.getText(), lblAnh)){
-                    try {
-                        if(taiKhoan_DAO.checkDuplicateEmail(txtEmail.getText()+"")){
+                   
+                    	nhanVien_DAO = new NhanVienDAO_IMP();
+                    	NhanVien nhanVien = nhanVien_DAO.timKiemNhanVienTheoEmail(txtEmail.getText());
+                        if(nhanVien!=null){
                             txtMaXacNhan.setEditable(true);
-                            nv = new NhanVien();
-                            nv.setEmail(txtEmail.getText());
-                            tk = new TaiKhoan();
-                            tk.setMatKhau(nv.getTaiKhoan()+"");
+//                            nv = new NhanVien();
+//                            nv.setEmail(txtEmail.getText());
+//                            tk = new TaiKhoan();
+//                            tk.setMatKhau(nv.getTaiKhoan()+"");
                             btnGuiMaEmail.setVisible(true);
                             lblAnh.setVisible(false);
                                  
@@ -356,9 +374,7 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
                             txtMatKhauMoi.setVisible(false);
                             lblMatKhauMoi.setVisible(false);
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(QuenMatKhauEmail.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    
                 }else{
                     txtMatKhauMoi.setVisible(false);
                     lblAnh.setVisible(true);
@@ -374,13 +390,15 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
             @Override
             public void removeUpdate(javax.swing.event.DocumentEvent e) {
                  if( validateData(txtEmail.getText(), lblAnh)){
-                    try {
-                        if(taiKhoan_DAO.checkDuplicateEmail(txtEmail.getText()+"")){
+                   
+                    	nhanVien_DAO = new NhanVienDAO_IMP();
+                    	NhanVien nhanVien = nhanVien_DAO.timKiemNhanVienTheoEmail(txtEmail.getText());
+                        if(nhanVien!=null){
                             txtMaXacNhan.setEditable(true);
-                            nv = new NhanVien();
-                            nv.setEmail(txtEmail.getText());
-                            tk = new TaiKhoan();
-                            tk.setMatKhau(nv.getTaiKhoan()+"");
+//                            nv = new NhanVien();
+//                            nv.setEmail(txtEmail.getText());
+//                            tk = new TaiKhoan();
+//                            tk.setMatKhau(nv.getTaiKhoan()+"");
                             btnGuiMaEmail.setVisible(true);
                             lblAnh.setVisible(false);
                                  
@@ -393,9 +411,7 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
                             txtMatKhauMoi.setVisible(false);
                             lblMatKhauMoi.setVisible(false);
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(QuenMatKhauEmail.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    
                 }else{
                     txtMatKhauMoi.setVisible(false);
                     lblAnh.setVisible(true);
@@ -412,16 +428,17 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
                 if( validateData(txtEmail.getText(), lblAnh)){
-                    try {
-                        if(taiKhoan_DAO.checkDuplicateEmail(txtEmail.getText()+"")){
+                   
+                    	nhanVien_DAO = new NhanVienDAO_IMP();
+                    	NhanVien nhanVien = nhanVien_DAO.timKiemNhanVienTheoEmail(txtEmail.getText());
+                        if(nhanVien!=null){
                             txtMaXacNhan.setEditable(true);
-                            nv = new NhanVien();
-                            nv.setEmail(txtEmail.getText());
-                            tk = new TaiKhoan();
-                            tk.setMatKhau(nv.getTaiKhoan()+"");
+//                            nv = new NhanVien();
+//                            nv.setEmail(txtEmail.getText());
+//                            tk = new TaiKhoan();
+//                            tk.setMatKhau(nv.getTaiKhoan()+"");
                             btnGuiMaEmail.setVisible(true);
                             lblAnh.setVisible(false);
-                                 
                         }else{
                              btnGuiMaEmail.setVisible(false);
                             lblAnh.setVisible(true);
@@ -429,9 +446,7 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
                             txtMatKhauMoi.setVisible(false);
                             lblMatKhauMoi.setVisible(false);
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(QuenMatKhauEmail.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    
                 }else{
                     txtMatKhauMoi.setVisible(false);
                     lblAnh.setVisible(true);
@@ -449,7 +464,7 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
           txtMaXacNhan.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
-                if( txtMaXacNhan.getText().equals(tk.getMaXacNhan())){
+                if( txtMaXacNhan.getText().equals(mxn.getMaXacNhan())){
                     lblMatKhauMoi.setVisible(true);
                     txtMatKhauMoi.setVisible(true);
                 }else{
@@ -459,7 +474,7 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
             }
             @Override
             public void removeUpdate(javax.swing.event.DocumentEvent e) {
-                if(  txtMaXacNhan.getText().equals(tk.getMaXacNhan())){
+                if(  txtMaXacNhan.getText().equals(mxn.getMaXacNhan())){
                     lblMatKhauMoi.setVisible(true);
                     txtMatKhauMoi.setVisible(true);
                 }else{
@@ -470,7 +485,7 @@ public class QuenMatKhauEmail extends javax.swing.JFrame {
 
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
-                if( txtMaXacNhan.getText().equals(tk.getMaXacNhan())){
+                if( txtMaXacNhan.getText().equals(mxn.getMaXacNhan())){
                     lblMatKhauMoi.setVisible(true);
                     txtMatKhauMoi.setVisible(true);
                     

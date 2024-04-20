@@ -5,9 +5,11 @@ package UI;
 import DAO.NhanVien_DAO;
 import DAO.TaiKhoan_DAO;
 import DAO.ThoiGianHoatDong_DAO;
-import Entity.NhanVien;
-import Entity.TaiKhoan;
-import Entity.ThoiGianHoatDong;
+import DAO_IMP.TaiKhoanDAO_IMP;
+import DAO_IMP.ThoiGianHoatDongDAO_IMP;
+import entity.NhanVien;
+import entity.TaiKhoan;
+import entity.ThoiGianHoatDong;
 import Menu.MenuItem;
 import Pannel.pnlTraCuuNhanVien;
 import Pannel.pnlDanhSachHoaDon;
@@ -57,6 +59,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class TrangChu extends javax.swing.JFrame {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * Creates new form TrangChu
      */
     private TaiKhoan tk ;
@@ -161,7 +167,7 @@ public class TrangChu extends javax.swing.JFrame {
        
     }
     private void thoiGianLamViec(){
-        thoiGianHoatDong_DAO = new ThoiGianHoatDong_DAO();
+        thoiGianHoatDong_DAO = new ThoiGianHoatDongDAO_IMP();
         
         //Lấy thời gian hiện tại 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -178,7 +184,7 @@ public class TrangChu extends javax.swing.JFrame {
         if(nv.getChucVu().getMaChucVu().equals("QL")){
             LocalTime startTimeLamViec = LocalTime.of(0, 0, 0);
             LocalTime endTime = LocalTime.of(23, 59, 59);
-            thoiGianThietLap(localDate, loCalTime, formatter,startTimeLamViec+"",endTime+"");
+            thoiGianThietLap(localDate, loCalTime, formatter,startTimeLamViec,endTime);
         }else if(nv.getChucVu().getMaChucVu().equals("NV")){
             //thời gian hiện tại
             LocalTime now = LocalTime.now();
@@ -193,11 +199,11 @@ public class TrangChu extends javax.swing.JFrame {
             LocalTime startTimeCa3 = LocalTime.of(5, 59, 59);
             
             if (isBetween(now, startTimeCa1, endTimeCa1)){
-                thoiGianThietLap(localDate, loCalTime, formatter,startTimeCa1+"",endTimeCa1+"");
+                thoiGianThietLap(localDate, loCalTime, formatter,startTimeCa1,endTimeCa1);
             }else if(isBetween(now, startTimeCa2, endTimeCa2)){
-                thoiGianThietLap(localDate, loCalTime, formatter,startTimeCa2+"",endTimeCa2+"");
+                thoiGianThietLap(localDate, loCalTime, formatter,startTimeCa2,endTimeCa2);
             }else{
-                thoiGianThietLap(localDate, loCalTime, formatter,startTimeCa3+"",endTimeCa3+"");
+                thoiGianThietLap(localDate, loCalTime, formatter,startTimeCa3,endTimeCa3);
                 System.out.println("3");
             }
                      
@@ -205,7 +211,7 @@ public class TrangChu extends javax.swing.JFrame {
         }
         
     }
-    public void thoiGianThietLap(LocalDate localDate,LocalTime loCalTime,DateTimeFormatter formatter,String startTimeCa1,String endTimeCa1  ){
+    public void thoiGianThietLap(LocalDate localDate,LocalTime loCalTime,DateTimeFormatter formatter,LocalTime startTimeCa1,LocalTime endTimeCa1  ){
             if(thoiGianHoatDong_DAO.kiemTraDangNhapTrongNgay(tghd,startTimeCa1,endTimeCa1)){
                 lblThoiGianDaLam.setText(tghd.getThoiGianDaLam()+"");
             }else{
@@ -576,8 +582,8 @@ public class TrangChu extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        taiKhoan_DAO = new TaiKhoan_DAO();
-        thoiGianHoatDong_DAO = new ThoiGianHoatDong_DAO();
+        taiKhoan_DAO = new TaiKhoanDAO_IMP();
+        thoiGianHoatDong_DAO = new ThoiGianHoatDongDAO_IMP();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         tghd.setThoiGianDaLam(LocalTime.parse( lblThoiGianDaLam.getText(), formatter));
        
@@ -588,7 +594,8 @@ public class TrangChu extends javax.swing.JFrame {
         thoiGianHoatDong_DAO.capNhatThoiGianLam(tghd);
        
         try {
-            taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK(), "Đã đăng xuất");
+//            taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK(), "Đã đăng xuất");
+        	taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK().getMaNV(), "Đã đăng xuất");
         } catch (SQLException ex) {
             
         }
@@ -614,16 +621,16 @@ public class TrangChu extends javax.swing.JFrame {
         }
         int hoiDeDangXuat =   JOptionPane.showConfirmDialog(this, "Bạn có muốn đăng xuất không?","Thông báo",JOptionPane.YES_NO_OPTION);
         if(hoiDeDangXuat == JOptionPane.YES_OPTION){
-            thoiGianHoatDong_DAO = new ThoiGianHoatDong_DAO();
+            thoiGianHoatDong_DAO = new ThoiGianHoatDongDAO_IMP();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             tghd.setThoiGianDaLam(LocalTime.parse( lblThoiGianDaLam.getText(), formatter));
             LocalTime localTime = LocalTime.now();
             String loCalTime =  localTime.format(formatter);
             tghd.setThoiGianDangXuat(LocalTime.parse(loCalTime, formatter));
             thoiGianHoatDong_DAO.capNhatThoiGianLam(tghd);
-            taiKhoan_DAO = new TaiKhoan_DAO();
+            taiKhoan_DAO = new TaiKhoanDAO_IMP();
             try {
-                taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK(),"Đã đăng xuất");
+                taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK().getMaNV(),"Đã đăng xuất");
             } catch (SQLException ex) {
                 Logger.getLogger(TrangChu.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -1,7 +1,7 @@
 
 package Pannel;
 
-import Entity.TaiKhoan;
+import entity.TaiKhoan;
 import java.awt.Image;
 import javax.swing.*;
 import java.awt.event.*;
@@ -20,6 +20,10 @@ public class pnlTrangChu extends javax.swing.JPanel {
 
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * Creates new form TrangChu
      */
     private TaiKhoan tk;

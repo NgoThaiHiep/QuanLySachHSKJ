@@ -34,13 +34,24 @@ public class TaiKhoanDAO_IMP implements TaiKhoan_DAO{
 	@Override
 	public boolean login(TaiKhoan tk) {
 		// TODO Auto-generated method stub
-		return false;
+		return em.createQuery("select c from TaiKhoan c where c.tenTK = :tk and c.matKhau = :mk and c.trangThai = :trangThai", 
+				TaiKhoan.class)
+				.setParameter("tk", tk.getTenTK())
+				.setParameter("mk", tk.getMatKhau())
+				.setParameter("trangThai", "Đã đăng xuất")
+				.getResultList().size() > 0;
 	}
 
 	@Override
 	public boolean login_DaDangNhap(TaiKhoan tk) {
 		// TODO Auto-generated method stub
-		return false;
+		return em.createQuery(
+				"select c from TaiKhoan c where c.tenTK = :tk and c.matKhau = :mk and c.trangThai = :trangThai",
+				TaiKhoan.class)
+				.setParameter("tk", tk.getTenTK())
+				.setParameter("mk", tk.getMatKhau())
+				.setParameter("trangThai", "Đang đăng nhập")
+				.getResultList().size() > 0;
 	}
 
 	@Override
@@ -133,7 +144,7 @@ public class TaiKhoanDAO_IMP implements TaiKhoan_DAO{
 			        "SET trangThai = :trangThai " +
 					"WHERE tenTK = :tenTk"
 					).setParameter("trangThai", trangThai)
-					.setParameter("tenTk", taiKhoan)
+					.setParameter("tenTk", em.find(NhanVien.class, taiKhoan))
 					.executeUpdate();
 			tx.commit();
 			return true;

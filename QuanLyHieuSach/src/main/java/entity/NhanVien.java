@@ -27,7 +27,7 @@ public class NhanVien {
 	@Column(name = "hoTenNhanVien", columnDefinition = "nvarchar(255)")
     private String hoTenNhanVien;
     private String CCCD;
-    private  transient LocalDate  ngaySinh;
+    private  LocalDate  ngaySinh;
     
     @Column(name = "gioiTinh", columnDefinition = "nvarchar(255)")
     private String gioiTinh;
@@ -44,13 +44,15 @@ public class NhanVien {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MaCa")
-    private transient CaLamViec caLam;
+    private CaLamViec caLam;
     
     @Column(name = "trangThai", columnDefinition = "nvarchar(255)")
     private String trangThai;
     private String hinhAnh;
    
-    public NhanVien(String maNV, String hoTenNhanVien, String CCCD, LocalDate ngaySinh, String gioiTinh, String email, String soDienThoai, ChucVu chucVu, CaLamViec caLam, String trangThai, String hinhAnh,String diaChi) {
+    public NhanVien(String maNV, String hoTenNhanVien, String CCCD, LocalDate ngaySinh, String gioiTinh, 
+    		String email, String soDienThoai, ChucVu chucVu, CaLamViec caLam, String trangThai, 
+    		String hinhAnh,String diaChi) {
         this.maNV = maNV;
         this.hoTenNhanVien = hoTenNhanVien;
         this.CCCD = CCCD;

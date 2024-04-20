@@ -7,17 +7,22 @@ import DAO.NhaCungCap_DAO;
 import DAO.ThuongHieu_DAO;
 import DAO.VanPhongPham_DAO;
 import DAO.XuatXu_DAO;
-import Entity.LoaiSanPham;
-import Entity.LoaiVanPhongPham;
-import Entity.NhaCungCap;
-import Entity.ThuongHieu;
-import Entity.VanPhongPham;
-import Entity.XuatXu;
+import DAO_IMP.LoaiSanPhamDAO_IMP;
+import DAO_IMP.LoaiVanPhongPhamDAO_IMP;
+import DAO_IMP.NhaCungCapDAO_IMP;
+import DAO_IMP.ThuongHieuDAO_IMP;
+import DAO_IMP.VanPhongPhamDAO_IMP;
+import DAO_IMP.XuatXuDAO_IMP;
+import entity.LoaiSanPham;
+import entity.LoaiVanPhongPham;
+import entity.NhaCungCap;
+import entity.ThuongHieu;
+import entity.VanPhongPham;
+import entity.XuatXu;
 import Them.ThemXuatXu;
 import Them.frmNhaCungCap;
 import Them.frmThemLoaiVanPhongPham;
 import Them.ThemTH;
-import Them.ThemXuatXu;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
@@ -67,11 +72,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
- * @author Admin
+ * @author NTH
  */
 public class pnlThemVanPhongPham extends javax.swing.JPanel {
 
-    private File selectedFile;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private File selectedFile;
     private JFrame imageFrame;
     private VanPhongPham_DAO vanPhongPham_DAO;
     private NhaCungCap_DAO nhaCungCap_DAO;
@@ -90,7 +99,7 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
         
         initComponents();
         init();
-        vanPhongPham_DAO = new VanPhongPham_DAO();
+        vanPhongPham_DAO = new VanPhongPhamDAO_IMP();
         lblMaVPPKyTu.setText(vanPhongPham_DAO.generateMaVanPhongPham());
         
         // Create a custom DocumentFilter
@@ -112,27 +121,27 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-          xuatXu_DAO = new XuatXu_DAO();
+          xuatXu_DAO = new XuatXuDAO_IMP();
         ArrayList<XuatXu> dsxx = xuatXu_DAO.layDanhSachXuatXu();
         for (XuatXu xuatXu : dsxx) {
             cboXuatXu.addItem(xuatXu.getTenQuocGia());
         }
          cboXuatXu.setSelectedIndex(-1);
         
-        thuongHieu_DAO = new ThuongHieu_DAO();
+        thuongHieu_DAO = new ThuongHieuDAO_IMP();
         ArrayList<ThuongHieu> dsth = thuongHieu_DAO.layDanhSachThuongHieu();
         for (ThuongHieu thuongHieu : dsth) {
             cboThuongHieu.addItem(thuongHieu.getTenThuongHieu());
         }
         cboThuongHieu.setSelectedIndex(-1);
         
-        loaiVanPhongPham_DAO = new LoaiVanPhongPham_DAO();
+        loaiVanPhongPham_DAO = new LoaiVanPhongPhamDAO_IMP();
           ArrayList<LoaiVanPhongPham> dslvpp = loaiVanPhongPham_DAO.layDanhLoaiVanPhongPham();
           for (LoaiVanPhongPham loaiVanPhongPham : dslvpp) {
             cboLoaiVanPhongPham.addItem(loaiVanPhongPham.getTenLoaiVanPhongPham());       
         }
           cboLoaiVanPhongPham.setSelectedIndex(-1);
-          nhaCungCap_DAO = new NhaCungCap_DAO();
+          nhaCungCap_DAO = new NhaCungCapDAO_IMP();
         ArrayList<NhaCungCap> dsncc = nhaCungCap_DAO.layDanhSachNhaCungCap();
         for (NhaCungCap nhaCungCap : dsncc) {
             if(nhaCungCap.getSanPhamCungCap().equals("Văn phòng phẩm")){
@@ -582,7 +591,7 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
         
         String nhaXuatBan = cboThuongHieu.getSelectedItem()+"";
 
-        nhaCungCap_DAO = new NhaCungCap_DAO();
+        nhaCungCap_DAO = new NhaCungCapDAO_IMP();
         ArrayList<NhaCungCap> dsncc = nhaCungCap_DAO.layDanhSachNhaCungCap();
         String nhaCungCap_Sua = "";
         for (NhaCungCap nhaCungCap : dsncc) {
@@ -595,7 +604,7 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
 
         String loaiSanPham_l = "";
 
-        loaiSanPham_DAO = new LoaiSanPham_DAO();
+        loaiSanPham_DAO = new LoaiSanPhamDAO_IMP();
         ArrayList<LoaiSanPham> dslsp = loaiSanPham_DAO.layDanhLoaiSanPham();
         for (LoaiSanPham loaiSanPham : dslsp) {
             if(loaiSanPham.getTenLoaiSanPham().equals("Sách")){
@@ -614,7 +623,7 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
             tinhTrang = "Còn hàng";
         }
         String xuatXu_CBO = "";
-        xuatXu_DAO = new XuatXu_DAO();
+        xuatXu_DAO = new XuatXuDAO_IMP();
         ArrayList<XuatXu> dsxx = xuatXu_DAO.layDanhSachXuatXu();
         for (XuatXu xuatXu : dsxx) {
             if(xuatXu.getTenQuocGia().equals(cboXuatXu.getSelectedItem()))
@@ -623,7 +632,7 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
         XuatXu xuatXu = new XuatXu(xuatXu_CBO);
 
         String thuongHieu_CBO= cboThuongHieu.getSelectedItem().toString();
-        thuongHieu_DAO = new ThuongHieu_DAO();
+        thuongHieu_DAO = new ThuongHieuDAO_IMP();
         ArrayList<ThuongHieu> dsnxb = thuongHieu_DAO.layDanhSachThuongHieu();
         for (ThuongHieu thuongHieu : dsnxb) {
             if(thuongHieu.getTenThuongHieu().equals(thuongHieu_CBO)){
@@ -632,7 +641,7 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
         }
         ThuongHieu thuongHieu = new ThuongHieu(thuongHieu_CBO);
 
-        loaiVanPhongPham_DAO = new LoaiVanPhongPham_DAO();
+        loaiVanPhongPham_DAO = new LoaiVanPhongPhamDAO_IMP();
         String loaiVanPhongPham_CBO ="";
         ArrayList<LoaiVanPhongPham> dslvpp = loaiVanPhongPham_DAO.layDanhLoaiVanPhongPham();
         for (LoaiVanPhongPham loaiVanPhongPham : dslvpp) {
@@ -646,13 +655,13 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
 
         String chatLieu = cboChatlieu.getSelectedItem().toString();
         VanPhongPham vanPhongPham = new VanPhongPham(xuatXu, thuongHieu, loaiVanPhongPham, chatLieu, Integer.parseInt(namSanXuat), maSach, tenSach, loaiSanPham, ncc, Integer.parseInt(soLuongTon), giaBan, soTrang, tinhTrang, hinhAnh);
-        vanPhongPham_DAO = new VanPhongPham_DAO();
-        if(vanPhongPham_DAO.inserVanPhongPham(vanPhongPham)){
+        vanPhongPham_DAO = new VanPhongPhamDAO_IMP();
+        if(vanPhongPham_DAO.insertVanPhongPham(vanPhongPham)){
             lamMoiDuLieu();
             try {
 
                 lblMaVPPKyTu.setText( vanPhongPham_DAO.generateMaVanPhongPham());
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(pnlThemVanPhongPham.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(this, "Thêm văn phòng phẩm thành công");
@@ -865,7 +874,7 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
                 iterator.next();
             }
 
-            VanPhongPham_DAO vpp = new VanPhongPham_DAO();
+            VanPhongPham_DAO vpp = new VanPhongPhamDAO_IMP();
 
             while (iterator.hasNext()) {
                 Row currentRow = iterator.next();
@@ -892,10 +901,11 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
                     ThuongHieu tenTH = new ThuongHieu(tenTHS);
                     int soLuongTon = (int) currentRow.getCell(8).getNumericCellValue();
                     LoaiSanPham lsp = new LoaiSanPham("LSP000002");
-                    VanPhongPham s = new VanPhongPham(xuatXu, tenTH, tenLVPP, chatLieu, namSX, maVPP, tenVPP, lsp, nhaCC, soLuongTon, donGia," "," ", " ");
+//                    vpp = new VanPhongPham(xuatXu, tenTH, tenLVPP, chatLieu, namSX, maVPP, tenVPP, lsp, nhaCC, soLuongTon, donGia," "," ", " ");
+                   VanPhongPham vpp1 = new VanPhongPham(xuatXu, tenTH, tenLVPP, chatLieu, namSX, maVPP, tenVPP, lsp, nhaCC, soLuongTon, donGia," "," ", " ");
                     // Now you have the data, you can add it to your system
-                    vpp.inserVanPhongPham(s);
-                } catch (SQLException ex) {
+                    vpp.insertVanPhongPham(vpp1);
+                } catch (Exception ex) {
                     Logger.getLogger(pnlThemSach.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println("Error during data insertion: " + ex.getMessage());
                 }

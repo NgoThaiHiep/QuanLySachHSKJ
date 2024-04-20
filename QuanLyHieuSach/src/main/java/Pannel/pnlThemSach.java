@@ -22,9 +22,7 @@ import entity.TheLoai;
 import Them.ThemTacGia1;
 import Them.frmNhaCungCap;
 import Them.frmNhaXuatBan;
-import Them.frmThemLoaiVanPhongPham;
 import Them.frmThemTheLoai;
-import Them.ThemTH;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
@@ -49,7 +47,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -81,6 +78,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class pnlThemSach extends javax.swing.JPanel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * Creates new form pnlThemSanPhamSach
      */
     private File selectedFile;
@@ -788,7 +789,7 @@ private static boolean isValidInput(String currentText, String text) {
         LoaiSanPham loaiSanPham = new LoaiSanPham( loaiSanPham_l);
         
         
-        String namXuatBan = txtNamXuatBan.getText();
+        int namXuatBan = Integer.parseInt(txtNamXuatBan.getText());
         String hinhAnh = selectedFile.getAbsolutePath();
         String tinhTrang = "";
         
@@ -803,12 +804,12 @@ private static boolean isValidInput(String currentText, String text) {
         }
         
         
-        Sach sach = new Sach(maSach,  Integer.parseInt(namXuatBan), soTrang, tl, nxb, maSach, tenSach, loaiSanPham, ncc, SoLuongTon,giaBan, tinhTrang, hinhAnh);
+        Sach sach = new Sach(maSach, tenSach, loaiSanPham, ncc, SoLuongTon, giaBan, "", tinhTrang, hinhAnh, namXuatBan, soTrang, nxb, "");
         
-		sach_DAO = new Sach_DAO();
+		sach_DAO = new SachDAO_IMP();
         
 		
-        if(sach_DAO.InsertSach_i(sach)){
+        if(sach_DAO.insertSach(sach)){
             JOptionPane.showMessageDialog(this, "Thêm sách thành công");
             lamMoiDuLieu();
             try {
@@ -1008,7 +1009,7 @@ private static boolean isValidInput(String currentText, String text) {
                 iterator.next();
             }
 
-            Sach_DAO sach = new Sach_DAO();
+            Sach_DAO sach = new SachDAO_IMP();
 
             while (iterator.hasNext()) {
                 Row currentRow = iterator.next();
@@ -1036,10 +1037,11 @@ private static boolean isValidInput(String currentText, String text) {
                     int soTrang = (int) currentRow.getCell(7).getNumericCellValue();
                     int soLuongTon = (int) currentRow.getCell(8).getNumericCellValue();
                     LoaiSanPham lsp = new LoaiSanPham("LSP000001");
-                    Sach s = new Sach(tacGia, namSX, soTrang, theLoai, nhaXB, maSach, tenSach, lsp, nhaCC, soLuongTon, donGia, " ", "Còn hàng", "\\src\\IMG\\khongCoAnh.png", "");
+//                    Sach s = new Sach(tacGia, namSX, soTrang, theLoai, nhaXB, maSach, tenSach, lsp, nhaCC, soLuongTon, donGia, " ", "Còn hàng", "\\src\\IMG\\khongCoAnh.png", "");
+                    Sach s = new Sach(maSach, tenSach, lsp, nhaCC, soLuongTon, donGia, "", "Còn hàng", "\\src\\IMG\\khongCoAnh.png", namSX, soTrang, nhaXB, "");
                     // Now you have the data, you can add it to your system
-                    sach.InsertSach(s);
-                } catch (SQLException ex) {
+                    sach.insertSach(s);
+                } catch (Exception ex) {
                     Logger.getLogger(pnlThemSach.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println("Error during data insertion: " + ex.getMessage());
                 }

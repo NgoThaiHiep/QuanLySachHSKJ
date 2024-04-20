@@ -1,8 +1,8 @@
 
 package Pannel;
 
-import Entity.NhanVien;
-import Entity.TaiKhoan;
+import entity.NhanVien;
+import entity.TaiKhoan;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -11,7 +11,11 @@ import java.util.logging.Logger;
 
 public class pnlThemSanPham extends javax.swing.JPanel {
 
-    private TaiKhoan tk;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private TaiKhoan tk;
     private NhanVien nv;
     
     public pnlThemSanPham(TaiKhoan tk) {

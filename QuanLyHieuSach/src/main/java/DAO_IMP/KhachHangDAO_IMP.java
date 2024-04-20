@@ -130,4 +130,13 @@ public class KhachHangDAO_IMP implements KhachHang_DAO{
 				.getResultList();
 	}
 
+	@Override
+	public ArrayList<KhachHang> layDanhSachKhachHang() {
+		// TODO Auto-generated method stub
+		return ((ArrayList<KhachHang>) 
+				em.createQuery("select c from KhachHang c", KhachHang.class)
+				.getResultList());
+		}
+	
+
 }

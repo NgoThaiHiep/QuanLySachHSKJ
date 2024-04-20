@@ -1,11 +1,13 @@
 
 package UI;
 
-import ConnectDB.ConnectDB;
+
 import DAO.NhanVien_DAO;
 import DAO.TaiKhoan_DAO;
-import Entity.NhanVien;
-import Entity.TaiKhoan;
+import DAO_IMP.NhanVienDAO_IMP;
+import DAO_IMP.TaiKhoanDAO_IMP;
+import entity.NhanVien;
+import entity.TaiKhoan;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.sql.SQLException;
@@ -21,11 +23,15 @@ import javax.swing.UIManager;
 
 /**
  *
- * @author FPTSHOP
+ * @author NTH
  */
 public class DangNhap1 extends javax.swing.JFrame {
 
-    private TaiKhoan_DAO taiKhoan_DAO;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private TaiKhoan_DAO taiKhoan_DAO;
     private NhanVien_DAO nhanVien_DAO;
     private NhanVien nv;
     private TaiKhoan tk;
@@ -43,12 +49,7 @@ public class DangNhap1 extends javax.swing.JFrame {
         btnDangNhap.setEnabled(false);
     }
     public void init(){
-        try {
-            ConnectDB.getInstance().connect();
-	}catch (SQLException e) {
-	// TODO: handle exception
-            e.printStackTrace();
-	}
+       
        
         
         phimTatChoNutDangNhap();
@@ -182,28 +183,33 @@ public class DangNhap1 extends javax.swing.JFrame {
         
         String tenDangNhap = txtTenDangNhap.getText();
         String matKhau = txtMatKhau.getText();
+        System.out.println("Ten dang nhap: "+tenDangNhap);
+        System.out.println("Mat khau: "+matKhau);
         if(tenDangNhap.equals("")){
             
         }
-        
-        tk = new TaiKhoan(tenDangNhap, matKhau);
         nv  = new NhanVien();
-    	taiKhoan_DAO = new TaiKhoan_DAO();
-        nhanVien_DAO = new NhanVien_DAO();
+//        nv = nhanVien_DAO.timKiemNhanVienTheoMaNV(tenDangNhap);
+        taiKhoan_DAO = new TaiKhoanDAO_IMP();
+        nhanVien_DAO = new NhanVienDAO_IMP();
+        nv =   nhanVien_DAO.timKiemNhanVienTheoMaNV("21081841");
+        System.out.println(nhanVien_DAO.timKiemNhanVienTheoMaNV("21081841"));
+        tk = new TaiKhoan(nv, matKhau);
+        
+        
+        
         
         if(taiKhoan_DAO.login(tk)){
-            System.out.println(tk.getTenTK());
+            System.out.println(tk.getTenTK().getMaNV());
             System.out.println(tk.getMatKhau());
-            nv = nhanVien_DAO.layThongTinNhanVien(tk);
-            try {
-                taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK(), "Đang đăng nhập");
-            } catch (SQLException ex) {
-                Logger.getLogger(DangNhap1.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            nv = nhanVien_DAO.layThongTinNhanVien(tk);
+           
+//                taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK(), "Đang đăng nhập");
+            taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK().getMaNV(),  "Đang đăng nhập");
            if(nv.getChucVu().getMaChucVu().equals("QL")||nv.getChucVu().getMaChucVu().equals("NV")){
                 System.out.println(nv);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                String ngaySinhFormatted =nv.getNgaySinh().format(formatter);
+                String ngaySinhFormatted = nv.getNgaySinh().format(formatter);
                 System.out.println("Ngày Sinh : "+ngaySinhFormatted);
                 (new TrangChu(tk,nv,originalLookAndFeel)).setVisible(true);
                 this.dispose();

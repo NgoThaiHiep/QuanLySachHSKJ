@@ -2,16 +2,15 @@
 package Pannel;
 
 import DAO.KhachHang_DAO;
-import Entity.KhachHang;
-import Entity.TaiKhoan;
-import static Pannel.pnlTraCuuNhanVien.readExcel_City;
+import DAO_IMP.KhachHangDAO_IMP;
+import entity.KhachHang;
+import entity.TaiKhoan;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,18 +20,20 @@ import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 /**
  *
- * @author FPTSHOP
+ * @author NTH
  */
 public class pnlTraCuuKhachHang extends javax.swing.JPanel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * Creates new form TraCuuKhachHang
      */
     private String tp = "Tỉnh/Thành phố";
@@ -65,7 +66,7 @@ public class pnlTraCuuKhachHang extends javax.swing.JPanel {
         timeXuatHienDiaChi.setRepeats(false); // Chỉ chạy một lần
         timeXuatHienDiaChi.start();
           
-          khachHang_DAO = new KhachHang_DAO();
+          khachHang_DAO = new KhachHangDAO_IMP();
        capNhatDanhSachKhachHangTheoSoDienThoai();
     }
 
@@ -371,7 +372,7 @@ public class pnlTraCuuKhachHang extends javax.swing.JPanel {
 
     private void cboQuanHuyenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboQuanHuyenActionPerformed
         // TODO add your handling code here:
-        String t = cboQuanHuyen.getSelectedItem()+"";
+//        String t = cboQuanHuyen.getSelectedItem()+"";
 
         cboQuanHuyen.addItem(q);
         // System.out.println(districtComboBox.getSelectedItem()+"");
@@ -460,15 +461,7 @@ public class pnlTraCuuKhachHang extends javax.swing.JPanel {
         lblMaKHKyTu.setText(jTable1.getValueAt(row, 0).toString());
         txtTenKhachHang.setText(jTable1.getValueAt(row, 1).toString());
         txtSoDienThoai.setText(jTable1.getValueAt(row, 2).toString());
-        khachHang_DAO = new KhachHang_DAO();
-        Object[] dc;
-        ArrayList<KhachHang> dsKhachHang = khachHang_DAO.layDanhSachKhachHang();
-        for (KhachHang khachHang : dsKhachHang) {
-            // GÁN GIÁ TRỊ
-            if (khachHang.getSoDienThoai().equals(txtSoDienThoai.toString())) {
-                
-    
-            }
+        khachHang_DAO = new KhachHangDAO_IMP();
               if(jTable1.getValueAt(row, 3).toString().equals("")){
                     cboTinhThanhPho.setSelectedItem("Tỉnh/Thành phố");
                 }else{
@@ -492,7 +485,7 @@ public class pnlTraCuuKhachHang extends javax.swing.JPanel {
                          if(!part3.equals("")){
                             cboPhuongXa.setSelectedItem(part3);
                         }
-                    }
+                    
                             
                 }
         }
@@ -501,7 +494,7 @@ public class pnlTraCuuKhachHang extends javax.swing.JPanel {
     private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTimKiemActionPerformed
-public static ArrayList<String> readExcel_City() throws IOException {
+		public static ArrayList<String> readExcel_City() throws IOException {
 		//Đọc dữ liệu từ file Diachi.xlsx
                 ArrayList<String> cities = new ArrayList<>();
         //Nạp file input stream đưa về dạng excel
@@ -510,7 +503,7 @@ public static ArrayList<String> readExcel_City() throws IOException {
             //Đọc file từ Sheet 1 (bắt đầu từ số 0)
             XSSFSheet sheet = wb.getSheetAt(0);
             //Lấy các giá trị trong các cột
-            FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+          
             int v = 0;
             for(Row row:sheet) {
                 if(!cities.contains(row.getCell(0)+"")) {
@@ -533,7 +526,7 @@ public static ArrayList<String> readExcel_City() throws IOException {
             //Đọc file từ Sheet 1 (bắt đầu từ số 0)
             XSSFSheet sheet = wb.getSheetAt(0);
             //Lấy các giá trị trong các cột
-            FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+           
             //Duyệt các row
             
             int v = 0;
@@ -567,7 +560,7 @@ public static ArrayList<String> readExcel_City() throws IOException {
             //Đọc file từ Sheet 1 (bắt đầu từ số 0)
             XSSFSheet sheet = wb.getSheetAt(0);
             //Lấy các giá trị trong các cột
-            FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//            FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
             //Duyệt các row
             int v = 0;
             
@@ -590,53 +583,41 @@ public static ArrayList<String> readExcel_City() throws IOException {
 	}
      
      public void capNhatDanhSachKhachHangTheoSoDienThoai(){
-        khachHang_DAO = new KhachHang_DAO();
+        khachHang_DAO = new KhachHangDAO_IMP();
         String timKiem = txtTimKiem.getText();
         if(!timKiem.equals("Tìm kiếm theo số điện thoại")){
             txtTimKiem.getDocument().addDocumentListener(new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
-                    try {
-                       ArrayList<KhachHang> dsKhachHangSoDienThoai = khachHang_DAO.layDanhSachTheoMaSach_TheoSoDienThoai(txtTimKiem.getText());
+                  
+                       KhachHang khachHang = khachHang_DAO.layThongTinKhachHang(txtTimKiem.getText());
                        String colTieuDe1[] = new String[]{"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ"};
                         DefaultTableModel model = new DefaultTableModel(colTieuDe1, 0);
                            Object[] row;
-                        for (KhachHang khachHang : dsKhachHangSoDienThoai) {
-                              row = new Object[12];
-                            // GÁN GIÁ TRỊ
+                            row = new Object[4];
                             row[0] = khachHang.getMaKhachHang();
                             row[1] = khachHang.getTenKhachHang();
                             row[2] = khachHang.getSoDienThoai();
                             row[3] = khachHang.getDiaChi();
                            model.addRow(row);
-           }
-           jTable1.setModel(model);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(pnlTraCuuKhachHang.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-             }
-
+           
+           jTable1.setModel(model);     
+            }
+            
              @Override
              public void removeUpdate(DocumentEvent e) {
-                  ArrayList<KhachHang> dsKhachHangSoDienThoai;
-                 try {
-                     dsKhachHangSoDienThoai = khachHang_DAO.layDanhSachTheoMaSach_TheoSoDienThoai(txtTimKiem.getText());
-                     String colTieuDe1[] = new String[]{"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ"};
-                     DefaultTableModel model = new DefaultTableModel(colTieuDe1, 0);
-                        Object[] row;
-                     for (KhachHang khachHang : dsKhachHangSoDienThoai) {
-                           row = new Object[12];
-                         // GÁN GIÁ TRỊ
-                         row[0] = khachHang.getMaKhachHang();
-                         row[1] = khachHang.getTenKhachHang();
-                         row[2] = khachHang.getSoDienThoai();
-                         row[3] = khachHang.getDiaChi();
-                        model.addRow(row);
-        }
-                jTable1.setModel(model);
-                 } catch (SQLException ex) {
-                     Logger.getLogger(pnlTraCuuKhachHang.class.getName()).log(Level.SEVERE, null, ex);
-                 }
+                  
+                  KhachHang khachHang = khachHang_DAO.layThongTinKhachHang(txtTimKiem.getText());
+                  String colTieuDe1[] = new String[]{"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ"};
+                   DefaultTableModel model = new DefaultTableModel(colTieuDe1, 0);
+                      Object[] row;
+                       row = new Object[4];
+                       row[0] = khachHang.getMaKhachHang();
+                       row[1] = khachHang.getTenKhachHang();
+                       row[2] = khachHang.getSoDienThoai();
+                       row[3] = khachHang.getDiaChi();
+                      model.addRow(row);
+      jTable1.setModel(model);     
                     
                 
              }
@@ -647,8 +628,9 @@ public static ArrayList<String> readExcel_City() throws IOException {
          });
         }
      }
+     
      private void capNhatDanhSachKhachHang(){
-        khachHang_DAO = new KhachHang_DAO();
+        khachHang_DAO = new KhachHangDAO_IMP();
         ArrayList<KhachHang> dsKhachHang = khachHang_DAO.layDanhSachKhachHang();
       
         String colTieuDe1[] = new String[]{"Mã khách hàng", "Tên khách hàng", "Số điện thoại", "Địa chỉ"};
