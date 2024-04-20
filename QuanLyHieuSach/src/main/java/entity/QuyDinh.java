@@ -4,12 +4,8 @@ package entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-@NamedQueries({
-	@NamedQuery(name = "QuyDinh.findAll", query = "select * from QuyDinh qd")
-})
+
 
 @Entity
 @Table(name = "QuyDinh")

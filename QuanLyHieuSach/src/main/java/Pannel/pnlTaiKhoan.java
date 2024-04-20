@@ -316,8 +316,8 @@ public class pnlTaiKhoan extends javax.swing.JPanel {
                 public void insertUpdate(DocumentEvent e) {
                     addEightDigitLimit(txtMaNhanVien);
                     if(txtMaNhanVien.getText().length() <=5){
-                        capNhatDanhSachNhanVien_TheoTenDangNhap(txtMaNhanVien.getText());
-                        lblTenNVKyTu.setText(""); 
+                        
+                         
                     }else{
                         
                         capNhatDanhSachNhanVien_TheoTenDangNhap(txtMaNhanVien.getText());
@@ -338,7 +338,7 @@ public class pnlTaiKhoan extends javax.swing.JPanel {
                             clearTable((DefaultTableModel) tblNhanVien.getModel());
                         }
                         if(txtMaNhanVien.getText().length()> 0 ){
-                                lblTenNVKyTu.setText("");
+                                
                                 clearTable((DefaultTableModel) tblNhanVien.getModel());
                                 capNhatDanhSachNhanVien_TheoTenDangNhap(txtMaNhanVien.getText());
                         }   

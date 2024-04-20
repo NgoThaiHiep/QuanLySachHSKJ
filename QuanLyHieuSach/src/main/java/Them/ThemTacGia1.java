@@ -2,7 +2,7 @@
 package Them;
 
 import DAO.TacGia_DAO;
-import Entity.TacGia;
+import entity.TacGia;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -21,7 +21,8 @@ import javax.swing.text.DocumentFilter;
  */
 public class ThemTacGia1 extends javax.swing.JFrame {
 
-    private TacGia_DAO tacGia_DAO;
+    private static final long serialVersionUID = 1L;
+	private TacGia_DAO tacGia_DAO;
 
     /**
      * Creates new form ThemTacGia

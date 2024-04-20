@@ -54,7 +54,7 @@ public class pnlTroGiup extends JFrame {
         JScrollPane scrollPane = new JScrollPane(textPane);
         add(scrollPane, BorderLayout.CENTER);
 
-        loadWordDocument("src/IMG/TroGiup.docx");
+        loadWordDocument("src/main/java/IMG/TroGiup.docx");
 
         setSize(1920, 1080);
         setLocationRelativeTo(null);

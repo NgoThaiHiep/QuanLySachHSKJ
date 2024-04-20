@@ -498,7 +498,7 @@ public class pnlTraCuuKhachHang extends javax.swing.JPanel {
 		//Đọc dữ liệu từ file Diachi.xlsx
                 ArrayList<String> cities = new ArrayList<>();
         //Nạp file input stream đưa về dạng excel
-        try (FileInputStream file = new FileInputStream("src\\Li\\Book1.xlsx"); //Nạp file input stream đưa về dạng excel
+        try (FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Book1.xlsx"); //Nạp file input stream đưa về dạng excel
                 XSSFWorkbook wb = new XSSFWorkbook(file)) {
             //Đọc file từ Sheet 1 (bắt đầu từ số 0)
             XSSFSheet sheet = wb.getSheetAt(0);
@@ -521,7 +521,7 @@ public class pnlTraCuuKhachHang extends javax.swing.JPanel {
 	//Đọc dữ liệu từ file Diachi.xlsx
             ArrayList<String> districts = new ArrayList<>();
         //Nạp file input stream đưa về dạng excel
-        try (FileInputStream file = new FileInputStream("src\\Li\\Book1.xlsx"); //Nạp file input stream đưa về dạng excel
+        try (FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Book1.xlsx"); //Nạp file input stream đưa về dạng excel
                 XSSFWorkbook wb = new XSSFWorkbook(file)) {
             //Đọc file từ Sheet 1 (bắt đầu từ số 0)
             XSSFSheet sheet = wb.getSheetAt(0);
@@ -555,7 +555,7 @@ public class pnlTraCuuKhachHang extends javax.swing.JPanel {
 		//Đọc dữ liệu từ file Diachi.xlsx
     	 ArrayList<String> wardsDistrict = new ArrayList<>();
         //Nạp file input stream đưa về dạng excel
-        try (FileInputStream file = new FileInputStream("src\\Li\\Book1.xlsx"); //Nạp file input stream đưa về dạng excel
+        try (FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Book1.xlsx"); //Nạp file input stream đưa về dạng excel
                 XSSFWorkbook wb = new XSSFWorkbook(file)) {
             //Đọc file từ Sheet 1 (bắt đầu từ số 0)
             XSSFSheet sheet = wb.getSheetAt(0);

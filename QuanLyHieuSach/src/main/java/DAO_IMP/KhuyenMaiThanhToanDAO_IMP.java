@@ -76,8 +76,8 @@ public class KhuyenMaiThanhToanDAO_IMP implements KhuyenMaiThanhToan_DAO
 	public boolean kiemTraMaKhuyenMai_GiaTri(String code) {
 		// TODO Auto-generated method stub
 //		"select MaKhuyenMai from KhuyenMaiThanhToan where MaKhuyenMai = ?"
-		return em.createQuery("select k from KhuyenMaiThanhToan k where k.maKhuyenMai = ?")
-				.setParameter(1, code)
+		return em.createQuery("select k from KhuyenMaiThanhToan k where k.maKhuyenMai = :maKhuyenMai")
+				.setParameter("maKhuyenMai", code)
 				.getResultList().size() > 0;
 	}
 

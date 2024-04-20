@@ -10,16 +10,22 @@ import javax.swing.JComboBox;
 import DAO.NhaCungCap_DAO;
 import DAO.NhaXuatBan_DAO;
 import DAO.Sach_DAO;
-import DAO.Sach_TheLoai_DAO;
+import DAO.SanPham_DAO;
 import DAO.TacGia_DAO;
 import DAO.TheLoai_DAO;
-import Entity.LoaiSanPham;
-import Entity.NhaCungCap;
+import DAO_IMP.NhaCungCapDAO_IMP;
+import DAO_IMP.NhaXuatBanDAO_IMP;
+import DAO_IMP.SachDAO_IMP;
+import DAO_IMP.SanPhamDAO_IMP;
+import DAO_IMP.TacGiaDAO_IMP;
+import DAO_IMP.TheLoaiDAO_IMP;
+import entity.LoaiSanPham;
+import entity.NhaCungCap;
 
-import Entity.NhaXuatBan;
-import Entity.Sach;
-import Entity.TacGia;
-import Entity.TheLoai;
+import entity.NhaXuatBan;
+import entity.Sach;
+import entity.TacGia;
+import entity.TheLoai;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Image;
@@ -58,7 +64,7 @@ import javax.swing.text.PlainDocument;
  * @author FPTSHOP
  */
 public class CellSach extends javax.swing.JPanel {
-    	private Sach sach;
+    private Sach sach;
 	private NhaXuatBan_DAO nhaXuatBan_DAO;
 	private NhaCungCap_DAO nhaCungCap_DAO;
 	private TheLoai_DAO theLoai_DAO;
@@ -100,7 +106,7 @@ public class CellSach extends javax.swing.JPanel {
         lblNhaCungCap1.setText(sach.getNhaCungCap().getMaNCC());
         lblNamXuatBan1.setText(sach.getNamXuatBan()+"");
         
-        nhaXuatBan_DAO = new NhaXuatBan_DAO();
+        nhaXuatBan_DAO = new NhaXuatBanDAO_IMP();
         ArrayList<NhaXuatBan> dsnxb = nhaXuatBan_DAO.layDanhSachNhaXuatBan();
         for (NhaXuatBan nhaXuatBan : dsnxb) {
       	  cboNhaXuatBan.addItem(nhaXuatBan.getTenNhaXuatBanl());
@@ -112,7 +118,7 @@ public class CellSach extends javax.swing.JPanel {
       	 
         }
         
-        nhaCungCap_DAO = new NhaCungCap_DAO();
+        nhaCungCap_DAO = new NhaCungCapDAO_IMP();
        ArrayList<NhaCungCap> dsncc = nhaCungCap_DAO.layDanhSachNhaCungCap();
         for (NhaCungCap nhaCungCap : dsncc) {
             if(nhaCungCap.getSanPhamCungCap().equals("Sách")){
@@ -169,7 +175,7 @@ public class CellSach extends javax.swing.JPanel {
         kiemTraSo(txtSoTrang);
         kiemTraSo(txtSoLuongTon);
         kiemTraSo(txtNamXuatBan);
-        tacGia_DAO = new TacGia_DAO();
+        tacGia_DAO = new TacGiaDAO_IMP();
         tacGia_DAO.generateTacGia();
         System.out.println(tacGia_DAO.generateTacGia());
         
@@ -387,7 +393,7 @@ public class CellSach extends javax.swing.JPanel {
          txtNamXuatBan.setVisible(a);
     }
   private void dataTheLoai(JComboBox combo) {
-    	theLoai_DAO = new TheLoai_DAO();
+    	theLoai_DAO = new TheLoaiDAO_IMP();
     	ArrayList<TheLoai> dstl = theLoai_DAO.layDanhSachTheLoai();
     
     	String[] tenTheLoaiArray = new String[dstl.size()];
@@ -401,7 +407,7 @@ public class CellSach extends javax.swing.JPanel {
     }
     
     private void testData(JComboBox combo) {
-    	tacGia_DAO = new TacGia_DAO();
+    	tacGia_DAO = new TacGiaDAO_IMP();
     	ArrayList<TacGia> dstg = tacGia_DAO.layDanhSachTacGia();
     	String[] tacGiaArray = new String[dstg.size()];
     	for (int i = 0; i < dstg.size(); i++) {
@@ -453,7 +459,7 @@ public class CellSach extends javax.swing.JPanel {
       txtGiaBan.setText(sach.getDonGia()+"");
       txtSoLuongTon.setText(sach.getSoLuongTon()+"");
       
-      nhaXuatBan_DAO = new NhaXuatBan_DAO();
+      nhaXuatBan_DAO = new NhaXuatBanDAO_IMP();
       
       cboNhaXuatBan.setSelectedItem(lblNhaXuatBan1.getText());
  
@@ -662,13 +668,15 @@ public class CellSach extends javax.swing.JPanel {
     private void btnNgungKinhDoanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNgungKinhDoanhActionPerformed
         // TODO add your handling code here:
      
-        sach_DAO = new Sach_DAO();
+        SanPham_DAO sanPham_DAO = new SanPhamDAO_IMP();
         int hoiNhac = JOptionPane.showConfirmDialog(this, "Sản phẩm "+lblMaSanPham1.getText()+" có muốn ngừng kinh doanh không?", "Thông báo", JOptionPane.YES_NO_OPTION);
             if(hoiNhac == JOptionPane.YES_OPTION){
                    
                     lblTinhTrang1.setText("Ngừng kinh doanh");
                     ngungKinhDoanh();
-                  if(sach_DAO.updateTinhTrang(sach.getMaSanPham(), lblTinhTrang1.getText())){ 
+//                    updateTinhTrang(sach.getMaSanPham(), lblTinhTrang1.getText()
+                  if(sanPham_DAO.updateTinhTrang(sach.getMaSanPham(), lblTinhTrang1.getText())){ 
+                	         JOptionPane.showMessageDialog(this, "Sản phẩm "+lblMaSanPham1.getText());
             }
        
         }
@@ -739,7 +747,7 @@ public class CellSach extends javax.swing.JPanel {
         String tinhTrang = lblTinhTrang1.getText();
         String nhaXuatBanDuocChon = nhaXuatBan;
         
-        nhaXuatBan_DAO = new NhaXuatBan_DAO();
+        nhaXuatBan_DAO = new NhaXuatBanDAO_IMP();
         
         ArrayList<NhaXuatBan> dsnxb = nhaXuatBan_DAO.layDanhSachNhaXuatBan();
         for (NhaXuatBan nhaXuatBan1 : dsnxb) {
@@ -752,7 +760,7 @@ public class CellSach extends javax.swing.JPanel {
          NhaXuatBan nxb = new NhaXuatBan(nhaXuatBan);
         
         String nhaCungCapDuocChon = "";
-        nhaCungCap_DAO = new NhaCungCap_DAO();
+        nhaCungCap_DAO = new NhaCungCapDAO_IMP();
        ArrayList<NhaCungCap> dsncc = nhaCungCap_DAO.layDanhSachNhaCungCap();
        String nhaCungCap_Sua = "";
         for (NhaCungCap nhaCungCap : dsncc) {
@@ -957,12 +965,12 @@ public class FrmSuaAnhSua extends javax.swing.JFrame {
     }   
       private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
-        sach_DAO = new Sach_DAO();
+        sach_DAO = new SachDAO_IMP();
         String hinhAnh = selectedFile.getAbsolutePath();
         sach.setHinhAnh(hinhAnh);
         sach.setNgonNgu(cboNgonNgu.getSelectedItem()+"");
         sach.setMoTa(taxMoTa.getText());
-        if( sach_DAO.updateSachNgonNguMoTa(sach)){
+        if( sach_DAO.updateSachNgonNguMoTa(sach.getMaSanPham(),sach.getNgonNgu(), hinhAnh)){
             JOptionPane.showMessageDialog(this, "Cập nhật thành công");
            BufferedImage b;
                     try {
@@ -1089,9 +1097,10 @@ public class FrmSuaAnhSua extends javax.swing.JFrame {
              lblTinhTrang1.setText("Hết hàng");
         }
         setBackground(new Color(255,255,255));
-        sach_DAO = new Sach_DAO();
+        SanPham_DAO sanPham_DAO = new SanPhamDAO_IMP();
         System.out.println(sach.getMaSanPham());
-        if(sach_DAO.updateTinhTrang(sach.getMaSanPham(), lblTinhTrang1.getText())){
+        
+        if(sanPham_DAO.updateTinhTrang(sach.getMaSanPham(), lblTinhTrang1.getText())){
             JOptionPane.showMessageDialog(this, "Bán lại sản phẩm");
         }
     }//GEN-LAST:event_btnBanLaiActionPerformed

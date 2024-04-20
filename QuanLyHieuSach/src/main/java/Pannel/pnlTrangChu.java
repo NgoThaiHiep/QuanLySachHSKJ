@@ -40,7 +40,7 @@ public class pnlTrangChu extends javax.swing.JPanel {
         init();
         
         try {
-            selectedFile =new File("src\\IMG\\anhTrangChu.png");
+            selectedFile =new File("src\\main\\java\\IMG\\anhTrangChu.png");
             BufferedImage image = ImageIO.read(selectedFile); // Thay đổi đường dẫn đến ảnh
             
             // thay đổi kích thức ảnh cùng kích thước với lable 184x216

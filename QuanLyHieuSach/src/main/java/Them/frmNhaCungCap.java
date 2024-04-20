@@ -2,16 +2,14 @@
 package Them;
 
 import DAO.NhaCungCap_DAO;
-import DAO.TheLoai_DAO;
-import Entity.NhaCungCap;
-import Entity.TheLoai;
+import DAO_IMP.NhaCungCapDAO_IMP;
+import entity.NhaCungCap;
 import static Pannel.pnlTraCuuNhanVien.readExcel_City;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +23,6 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -36,7 +33,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class frmNhaCungCap extends javax.swing.JFrame {
 
-    private TheLoai_DAO theLoai_DAO;
     private String tp = "Tỉnh/Thành phố";
     private String q = "Quận/huyện";
     private String cboDiaChi = "";
@@ -49,13 +45,10 @@ public class frmNhaCungCap extends javax.swing.JFrame {
      */
     public frmNhaCungCap() {
         initComponents();
-        theLoai_DAO = new  TheLoai_DAO();
-        nhaCungCap_DAO = new NhaCungCap_DAO();
-        try {
+        nhaCungCap_DAO = new NhaCungCapDAO_IMP();
+    
                 lblMaNhaCungCapp1.setText( nhaCungCap_DAO.generateNhaCungCap());
-            } catch (SQLException ex) {
-                Logger.getLogger(frmNhaCungCap.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
            
         try {
             cities = readExcel_City();
@@ -340,15 +333,13 @@ private void duLieuSDT(){
         // TheLoai theLoai = new TheLoai(maTheLoai, tenTheLoai);
         NhaCungCap nhaCungCap = new NhaCungCap(maTheLoai, tenTheLoai, sanPhamCungCap, diaChi, soDienThoai, email);
 
-        nhaCungCap_DAO = new NhaCungCap_DAO();
+        nhaCungCap_DAO = new NhaCungCapDAO_IMP();
 
         if(nhaCungCap_DAO.InsertNhaCungCap(nhaCungCap)){
             lamMoiDuLieu();
-            try {
+           
                 lblMaNhaCungCapp1.setText( nhaCungCap_DAO.generateNhaCungCap());
-            } catch (SQLException ex) {
-                Logger.getLogger(frmNhaCungCap.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           
 
             JOptionPane.showMessageDialog(this, "Thêm thành công nhà cung cấp");
         }
@@ -361,7 +352,7 @@ private void duLieuSDT(){
 
     private void cboQuanHuyenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboQuanHuyenActionPerformed
         // TODO add your handling code here:
-        String t = cboQuanHuyen.getSelectedItem()+"";
+//        String t = cboQuanHuyen.getSelectedItem()+"";
 
         cboQuanHuyen.addItem(q);
         // System.out.println(districtComboBox.getSelectedItem()+"");
@@ -457,8 +448,8 @@ private void duLieuSDT(){
                     //Đọc file từ Sheet 1 (bắt đầu từ số 0)
                     XSSFSheet sheet = wb.getSheetAt(0);
                     //Lấy các giá trị trong các cột
-                    FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
-                    int v = 0;
+//                    FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//                    int v = 0;
                     for(Row row:sheet) {
                             
                         if(row.getCell(1) !=null ) {
@@ -482,7 +473,7 @@ private void duLieuSDT(){
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
 		XSSFSheet sheet = wb.getSheetAt(0);
 		//Lấy các giá trị trong các cột
-		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
 		//Duyệt các row
                 
 		int v = 0;
@@ -517,7 +508,7 @@ private void duLieuSDT(){
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
 		XSSFSheet sheet = wb.getSheetAt(0);
 		//Lấy các giá trị trong các cột
-		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
 		//Duyệt các row
 		int v = 0;
                

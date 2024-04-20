@@ -3,15 +3,13 @@ package Them;
 
 import DAO.HangCho_DAO;
 import DAO.KhachHang_DAO;
-import Entity.HangCho;
-import Entity.KhachHang;
-import Entity.NhanVien;
-import java.sql.SQLException;
+import DAO_IMP.HangChoDAO_IMP;
+import DAO_IMP.KhachHangDAO_IMP;
+import entity.HangCho;
+import entity.KhachHang;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -23,7 +21,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class frmHangCho1 extends javax.swing.JFrame {
 
-    private KhachHang_DAO khachHang_DAO;
+    private static final long serialVersionUID = 1L;
+	private KhachHang_DAO khachHang_DAO;
     private HangCho_DAO hangCho_DAO;
 
     /**
@@ -38,8 +37,8 @@ public class frmHangCho1 extends javax.swing.JFrame {
     public void capNhatDanhSachHangCho(){
     String colTieuDe1[] = new String[]{"STT", "Mã Khách Hàng", "Tên khách hàng", "Số điện thoại"};
     DefaultTableModel model = new DefaultTableModel(colTieuDe1, 0);
-    hangCho_DAO = new HangCho_DAO();
-    khachHang_DAO = new KhachHang_DAO();
+    hangCho_DAO = new HangChoDAO_IMP();
+    khachHang_DAO = new KhachHangDAO_IMP();
     ArrayList<HangCho> dsHangCho = hangCho_DAO.layDanhSachHangCho();
     Object[] row;
 
@@ -52,7 +51,7 @@ public class frmHangCho1 extends javax.swing.JFrame {
             count++;
             row[0] = count;
             row[1] = khachHang;
-            KhachHang dsKhachHang = khachHang_DAO.layThongTinKhachHang_TheoMa(khachHang);
+            KhachHang dsKhachHang = khachHang_DAO.layThongTinKhachHang_TheoMaKH(khachHang);
             row[2] = dsKhachHang.getTenKhachHang();
             row[3] = dsKhachHang.getSoDienThoai();
             model.addRow(row);
@@ -63,8 +62,8 @@ public class frmHangCho1 extends javax.swing.JFrame {
     public void capNhatDanhSachKhachHangTheoMa_HangCho(String sdt){
     String colTieuDe1[] = new String[]{"STT", "Mã Khách Hàng", "Tên khách hàng", "Số điện thoại"};
     DefaultTableModel model = new DefaultTableModel(colTieuDe1, 0);
-    hangCho_DAO = new HangCho_DAO();
-    khachHang_DAO = new KhachHang_DAO();
+    hangCho_DAO = new HangChoDAO_IMP();
+    khachHang_DAO = new KhachHangDAO_IMP();
     ArrayList<HangCho> dsHangCho = hangCho_DAO.layDanhSachHangCho();
     Object[] row;
     int count = 0;
@@ -73,10 +72,10 @@ public class frmHangCho1 extends javax.swing.JFrame {
     row = new Object[12];
     String khachHang = hangCho.getKhachHang().getMaKhachHang();
         if (!maKhachHangSet.contains(khachHang)) { // Kiểm tra xem mã khách hàng đã xuất hiện chưa
-        try {
-            ArrayList<KhachHang> dsKhachHangSoDienThoai = khachHang_DAO.layDanhSachTheoMaSach_TheoSoDienThoai(sdt);
-            for (KhachHang khachHang1 : dsKhachHangSoDienThoai) {
-                if(khachHang1.getMaKhachHang().equals(hangCho.getKhachHang().getMaKhachHang())){
+      
+            KhachHang khachHang1 = khachHang_DAO.layThongTinKhachHang(sdt);
+           
+                if(khachHang1.getMaKhachHang() .equals(hangCho.getKhachHang().getMaKhachHang())){
                     maKhachHangSet.add(khachHang); // Thêm mã khách hàng vào Set
                     count++;
                     row[0] = count;
@@ -85,10 +84,7 @@ public class frmHangCho1 extends javax.swing.JFrame {
                     row[3] = khachHang1.getSoDienThoai();
                     model.addRow(row);
                 }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(frmHangCho1.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      
         }
     }
     tblHangCho.setModel(model);
