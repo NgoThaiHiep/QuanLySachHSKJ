@@ -1,8 +1,8 @@
 
 package Pannel;
 
-import Entity.NhanVien;
-import Entity.TaiKhoan;
+import entity.NhanVien;
+import entity.TaiKhoan;
 import java.awt.Color;
 import java.io.IOException;
 import java.sql.SQLException;

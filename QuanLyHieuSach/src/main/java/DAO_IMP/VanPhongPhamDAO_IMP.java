@@ -1,5 +1,8 @@
 package DAO_IMP;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import DAO.VanPhongPham_DAO;
 import entity.Sach;
 import entity.SanPham;
@@ -82,6 +85,15 @@ public class VanPhongPhamDAO_IMP implements VanPhongPham_DAO {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
+	@Override
+	public List<VanPhongPham> layDanhSanPhamVanPhongPham_TheoMa(String maVanPhongPham) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<VanPhongPham> layDanhSanPhamVanPhongPham() {
+		
+		return em.createNamedQuery("VanPhongPham.findAll", VanPhongPham.class)
+                .getResultList();
+	}
 }

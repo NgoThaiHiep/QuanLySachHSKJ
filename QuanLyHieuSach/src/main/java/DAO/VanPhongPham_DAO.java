@@ -2,6 +2,9 @@ package DAO;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import entity.Sach;
 import entity.VanPhongPham;
 
@@ -18,4 +21,6 @@ public interface VanPhongPham_DAO {
 	public String generateMaVanPhongPham();
 	
 	public boolean kiemTraMaVanPhongPham(String code) ;
+	public List<VanPhongPham> layDanhSanPhamVanPhongPham_TheoMa(String maVanPhongPham);
+	public List<VanPhongPham> layDanhSanPhamVanPhongPham();
 }

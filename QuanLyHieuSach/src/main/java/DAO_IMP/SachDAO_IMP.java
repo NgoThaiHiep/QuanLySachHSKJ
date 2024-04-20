@@ -1,6 +1,8 @@
 package DAO_IMP;
 
 
+import java.util.List;
+
 import DAO.Sach_DAO;
 import entity.Sach;
 import entity.SanPham;
@@ -103,6 +105,20 @@ public class SachDAO_IMP implements Sach_DAO{
 			tx.rollback();
 		}
 		return false;
+	}
+
+
+	@Override
+	public List<Sach> layDanhSachSanPhamSach() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Sach> layDanhSachTheoMaSach(String maSach) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

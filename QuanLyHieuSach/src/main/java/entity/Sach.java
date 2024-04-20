@@ -1,6 +1,7 @@
  
 package entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -22,7 +23,7 @@ public class Sach extends SanPham{
 	@JoinTable(name = "Sach_TacGia",
 		joinColumns  = @JoinColumn(name = "SachID"),
 		inverseJoinColumns = @JoinColumn(name = "TacGiaID"))
-    private Set<TacGia> tacGia ;
+        private Set<TacGia> tacGia;
 	
     private int namXuatBan ;
     private  int soTrang ;
@@ -50,7 +51,6 @@ public class Sach extends SanPham{
 		this.nhaXuatBan = nhaXuatBan;
 		this.ngonNgu = ngonNgu;
 	}
-
 
 	
     
@@ -82,16 +82,9 @@ public class Sach extends SanPham{
 	}
 
 
-
-
-
 	public void setTheLoai(Set<TheLoai> theLoai) {
 		this.theLoai = theLoai;
 	}
-
-
-
-
 
 	public int getNamXuatBan() {
         return namXuatBan;

@@ -2,11 +2,16 @@
 package Pannel;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
+
 import DAO.NhanVien_DAO;
 import DAO.Sach_DAO;
-import Entity.Sach;
+import DAO_IMP.NhanVienDAO_IMP;
+import DAO_IMP.SachDAO_IMP;
 import ServiceUser.CellSach;
 import ServiceUser.ScrollBarCustom;
+import entity.Sach;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
@@ -238,11 +243,12 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
  private JPanel createPanels() throws IOException {
         JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));	
-        sach_DAO = new Sach_DAO();
-        nhanVien_DAO = new NhanVien_DAO();
-        ArrayList<Sach> dssps = sach_DAO.layDanhSanPhamSach();
+        sach_DAO = new SachDAO_IMP();
+        nhanVien_DAO = new NhanVienDAO_IMP();
+        List<Sach> dssps = sach_DAO.layDanhSachSanPhamSach();
         for (Sach sach : dssps) { 
             try {
+            	
                 JPanel newPanel = new CellSach(sach);
                 newPanel.setPreferredSize(new Dimension(newPanel.getWidth(), PANEL_HEIGHT));
                 newPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, PANEL_HEIGHT)); // Ensure the panel doesn't expand horizontally
@@ -261,9 +267,9 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
         JPanel containerPanel = new JPanel();
         containerPanel.removeAll();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));	
-        sach_DAO = new Sach_DAO();
-        nhanVien_DAO = new NhanVien_DAO();
-        ArrayList<Sach> dssps = sach_DAO.layDanhSachTheoMaSach(maSach);
+        sach_DAO = new SachDAO_IMP();
+        nhanVien_DAO = new NhanVienDAO_IMP();
+        List<Sach> dssps = sach_DAO.layDanhSachTheoMaSach(maSach);
         for (Sach sach : dssps) {     
             try {
                 JPanel newPanel = new CellSach(sach);

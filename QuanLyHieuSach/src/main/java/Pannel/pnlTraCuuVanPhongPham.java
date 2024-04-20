@@ -11,12 +11,14 @@ import javax.swing.JComboBox;
 import DAO.NhanVien_DAO;
 import DAO.Sach_DAO;
 import DAO.VanPhongPham_DAO;
-import Entity.LoaiSanPham;
-import Entity.NhaCungCap;
-import Entity.NhaXuatBan;
-import Entity.Sach;
-import Entity.TheLoai;
-import Entity.VanPhongPham;
+import DAO_IMP.NhanVienDAO_IMP;
+import DAO_IMP.VanPhongPhamDAO_IMP;
+import entity.LoaiSanPham;
+import entity.NhaCungCap;
+import entity.NhaXuatBan;
+import entity.Sach;
+import entity.TheLoai;
+import entity.VanPhongPham;
 import ServiceUser.CellSach;
 import ServiceUser.CellVanPhongPham;
 import ServiceUser.ScrollBarCustom;
@@ -54,9 +56,9 @@ public class pnlTraCuuVanPhongPham extends javax.swing.JPanel {
         containerPanel.removeAll();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));	
         //sach_DAO = new Sach_DAO();
-        vanPhongPham_DAO = new VanPhongPham_DAO();
-        nhanVien_DAO = new NhanVien_DAO();
-        ArrayList<VanPhongPham> dssps = vanPhongPham_DAO.layDanhSanPhamVanPhongPham_TheoMa(maVanPhongPham);
+        vanPhongPham_DAO = new VanPhongPhamDAO_IMP();
+        nhanVien_DAO = new NhanVienDAO_IMP();
+        List<VanPhongPham> dssps = vanPhongPham_DAO.layDanhSanPhamVanPhongPham_TheoMa(maVanPhongPham);
         for (VanPhongPham vanPhongPham : dssps) {   
              System.out.println(vanPhongPham);
             JPanel newPanel = new CellVanPhongPham(vanPhongPham); // ArrayList<NhanVien> dsnv=nhanVien_DAO.layDanhSachNhanVien();
@@ -311,11 +313,11 @@ public class pnlTraCuuVanPhongPham extends javax.swing.JPanel {
         JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));	
        // sach_DAO = new Sach_DAO();
-       vanPhongPham_DAO = new VanPhongPham_DAO();
+       vanPhongPham_DAO = new VanPhongPhamDAO_IMP();
        
-        nhanVien_DAO = new NhanVien_DAO();
+        nhanVien_DAO = new NhanVienDAO_IMP();
         //ArrayList<Sach> dssps = sach_DAO.layDanhSanPhamSach();
-        ArrayList<VanPhongPham> dsvpp = vanPhongPham_DAO.layDanhSanPhamVanPhongPham();
+        List<VanPhongPham> dsvpp = vanPhongPham_DAO.layDanhSanPhamVanPhongPham();
         for (VanPhongPham vanPhongPham : dsvpp) {
            
 	       	JPanel newPanel = new CellVanPhongPham(vanPhongPham);

@@ -5,12 +5,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 /**
  *
  * @author ThaiHiep
  */
+@NamedQueries({
+	@NamedQuery(name = "VanPhongPham.findAll", query = "SELECT v FROM VanPhongPham v")
+})
 @Entity
 @Table(name = "VanPhongPham")
 public class VanPhongPham extends SanPham{
