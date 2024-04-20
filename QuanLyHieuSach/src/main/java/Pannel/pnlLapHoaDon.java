@@ -14,6 +14,9 @@ import DAO_IMP.ChiTietHoaDonDAO_IMP;
 import DAO_IMP.HangChoDAO_IMP;
 import DAO_IMP.HoaDonDAO_IMP;
 import DAO_IMP.KhachHangDAO_IMP;
+import DAO_IMP.KhuyenMaiThanhToanDAO_IMP;
+import DAO_IMP.QuyDinhDAO_IMP;
+import DAO_IMP.SachDAO_IMP;
 import DAO_IMP.SanPhamDAO_IMP;
 import entity.ChiTietHoaDon;
 import entity.HangCho;
@@ -141,7 +144,7 @@ public class pnlLapHoaDon extends javax.swing.JPanel {
 	String formattedDate = null;
         try {
            formattedDate = hoaDon_DAO.generateHoaDon(nv);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(pnlLapHoaDon.class.getName()).log(Level.SEVERE, null, ex);
         }
         lblMaHoaDonFont.setText(formattedDate);
@@ -168,15 +171,19 @@ public class pnlLapHoaDon extends javax.swing.JPanel {
         kiemTraSoTienTraLai();
         capNhatDanhSach_TheoMa(txtTimKiemMaSanPham);
        // lblTenNhanVien.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        
-        quyDinh_DAO = new QuyDinh_DAO();
-        QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
-
-        lblTongTienThanhToan.setText("Tổng tiền thanh toán (đã gồm VAT "+quyDinh.getVAT() + " %) :");
+        QuyDinh qd = new QuyDinh();
+        quyDinh_DAO = new QuyDinhDAO_IMP();
+        List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+		for (QuyDinh quyDinh1 : quyDinh) {
+			qd.setSoLuongToiThieu(quyDinh1.getSoLuongToiThieu());
+			qd.setSoLuongToiDa(quyDinh1.getSoLuongToiDa());
+			qd.setVAT(quyDinh1.getVAT());
+		}
+        lblTongTienThanhToan.setText("Tổng tiền thanh toán (đã gồm VAT "+ qd.getVAT() + " %) :");
         kiemTraDuLieuFloat( txtTienKhachDua);
         kiemTraDuLieuFloat(txtSoLuong);
         theoDoiThayDoiTien();
-        sach_DAO = new Sach_DAO();
+        sach_DAO = new SachDAO_IMP();
        
       
     }
@@ -450,7 +457,7 @@ public void inHoaDon() throws JRException {
             int tien = Integer.parseInt(phanTruocDauCham );
             cboKhuyenMai.removeAllItems();
             cboKhuyenMai.addItem("Không áp mã");
-            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO();
+            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
             ArrayList<KhuyenMaiThanhToan> dsKhuyenMai_GiaTien = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_GiaTien();
             for (KhuyenMaiThanhToan khuyenMaiThanhToan1 : dsKhuyenMai_GiaTien) {
                 if(tien >= khuyenMaiThanhToan1.getGiaTriToiThieuDonHang() && khuyenMaiThanhToan1.getTinhTrang().equals("Đang khuyến mãi") && khuyenMaiThanhToan1.getSoLuong() > 0){    
@@ -1299,7 +1306,7 @@ public void inHoaDon() throws JRException {
                     model.addRow(row);
                 }
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(frmHangCho.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
@@ -1551,7 +1558,7 @@ public void inHoaDon() throws JRException {
             }else{
               kh =   khachHang_DAO.layThongTinKhachHang(txtSoDienThoai.getText());
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(pnlLapHoaDon.class.getName()).log(Level.SEVERE, null, ex);
         }
         LocalDate localDate = LocalDate.now();
@@ -1674,7 +1681,7 @@ public void inHoaDon() throws JRException {
 
         Object selectedItem = cboKhuyenMai.getSelectedItem();
         if (selectedItem != null && !selectedItem.equals("Không áp mã")) {
-            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
             ArrayList<KhuyenMaiThanhToan> dsKhuyenMai_GiaTien = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_GiaTien();
             for (KhuyenMaiThanhToan khuyenMaiThanhToan1 : dsKhuyenMai_GiaTien) {
                 if(cboKhuyenMai.getSelectedItem().equals(khuyenMaiThanhToan1.getMaKhuyenMai())){
@@ -1698,7 +1705,7 @@ public void inHoaDon() throws JRException {
             }else{
                 kh = khachHang_DAO.layThongTinKhachHang(txtSoDienThoai.getText());
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(pnlLapHoaDon.class.getName()).log(Level.SEVERE, null, ex);
         }
         LocalDate localDate = LocalDate.now();
@@ -1728,11 +1735,11 @@ public void inHoaDon() throws JRException {
                             
                             String txtTienTraLaiKyTu = lblTienTraLaiKyTu.getText().replaceAll("[^\\d.]+", "");
                             double tienTraLai = Double.parseDouble(txtTienTraLaiKyTu);
+                            QuyDinh qd = new QuyDinh();
+                            quyDinh_DAO = new QuyDinhDAO_IMP();
+                            List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
                             
-                            quyDinh_DAO = new QuyDinh_DAO();
-                            QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
-                            
-                            HoaDon hoaDon = new HoaDon(lblMaHoaDonFont.getText(), localDate, nv, kh,soTienKhachDua,giaBan,tongTienSanPham ,quyDinh.getVAT(),tienTraLai);
+                            HoaDon hoaDon = new HoaDon(lblMaHoaDonFont.getText(), localDate, nv, kh,soTienKhachDua,giaBan,tongTienSanPham ,qd.getVAT(),tienTraLai);
                     hoaDon_DAO = new HoaDonDAO_IMP();
                     hoaDon_DAO.InsertHoaDon(hoaDon);
 
@@ -1779,11 +1786,7 @@ public void inHoaDon() throws JRException {
             }
         String formattedDate = null;
        
-        try {
-           formattedDate = hoaDon_DAO.generateHoaDon(nv);
-        } catch (SQLException ex) {
-            Logger.getLogger(pnlLapHoaDon.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        formattedDate = hoaDon_DAO.generateHoaDon(nv);
         lblMaHoaDonFont.setText(formattedDate);
         lblMaHoaDonFont.setFont(new java.awt.Font("Times New Roman", Font.BOLD, 15)); 
         
@@ -1844,14 +1847,15 @@ public void inHoaDon() throws JRException {
     }//GEN-LAST:event_btnDanhSachHangChoActionPerformed
 
     private void cboKhuyenMaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboKhuyenMaiActionPerformed
-        quyDinh_DAO = new QuyDinh_DAO();
-        QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+        quyDinh_DAO = new QuyDinhDAO_IMP();
+        QuyDinh qd = new QuyDinh();
+        List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
         
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         
         Object selectedItem = cboKhuyenMai.getSelectedItem();
         if (selectedItem != null && !selectedItem.equals("Không áp mã")) {
-            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToan_DAO();
+            khuyenMaiThanhToan_DAO = new KhuyenMaiThanhToanDAO_IMP();
             ArrayList<KhuyenMaiThanhToan> dsKhuyenMai_GiaTien = khuyenMaiThanhToan_DAO.layDanhSachKhuyenMai_GiaTien();
             for (KhuyenMaiThanhToan khuyenMaiThanhToan1 : dsKhuyenMai_GiaTien) {
                 if(cboKhuyenMai.getSelectedItem().equals(khuyenMaiThanhToan1.getMaKhuyenMai())){
@@ -1861,7 +1865,7 @@ public void inHoaDon() throws JRException {
                     double giaBanKhuyenMai = (double) khuyenMaiThanhToan1.getSoTienGiam();
                     
                     
-                    double tongHoaDon = ((giaBan - giaBanKhuyenMai)* quyDinh.getVAT()/100) + (giaBan - giaBanKhuyenMai);
+                    double tongHoaDon = ((giaBan - giaBanKhuyenMai)* qd.getVAT()/100) + (giaBan - giaBanKhuyenMai);
                     
                     if(tongHoaDon <=0){
                         String formattedTongTien = decimalFormat.format( 0);
@@ -1884,7 +1888,7 @@ public void inHoaDon() throws JRException {
                         double giaBan = Double.parseDouble(priceWithoutCurrency);
                       
                         double giaKhuyenMai = giaBan * khuyenMaiThanhToan1.getPhanTramGiam();
-                        double tongHoaDon = ((giaBan - giaKhuyenMai) * quyDinh.getVAT()/100)  + (giaBan - giaKhuyenMai);
+                        double tongHoaDon = ((giaBan - giaKhuyenMai) * qd.getVAT()/100)  + (giaBan - giaKhuyenMai);
                         String formattedTongTien = decimalFormat.format( tongHoaDon );
                         
                         lblTongTienThanhToanKyTu.setText(formattedTongTien+" VND");
@@ -1893,11 +1897,11 @@ public void inHoaDon() throws JRException {
                         double giaBan = Double.parseDouble(priceWithoutCurrency);
                         double giamGiaKhuyenMai = giaBan * khuyenMaiThanhToan1.getPhanTramGiam();
                         if(giamGiaKhuyenMai > khuyenMaiThanhToan1.getGiamToiDa()){
-                            double tongHoaDon = ((giaBan  - khuyenMaiThanhToan1.getGiamToiDa())* quyDinh.getVAT()/100) +giaBan  - khuyenMaiThanhToan1.getGiamToiDa() ;
+                            double tongHoaDon = ((giaBan  - khuyenMaiThanhToan1.getGiamToiDa())* qd.getVAT()/100) +giaBan  - khuyenMaiThanhToan1.getGiamToiDa() ;
                             String formattedTongTien = decimalFormat.format( tongHoaDon );
                             lblTongTienThanhToanKyTu.setText(formattedTongTien+" VND");
                         }else{
-                            double tongHoaDon = ((giaBan  - giamGiaKhuyenMai)* quyDinh.getVAT()/100) +  (giaBan  - giamGiaKhuyenMai);
+                            double tongHoaDon = ((giaBan  - giamGiaKhuyenMai)* qd.getVAT()/100) +  (giaBan  - giamGiaKhuyenMai);
                             String formattedTongTien = decimalFormat.format( tongHoaDon );
                             lblTongTienThanhToanKyTu.setText(formattedTongTien+" VND");
                         }
@@ -1911,7 +1915,7 @@ public void inHoaDon() throws JRException {
             String priceWithoutCurrency = lblTongTien1.getText().replaceAll("[^\\d.]+", "");
             double giaBan = Double.parseDouble(priceWithoutCurrency);
             
-            double tongtien = (giaBan*quyDinh.getVAT()/100) + giaBan ;
+            double tongtien = (giaBan*qd.getVAT()/100) + giaBan ;
             
             String formattedTongTien = decimalFormat.format( tongtien );
             

@@ -4,12 +4,13 @@ package entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+@NamedQueries({
+	@NamedQuery(name = "QuyDinh.findAll", query = "SELECT * FROM QuyDinh qd")
+})
 
-/**
- *
- * @author FPTSHOP
- */
 @Entity
 @Table(name = "QuyDinh")
 
@@ -17,6 +18,7 @@ public class QuyDinh {
 	@Id
 	@Column(name = "SoLuongToiThieu")
     private int soLuongToiThieu;
+	@Column(name = "SoLuongToiDa")
     private int soLuongToiDa;
     private float VAT;
 
@@ -52,7 +54,11 @@ public class QuyDinh {
     public void setVAT(float VAT) {
         this.VAT = VAT;
     }
-    
-    
 
+	@Override
+	public String toString() {
+		return "QuyDinh [soLuongToiThieu=" + soLuongToiThieu + ", soLuongToiDa=" + soLuongToiDa + ", VAT=" + VAT + "]";
+	}
+    
+   
 }
