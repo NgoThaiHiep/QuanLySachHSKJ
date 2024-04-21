@@ -107,7 +107,7 @@ public class pnlThemVanPhongPham extends javax.swing.JPanel {
       public void init(){
                 // Đặt ảnh vào JLabel và thiết lập kích thước bằng với JLabel
         try {
-            selectedFile =new File("src\\IMG\\anhSachMacDinh_daThayDoi.png");
+            selectedFile =new File("src\\main\\java\\IMG\\anhSachMacDinh_daThayDoi.png");
             BufferedImage image = ImageIO.read(selectedFile); // Thay đổi đường dẫn đến ảnh
             
             //thay đổi kích thước ảnh phù hợp vs lable 259x137

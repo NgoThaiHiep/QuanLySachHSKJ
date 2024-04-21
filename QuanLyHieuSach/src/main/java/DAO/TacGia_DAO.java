@@ -9,4 +9,6 @@ public interface TacGia_DAO {
 	public ArrayList<TacGia> layDanhSachTacGia();
 	public boolean InsertTacGia(TacGia tacGia);
 	public String generateTacGia();
+	public TacGia layThongTinTacGiaTheoTen(String tenTacGia) ;
+	public TacGia layThongTinTacGiaTheoMa(String maTacGia);
 }

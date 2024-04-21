@@ -5,24 +5,29 @@ import DAO.LoaiSanPham_DAO;
 import DAO.NhaCungCap_DAO;
 import DAO.NhaXuatBan_DAO;
 import DAO.Sach_DAO;
+import DAO.SanPham_DAO;
 import DAO.TacGia_DAO;
 import DAO.TheLoai_DAO;
 import DAO_IMP.LoaiSanPhamDAO_IMP;
 import DAO_IMP.NhaCungCapDAO_IMP;
 import DAO_IMP.NhaXuatBanDAO_IMP;
 import DAO_IMP.SachDAO_IMP;
+import DAO_IMP.SanPhamDAO_IMP;
 import DAO_IMP.TacGiaDAO_IMP;
 import DAO_IMP.TheLoaiDAO_IMP;
 import entity.LoaiSanPham;
 import entity.NhaCungCap;
 import entity.NhaXuatBan;
 import entity.Sach;
+import entity.SanPham;
 import entity.TacGia;
 import entity.TheLoai;
 import Them.ThemTacGia1;
 import Them.frmNhaCungCap;
 import Them.frmNhaXuatBan;
+import Them.frmThemLoaiVanPhongPham;
 import Them.frmThemTheLoai;
+import Them.ThemTH;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
@@ -47,6 +52,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -78,10 +84,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class pnlThemSach extends javax.swing.JPanel {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
      * Creates new form pnlThemSanPhamSach
      */
     private File selectedFile;
@@ -700,44 +702,7 @@ private static boolean isValidInput(String currentText, String text) {
         String maSach = lblMaSachKyTu.getText();
         String tenSach = txtTenSach.getText();
         
-        List<Object> ItemTacGia = cboTacGia.getSelectedItems();
-        String tacGia = "";
-        int count = 0;
-        for (Object item : ItemTacGia) {
-                 count++;
-        }
-        
-        int countCong = 0;
-        for (Object item : ItemTacGia) {
-          //  System.out.println(item.toString());
-            if(count-1 == countCong)
-            	tacGia+=item.toString();
-            else
-            	tacGia+=item.toString()+",";
-            countCong++;
-        }
-        System.out.println("xx"+ tacGia);
-       
-        TacGia tacGias= new TacGia(tacGia,tacGia);
-         System.out.println("YY" + tacGias);
-        String theLoai= "";
-        
-         List<Object> ItemTheLoai = cboTheLoai.getSelectedItems();
-        int countTheLoai = 0;
-        for (Object item : ItemTheLoai) {
-                 countTheLoai++;
-         }
-        int countCongTheLoai = 0;
-        for (Object item : ItemTheLoai) {
-          //  System.out.println(item.toString());
-            if(countTheLoai-1 == countCongTheLoai)
-            	theLoai+=item.toString();
-            else
-            	theLoai+=item.toString()+",";
-            countCongTheLoai++;
-        }
-        
-        TheLoai tl = new TheLoai(theLoai);
+         
          String stringSoTrang = txtSoTrang.getText().replaceAll(",", "");
 	     // Chuyển đổi thành số
 	     int soTrang = Integer.parseInt(stringSoTrang);
@@ -789,7 +754,7 @@ private static boolean isValidInput(String currentText, String text) {
         LoaiSanPham loaiSanPham = new LoaiSanPham( loaiSanPham_l);
         
         
-        int namXuatBan = Integer.parseInt(txtNamXuatBan.getText());
+        int namXuatBan =Integer.parseInt( txtNamXuatBan.getText());
         String hinhAnh = selectedFile.getAbsolutePath();
         String tinhTrang = "";
         
@@ -804,12 +769,37 @@ private static boolean isValidInput(String currentText, String text) {
         }
         
         
-        Sach sach = new Sach(maSach, tenSach, loaiSanPham, ncc, SoLuongTon, giaBan, "", tinhTrang, hinhAnh, namXuatBan, soTrang, nxb, "");
+        Sach sach = new Sach(maSach, tenSach, loaiSanPham, ncc, 
+        		SoLuongTon, giaBan, "", tinhTrang, hinhAnh, namXuatBan, soTrang, nxb, "");
+        sach_DAO = new SachDAO_IMP();
         
-		sach_DAO = new SachDAO_IMP();
-        
-		
         if(sach_DAO.insertSach(sach)){
+        	List<Object> ItemTacGia = cboTacGia.getSelectedItems();
+//          String tacGia = "";
+//          int count = 0;
+//          for (Object item : ItemTacGia) {
+//                   count++;
+//          }
+//          
+//          int countCong = 0;
+          
+//          for (Object item : ItemTacGia) {
+//            //  System.out.println(item.toString());
+//          	TacGia_DAO  tacGia_DAO = new TacGiaDAO_IMP();
+//      		TacGia tg = new TacGia();
+//      		System.out.println(item.toString());
+//      		tg = tacGia_DAO.layThongTinTacGia(item.toString());
+//      		System.out.println(tg);
+      		sach_DAO = new SachDAO_IMP();
+  			sach_DAO.insertGroupTacGia(maSach, ItemTacGia);
+  			
+//          }
+          List<Object> ItemTheLoai = cboTheLoai.getSelectedItems();
+  		
+          sach_DAO = new SachDAO_IMP();
+  			sach_DAO.insertGroupTheLoai(maSach,  ItemTheLoai);
+  		
+          
             JOptionPane.showMessageDialog(this, "Thêm sách thành công");
             lamMoiDuLieu();
             try {
@@ -817,9 +807,10 @@ private static boolean isValidInput(String currentText, String text) {
             } catch (SQLException ex) {
                 Logger.getLogger(pnlThemSach.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
         
-        
+		
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -983,7 +974,7 @@ private static boolean isValidInput(String currentText, String text) {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        selectedFile2 = new File("src\\data");
+        selectedFile2 = new File("src\\main\\java\\data");
 
        System.out.println("Before opening Excel file");
 
@@ -1009,38 +1000,69 @@ private static boolean isValidInput(String currentText, String text) {
                 iterator.next();
             }
 
-            Sach_DAO sach = new SachDAO_IMP();
+            Sach_DAO sach_DAO = new SachDAO_IMP();
 
             while (iterator.hasNext()) {
                 Row currentRow = iterator.next();
 
                 try {
-                    String maSach = sach.generateMaSach().toString();
-                    System.out.println(maSach);
+                    
+                    
                     String tenSach = currentRow.getCell(0).getStringCellValue();
                     System.out.println(tenSach);
-                    double donGia = currentRow.getCell(1).getNumericCellValue();
-                    System.out.println(donGia);
-                    String nhaCCS = currentRow.getCell(2).getStringCellValue();
-                    NhaCungCap nhaCC = new NhaCungCap(nhaCCS);
-                    System.out.println(nhaCCS);
-                    String theLoaiS = currentRow.getCell(3).getStringCellValue();
-                    TheLoai theLoai = (theLoaiS != null) ? new TheLoai(theLoaiS) : new TheLoai("DefaultTheLoai");
-                    System.out.println(theLoaiS);
-                    String tacGiaString = currentRow.getCell(4).getStringCellValue();
-                    TacGia tacGia = new TacGia("", tacGiaString);
-                    System.out.println(tacGiaString);
-                    String nhaXBS = currentRow.getCell(5).getStringCellValue();
-                    NhaXuatBan nhaXB = new NhaXuatBan(nhaXBS);
-                    System.out.println(nhaXBS);
-                    int namSX = (int) currentRow.getCell(6).getNumericCellValue();
-                    int soTrang = (int) currentRow.getCell(7).getNumericCellValue();
-                    int soLuongTon = (int) currentRow.getCell(8).getNumericCellValue();
-                    LoaiSanPham lsp = new LoaiSanPham("LSP000001");
-//                    Sach s = new Sach(tacGia, namSX, soTrang, theLoai, nhaXB, maSach, tenSach, lsp, nhaCC, soLuongTon, donGia, " ", "Còn hàng", "\\src\\IMG\\khongCoAnh.png", "");
-                    Sach s = new Sach(maSach, tenSach, lsp, nhaCC, soLuongTon, donGia, "", "Còn hàng", "\\src\\IMG\\khongCoAnh.png", namSX, soTrang, nhaXB, "");
-                    // Now you have the data, you can add it to your system
-                    sach.insertSach(s);
+					if (sach_DAO.layThongTinSach(tenSach) == null) {
+						String maSach = sach_DAO.generateMaSach().toString();
+	                    System.out.println(maSach);
+						 	int namSX = (int) currentRow.getCell(6).getNumericCellValue();
+		                    int soTrang = (int) currentRow.getCell(7).getNumericCellValue();
+		                    int soLuongTon = (int) currentRow.getCell(8).getNumericCellValue();
+		                    double donGia = currentRow.getCell(1).getNumericCellValue();
+		                    System.out.println(donGia);
+		                    String nhaCCS = currentRow.getCell(2).getStringCellValue();
+		                    NhaCungCap nhaCC = new NhaCungCap(nhaCCS);
+		                    System.out.println(nhaCCS);
+		                    String theLoaiS = currentRow.getCell(3).getStringCellValue();
+		                    TheLoai theLoai = new TheLoai();
+		                    theLoai_DAO = new TheLoaiDAO_IMP();
+		                    if(theLoai_DAO.layThongTinTheLoaiTen(theLoaiS) == null) {
+		                    	theLoai.setMaTheLoai(theLoai_DAO.generateTheLoai());
+		                    	theLoai.setTenTheLoai(theLoaiS);
+		                    	theLoai_DAO.InsertTheLoai(theLoai);
+		                    }		
+		                    System.out.println(theLoaiS);
+		                    String tacGiaString = currentRow.getCell(4).getStringCellValue();
+		                    tacGia_DAO = new TacGiaDAO_IMP();
+		                    TacGia tacGia = new TacGia();
+							if (tacGia_DAO.layThongTinTacGiaTheoTen(tacGiaString) == null) {
+								tacGia.setMaTacGia(tacGia_DAO.generateTacGia());
+								tacGia.setTenTacGia(tacGiaString);
+								tacGia_DAO.InsertTacGia(tacGia);
+							}else {
+								
+							}
+		                    System.out.println(tacGiaString);
+		                    
+		                    String nhaXBS = currentRow.getCell(5).getStringCellValue();
+		                    NhaXuatBan nhaXB = new NhaXuatBan(nhaXBS);
+		                    System.out.println(nhaXBS);
+		                   
+		                    LoaiSanPham lsp = new LoaiSanPham("LSP000001");
+		                    Sach s = new Sach(maSach, tenSach, lsp, nhaCC, soLuongTon, donGia, "", "", "", namSX, soTrang, nhaXB, "") ;
+		                    // Now you have the data, you can add it to your system
+		                    
+		                    sach_DAO.insertSach(s);
+		                    List<Object> ItemTacGia = new ArrayList<>();
+		                    ItemTacGia.add(tacGiaString);
+					}else {
+						
+						SanPham_DAO sanPham_DAO = new SanPhamDAO_IMP();
+						Sach sach = sach_DAO.layThongTinSach(tenSach);
+						int soLuongTon = (int) currentRow.getCell(8).getNumericCellValue();
+						soLuongTon = soLuongTon + sach.getSoLuongTon();
+						sanPham_DAO.updateSoLuong(sach.getMaSanPham(), soLuongTon);
+					}
+                    
+                    
                 } catch (Exception ex) {
                     Logger.getLogger(pnlThemSach.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println("Error during data insertion: " + ex.getMessage());

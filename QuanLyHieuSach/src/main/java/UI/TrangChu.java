@@ -316,7 +316,7 @@ public class TrangChu extends javax.swing.JFrame {
             } else if (index == 1 && subIndex == 2) {
                 showForm(new pnlThemSanPham(tk));
             } else if (index == 2 && subIndex == 1) {
-                showForm(new pnlLapHoaDon11(tk,nv,originalLookAndFeel));
+                showForm(new pnlLapHoaDon11(tk,nv));
             } else if (index == 2 && subIndex == 2) {
                 showForm(new pnlDanhSachHoaDon(tk,nv));
             } else if (index == 3 && subIndex == 1) {

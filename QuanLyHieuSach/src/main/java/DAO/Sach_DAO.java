@@ -15,4 +15,6 @@ public interface Sach_DAO {
 	public boolean kiemTraMaSach(String code) ;
 	public boolean updateSachNgonNguMoTa(String maSach, String ngonNgu, String moTa);
 	public List<Sach> layDanhSachTheoMaSach(String maSach);
+	public boolean insertGroupTheLoai(String maSach, List<Object> selectedItems);
+	public boolean insertGroupTacGia(String maSach, List<Object> selectedItems);
 }

@@ -89,5 +89,17 @@ public class TheLoaiDAO_IMP implements TheLoai_DAO{
 				em.createQuery("select tl from TheLoai tl", TheLoai.class)
 				.getResultList();
 	}
+	@Override
+	public TheLoai layThongTinTheLoaiTen(String tenTheLoai) {
+		// TODO Auto-generated method stub
+		return em.createQuery("select tl from TheLoai tl where tl.tenTheLoai = :tenTheLoai", TheLoai.class)
+                .setParameter("tenTheLoai", tenTheLoai)
+                .getSingleResult();
+	}
+	@Override
+	public TheLoai layThongTinTheLoaiMa(String maTheLoai) {
+		// TODO Auto-generated method stub
+		return em.find(TheLoai.class, maTheLoai);
+	}
 
 }

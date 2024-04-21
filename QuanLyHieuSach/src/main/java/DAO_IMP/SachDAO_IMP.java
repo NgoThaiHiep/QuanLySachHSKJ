@@ -1,11 +1,16 @@
 package DAO_IMP;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import DAO.Sach_DAO;
 import entity.Sach;
 import entity.SanPham;
+import entity.TacGia;
+import entity.TheLoai;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
@@ -119,6 +124,94 @@ public class SachDAO_IMP implements Sach_DAO{
 	public List<Sach> layDanhSachTheoMaSach(String maSach) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public boolean insertGroupTheLoai(String maSach, List<Object> selectedItems) {
+	    EntityTransaction tx = em.getTransaction();
+	    try {
+	        tx.begin();
+	        Sach s = em.find(Sach.class, maSach);
+
+	        if (s == null) {
+	            // Handle case where book is not found
+	            return false;
+	        }
+
+	        // Fetch the categories based on their IDs
+	        List<TheLoai> theLoaiList = new ArrayList<>();
+	        for (Object selectedItem : selectedItems) {
+	           { // Replace YourItemType with the actual type of items in cboTheLoai
+	               System.out.println("Item Gruop: "+selectedItem.toString());
+					TheLoai tl = em
+							.createQuery("select tl from TheLoai tl where tl.tenTheLoai = :tenTheLoai", TheLoai.class)
+							.setParameter("tenTheLoai", selectedItem.toString())
+							.getSingleResult();
+	                // Assuming getId() returns the ID of the item
+	                System.out.println("Thể loại Group ; "+tl);
+	                if (tl != null) {
+	                    theLoaiList.add(tl);
+	                }
+	            }
+	        }
+	        System.out.println("Danh sách thể loại : "+theLoaiList);
+	        // Associate the book with the categories
+	        s.setTheLoai(new HashSet<>(theLoaiList));
+
+	        em.persist(s);
+	        tx.commit();
+	        return true;
+	    } catch (Exception e) {
+	        if (tx.isActive()) {
+	            tx.rollback();
+	        }
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
+	@Override
+	public boolean insertGroupTacGia(String maSach, List<Object> selectedItems) {
+			// TODO Auto-generated method stub
+			EntityTransaction tx = em.getTransaction();
+			try {
+				tx.begin();
+				Sach s = em.find(Sach.class, maSach);
+				if (s == null) {
+					// Handle case where book is not found
+					return false;
+				}
+				// Fetch the authors based on their IDs
+				List<TacGia> tacGiaList = new ArrayList<>();
+				for (Object selectedItem : selectedItems) {
+					{ // Replace YourItemType with the actual type of items in cboTheLoai
+						System.out.println("Item Gruop: " + selectedItem.toString());
+						TacGia tg = em
+								.createQuery("select tg from TacGia tg where tg.tenTacGia = :tenTacGia", TacGia.class)
+								.setParameter("tenTacGia", selectedItem.toString()).getSingleResult();
+						// Assuming getId() returns the ID of the item
+						System.out.println("Tác giả Group ; " + tg);
+						if (tg != null) {
+							tacGiaList.add(tg);
+						}
+					}
+				}
+				System.out.println("Danh sách tác giả : " + tacGiaList);
+				// Associate the book with the authors
+				s.setTacGia(new HashSet<>(tacGiaList));
+				em.persist(s);
+				tx.commit();
+				return true;
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+				e.printStackTrace();
+				return false;
+			}
 	}
 
 	

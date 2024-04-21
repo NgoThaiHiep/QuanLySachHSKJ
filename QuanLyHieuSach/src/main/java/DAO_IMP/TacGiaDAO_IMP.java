@@ -63,6 +63,19 @@ public class TacGiaDAO_IMP implements TacGia_DAO{
 	        }while(kiemTraMaSach(number));
 	        return number;
 	}
+	@Override
+	public TacGia layThongTinTacGiaTheoTen(String tenTacGia) {
+		// TODO Auto-generated method stub
+		return em.createQuery
+				("select tg from TacGia tg where tg.tenTacGia = :tenTacGia", TacGia.class)
+				.setParameter("tenTacGia", tenTacGia)
+				.getSingleResult();
+	}
+	@Override
+	public TacGia layThongTinTacGiaTheoMa(String maTacGia) {
+		// TODO Auto-generated method stub
+		return em.find(TacGia.class, maTacGia);
+	}
 	
 
 }

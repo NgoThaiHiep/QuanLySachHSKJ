@@ -116,10 +116,9 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
     private QuyDinh_DAO quyDinh_DAO;
     
     //-------------------------//
-    public pnlLapHoaDon11(TaiKhoan tk,NhanVien nv, LookAndFeel originalLookAndFeel) {
+    public pnlLapHoaDon11(TaiKhoan tk,NhanVien nv) {
         this.nv = nv;
         this.tk = tk;
-        this.originalLookAndFeel = originalLookAndFeel;
         initComponents();
         addTableStyle(scrGioHang);
       

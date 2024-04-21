@@ -15,7 +15,10 @@ import DAO.HoaDon_DAO;
 import DAO.KhachHang_DAO;
 import DAO.MaXacNhan_DAO;
 import DAO.NhanVien_DAO;
+import DAO.Sach_DAO;
 import DAO.SanPham_DAO;
+import DAO.TacGia_DAO;
+import DAO.TheLoai_DAO;
 import DAO.ThoiGianHoatDong_DAO;
 
 import DAO_IMP.ChiTietHoaDonDAO_IMP;
@@ -27,7 +30,9 @@ import DAO_IMP.MaXacNhanDAO_IMP;
 import DAO_IMP.NhanVienDAO_IMP;
 import DAO_IMP.SachDAO_IMP;
 import DAO_IMP.SanPhamDAO_IMP;
+import DAO_IMP.TacGiaDAO_IMP;
 import DAO_IMP.TaiKhoanDAO_IMP;
+import DAO_IMP.TheLoaiDAO_IMP;
 import DAO_IMP.ThoiGianHoatDongDAO_IMP;
 
 import entity.HoaDon;
@@ -36,7 +41,9 @@ import entity.MaXacNhan;
 import entity.NhanVien;
 import entity.Sach;
 import entity.SanPham;
+import entity.TacGia;
 import entity.TaiKhoan;
+import entity.TheLoai;
 import entity.ThoiGianHoatDong;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -54,8 +61,22 @@ public class main {
 		 EntityManagerFactory emf = Persistence.createEntityManagerFactory("QuanLyHieuSach MSSQL");
 //		 EntityManager em = emf.createEntityManager();
 		
-
-		 
+//		TacGia_DAO  tacGia_DAO = new TacGiaDAO_IMP();
+//		TacGia tg = new TacGia();
+//		tg = tacGia_DAO.layThongTinTacGia("Tố Hữu");
+//		System.out.println(tg);
+		Sach_DAO sach_DAO = new SachDAO_IMP();
+		Sach s = new Sach();
+//		s = sach_DAO.layThongTinSach("Sach00001");
+//		sach_DAO.insertGroupTacGia("Sach00001", tg.getMaTacGia());
+		
+		TheLoai_DAO theLoai_DAO = new TheLoaiDAO_IMP();
+		TheLoai tl = new TheLoai();
+		tl = theLoai_DAO.layThongTinTheLoai("Bi kịch");
+		sach_DAO = new SachDAO_IMP();
+		s = new Sach();
+		s = sach_DAO.layThongTinSach("Sach00001");
+		sach_DAO.insertGroupTheLoai(s.getMaSanPham(), tl.getMaTheLoai());
 
 //		  
 //		 chucVu_DAO_imp.getDSChucVu().forEach(System.out::println);
@@ -313,7 +334,7 @@ public class main {
 			case 5:
 				Gson GSON = new Gson();
 				SachDAO_IMP sachDAO_IMP = new SachDAO_IMP();
-				Sach s = new Sach();
+//				Sach s = new Sach();
 //				s.setMaSanPham("Sach00001");
 //				s.setTenSanPham("Sach 1");
 //				s.setDonGia(100000);

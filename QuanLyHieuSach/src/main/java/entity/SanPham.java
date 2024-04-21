@@ -23,6 +23,7 @@ public abstract class SanPham {
 	@Id
 	@Column(name="MaSanPham")
     private String maSanPham;
+	@Column(name="TenSanPham",columnDefinition = "nvarchar(255)")
     private String tenSanPham ;
     
     @ManyToOne

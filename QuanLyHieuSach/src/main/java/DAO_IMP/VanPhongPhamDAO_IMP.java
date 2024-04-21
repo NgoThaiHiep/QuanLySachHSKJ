@@ -77,18 +77,33 @@ public class VanPhongPhamDAO_IMP implements VanPhongPham_DAO {
 	@Override
 	public String generateMaVanPhongPham() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		 String number = "";
+         
+	        for (int i = 1; i < 99999; i++) {
+	            // Định dạng số thành chuỗi và thêm các số 0 bổ sung để đảm bảo đủ 5 chữ số
+	            number = "VanPhongPham"+String.format("%05d", i);
+	            
+	            if(!kiemTraMaVanPhongPham(number)){
+	                break;
+	            }
+	           }  
+	        return number;
 	}
 
 	@Override
 	public boolean kiemTraMaVanPhongPham(String code) {
 		// TODO Auto-generated method stub
-		return false;
+		return em.find(VanPhongPham.class, code) != null;
 	}
 	@Override
 	public List<VanPhongPham> layDanhSanPhamVanPhongPham_TheoMa(String maVanPhongPham) {
 		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery
+				("SELECT v FROM VanPhongPham v WHERE v.maSanPham = :maVanPhongPham"
+				, VanPhongPham.class)
+				.setParameter("maVanPhongPham", maVanPhongPham)
+				.getResultList();
 	}
 	@Override
 	public List<VanPhongPham> layDanhSanPhamVanPhongPham() {

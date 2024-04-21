@@ -16,4 +16,8 @@ public interface TheLoai_DAO {
 	public boolean DeleteTheLoai(TheLoai theLoai);
 
 	public ArrayList<TheLoai> layDanhSachTheLoai();
+	
+	public TheLoai layThongTinTheLoaiTen(String tenTheLoai);
+	
+	public TheLoai layThongTinTheLoaiMa(String maTheLoai);
 }

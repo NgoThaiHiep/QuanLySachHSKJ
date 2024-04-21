@@ -13,7 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -21,7 +20,12 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 public class JTextFielMatKhau extends JPasswordField {
 
-    public String getLabelText() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public String getLabelText() {
         return labelText;
     }
 
