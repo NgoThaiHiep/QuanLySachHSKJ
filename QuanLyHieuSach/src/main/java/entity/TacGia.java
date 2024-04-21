@@ -16,6 +16,7 @@ public class TacGia {
 	private String maTacGia;
 	@Column(name="TenTacGia",columnDefinition = "nvarchar(255)")
 	private String tenTacGia;
+	
 	public TacGia(String maTacGia, String tenTacGia) {
 		super();
 		this.maTacGia = maTacGia;

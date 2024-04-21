@@ -8,7 +8,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 @NamedQueries({
-	@NamedQuery(name = "QuyDinh.findAll", query = "select * from QuyDinh qd")
+	@NamedQuery(name = "QuyDinh.findAll", query = "select qd from QuyDinh qd")
 })
 
 @Entity
