@@ -1,12 +1,14 @@
 
 package Pannel;
 
-import Entity.NhanVien;
-import Entity.TaiKhoan;
+
 import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import entity.NhanVien;
+import entity.TaiKhoan;
 
 
 public class pnlThongKe extends javax.swing.JPanel {

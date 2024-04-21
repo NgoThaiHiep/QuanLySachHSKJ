@@ -81,13 +81,18 @@ public class HoaDonDAO_IMP implements HoaDon_DAO{
 	@Override
 	public ArrayList<HoaDon> layDanhSachHoaDonTheoThang(LocalDate ngayChon) {
 		// TODO Auto-generated method stub
-		return null;
+		return (ArrayList<HoaDon>) em.createQuery("SELECT c FROM HoaDon c WHERE FUNCTION('MONTH', c.ngayLap) = :thang AND FUNCTION('YEAR', c.ngayLap) = :nam", HoaDon.class)
+				.setParameter("thang", ngayChon.getMonthValue())
+		        .setParameter("nam", ngayChon.getYear())
+		        .getResultList();
 	}
 
 	@Override
 	public ArrayList<HoaDon> layDanhSachHoaDonTheoNam(LocalDate ngayChon) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return (ArrayList<HoaDon>) em.createQuery("SELECT c FROM HoaDon c WHERE FUNCTION('YEAR', c.ngayLap) = :nam", HoaDon.class)
+		        .setParameter("nam", ngayChon.getYear())
+		        .getResultList();
 	}
 
 	@Override

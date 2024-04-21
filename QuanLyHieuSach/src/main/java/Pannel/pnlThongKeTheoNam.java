@@ -6,9 +6,11 @@ package Pannel;
 
 import DAO.HoaDon_DAO;
 import DAO.NhanVien_DAO;
-import Entity.HoaDon;
-import Entity.NhanVien;
+import DAO_IMP.HoaDonDAO_IMP;
+import DAO_IMP.NhanVienDAO_IMP;
 import ServiceUser.SelectedDate;
+import entity.HoaDon;
+
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class pnlThongKeTheoNam extends javax.swing.JPanel {
     private List<HoaDon> hd;
     private DefaultTableModel model;
-    private NhanVien_DAO nhanVien_DAO;
+    private NhanVienDAO_IMP nhanVien_DAO;
     private ArrayList<HoaDon> hoadon;
     
     /**
@@ -238,12 +240,12 @@ public class pnlThongKeTheoNam extends javax.swing.JPanel {
 
     private void showTable() {
         LocalDate local = ngay(date);
-        hoadon = new HoaDon_DAO().layDanhSachHoaDonTheoNam(local);
+        hoadon = new HoaDonDAO_IMP().layDanhSachHoaDonTheoNam(local);
       
         model.setRowCount(0);
         for(HoaDon hd:hoadon){
             model.addRow(new Object[]{
-                hd.getNgayLap(),hd.getMaHoaDon(),hd.getKhachHanh().getMaKhachHang(), hd.getNhanVien().getMaNV(), hd.getTongTien()
+                hd.getNgayLap(),hd.getMaHoaDon(),hd.getkhachHang().getMaKhachHang(), hd.getNhanVien().getMaNV(), hd.getTongTien()
             });
         }
         Tong();
