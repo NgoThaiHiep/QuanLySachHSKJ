@@ -5,7 +5,8 @@
 package Them;
 
 import DAO.XuatXu_DAO;
-import Entity.XuatXu;
+import DAO_IMP.XuatXuDAO_IMP;
+import entity.XuatXu;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -23,7 +24,7 @@ public class ThemXuatXu extends javax.swing.JFrame {
      */
     public ThemXuatXu() throws SQLException{
         initComponents();
-        xuatXu_DAO = new XuatXu_DAO();
+        xuatXu_DAO = new XuatXuDAO_IMP();
             lblMaXuatXu.setText(xuatXu_DAO.generateXuatXu());
        
     }
@@ -151,11 +152,7 @@ public class ThemXuatXu extends javax.swing.JFrame {
 
         if(xuatXu_DAO.InsertXuatXu(xuatXu)){
             lamMoiDuLieu();
-            try {
-                lblMaXuatXu.setText(xuatXu_DAO.generateXuatXu());
-            } catch (SQLException ex) {
-                Logger.getLogger(ThemXuatXu.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            lblMaXuatXu.setText(xuatXu_DAO.generateXuatXu());
             
             JOptionPane.showMessageDialog(this, "Thêm thành công");
         }

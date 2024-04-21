@@ -2,6 +2,7 @@
 package Them;
 
 import DAO.TacGia_DAO;
+import DAO_IMP.TacGiaDAO_IMP;
 import entity.TacGia;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -29,12 +30,8 @@ public class ThemTacGia1 extends javax.swing.JFrame {
      */
     public ThemTacGia1() {
         initComponents();
-        tacGia_DAO = new TacGia_DAO();
-        try {
-            lblMaTacGia1.setText(tacGia_DAO.generateTacGia());
-        } catch (SQLException ex) {
-            Logger.getLogger(ThemTacGia1.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        tacGia_DAO = new TacGiaDAO_IMP();
+        lblMaTacGia1.setText(tacGia_DAO.generateTacGia());
         
         duLieuTenNhanVien();
     }
@@ -305,16 +302,12 @@ public class ThemTacGia1 extends javax.swing.JFrame {
         String gioiTinh = cboGioiTinh.getSelectedItem().toString();
         String quocTich = txtQuocTich.getText();
         String tieuSu = jtaTieuSu.getText();
-        tacGia_DAO = new TacGia_DAO();
+        tacGia_DAO = new TacGiaDAO_IMP();
         TacGia tacGia = new TacGia(maTacGia, tenTacGia);
         
         if(tacGia_DAO.InsertTacGia(tacGia)){
             lamMoiDuLieu();
-            try {
-                lblMaTacGia1.setText(tacGia_DAO.generateTacGia());
-            } catch (SQLException ex) {
-                Logger.getLogger(ThemTacGia1.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            lblMaTacGia1.setText(tacGia_DAO.generateTacGia());
              JOptionPane.showMessageDialog(this, "Thêm thành công");
         }      
     }//GEN-LAST:event_btnThemActionPerformed

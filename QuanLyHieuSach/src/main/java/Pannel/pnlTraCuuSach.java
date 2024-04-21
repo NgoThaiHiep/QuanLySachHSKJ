@@ -279,6 +279,7 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
         JPanel containerPanel = new JPanel();
         containerPanel.removeAll();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));	
+<<<<<<< HEAD
         
         
             		 sanPham_DAO = new SanPhamDAO_IMP();
@@ -316,6 +317,26 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
   					
                       } 
             		 }
+=======
+        sach_DAO = new SachDAO_IMP();
+        nhanVien_DAO = new NhanVienDAO_IMP();
+        sanPham_DAO = new SanPhamDAO_IMP();
+        ArrayList<Sach> dssps = sach_DAO.layDanhSachTheoMaSach(maSach);
+        for (Sach sach : dssps) {     
+            try {
+                JPanel newPanel = new CellSach(sach);
+                newPanel.setPreferredSize(new Dimension(newPanel.getWidth(), PANEL_HEIGHT));
+                newPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, PANEL_HEIGHT));
+                //  newPanel.add(new JLabel("Panel " + (++count)));
+                containerPanel.add(newPanel);
+                System.out.println(sach);
+            }
+            // ArrayList<NhanVien> dsnv=nhanVien_DAO.layDanhSachNhanVien();
+            catch (SQLException ex) {
+                Logger.getLogger(pnlTraCuuSach.class.getName()).log(Level.SEVERE, null, ex);
+            }
+		}
+>>>>>>> 223af46f4dc4440c91c8b289935fc64bf66ae6a3
         return containerPanel;
     }
     public void danhSachTheoMa(JTextField txt){
@@ -369,6 +390,28 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
+            	updateSearchResult();
+            }
+
+            public void updateSearchResult() {
+                try {
+                    String searchText = txtTimKiemTheoMa.getText().trim();
+                    jPanel3.removeAll();
+                    JPanel panel;
+                    panel = new JPanel();
+                    JPanel newPanel = createPanelsTheoMa(searchText); 
+                    panel.add(newPanel);
+                    panel.revalidate();
+                    panel.repaint();
+                    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+                    JScrollPane scrollPane = new JScrollPane(panel);
+                    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                    scrollPane.getViewport().setPreferredSize(new Dimension(250, 400));
+                    addTableStyle(scrollPane);
+                    jPanel3.add(scrollPane);
+                } catch (IOException ex) {
+                    Logger.getLogger(pnlTraCuuSach.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
