@@ -12,6 +12,9 @@ import DAO_IMP.SachDAO_IMP;
 import DAO_IMP.SanPhamDAO_IMP;
 import ServiceUser.CellSach;
 import ServiceUser.ScrollBarCustom;
+import entity.LoaiSanPham;
+import entity.NhaCungCap;
+import entity.NhaXuatBan;
 import entity.Sach;
 import entity.SanPham;
 
@@ -24,13 +27,18 @@ import java.util.logging.Logger;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 /**
  *
  * @author FPTSHOP
  */
 public class pnlTraCuuSach extends javax.swing.JPanel {
 
-    
+    private static final Gson Gson = new Gson();
     private int count = 0;
     private Sach_DAO sach_DAO;
     private NhanVien_DAO nhanVien_DAO;
@@ -271,24 +279,43 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
         JPanel containerPanel = new JPanel();
         containerPanel.removeAll();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));	
-        sach_DAO = new SachDAO_IMP();
-        nhanVien_DAO = new NhanVienDAO_IMP();
-        sanPham_DAO = new SanPhamDAO_IMP();
-        ArrayList<SanPham> dssps = sanPham_DAO.layDanhSachTheoMaSach(maSach);
-        for (Sach sach : dssps) {     
-            try {
-                JPanel newPanel = new CellSach(sach);
-                newPanel.setPreferredSize(new Dimension(newPanel.getWidth(), PANEL_HEIGHT));
-                newPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, PANEL_HEIGHT)); // Ensure the panel doesn't expand horizontally
-                //  newPanel.add(new JLabel("Panel " + (++count)));
-                containerPanel.add(newPanel);
-                System.out.println(sach);
-            }
-            // ArrayList<NhanVien> dsnv=nhanVien_DAO.layDanhSachNhanVien();
-            catch (SQLException ex) {
-                Logger.getLogger(pnlTraCuuSach.class.getName()).log(Level.SEVERE, null, ex);
-            }
-		}
+        
+        
+            		 sanPham_DAO = new SanPhamDAO_IMP();
+            		 if(sanPham_DAO.layDanhSachTheoMaSach(maSach)!=null) {
+
+                     String json = Gson.toJson(sanPham_DAO.layDanhSachTheoMaSach(maSach));
+                     JsonObject jsonElement = Gson.fromJson(json, JsonObject.class);
+                    
+                        String maSanPham1 = jsonElement.getAsJsonObject().get("maSanPham").getAsString();
+                        String tenSanPham = jsonElement.getAsJsonObject().get("tenSanPham").getAsString();
+                        LoaiSanPham loaiSanPham = Gson.fromJson(jsonElement.get("loaiSanPham"), LoaiSanPham.class);
+                        NhaCungCap nhaCungCap = Gson.fromJson(jsonElement.getAsJsonObject().get("nhaCungCap"), NhaCungCap.class);
+                        int soLuongTon = jsonElement.getAsJsonObject().get("soLuongTon").getAsInt();
+                        NhaXuatBan nhaXuatBan = Gson.fromJson(jsonElement.getAsJsonObject().get("nhaXuatBan"), NhaXuatBan.class);
+                        int namXuatBan = jsonElement.getAsJsonObject().get("namXuatBan").getAsInt();
+                        int soTrang = jsonElement.getAsJsonObject().get("soTrang").getAsInt();
+                        String ngonNgu = jsonElement.getAsJsonObject().get("ngonNgu").getAsString();
+                        double donGia = jsonElement.getAsJsonObject().get("donGia").getAsDouble();
+                        String moTa = jsonElement.getAsJsonObject().get("moTa").getAsString();
+                        String tinhTrang = jsonElement.getAsJsonObject().get("tinhTrang").getAsString();
+                        String hinhAnh = jsonElement.getAsJsonObject().get("hinhAnh").getAsString();
+                       sach = new Sach(maSanPham1, tenSanPham, loaiSanPham, nhaCungCap, soLuongTon, donGia, moTa, tinhTrang, hinhAnh, namXuatBan, soTrang, nhaXuatBan, ngonNgu);
+                      try {
+						
+					
+                       JPanel newPanel = new CellSach(sach);
+                       newPanel.setPreferredSize(new Dimension(newPanel.getWidth(), PANEL_HEIGHT));
+                       newPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, PANEL_HEIGHT)); // Ensure the panel doesn't expand horizontally
+                       //  newPanel.add(new JLabel("Panel " + (++count)));
+                       containerPanel.add(newPanel);
+                       System.out.println(sach);
+                      } catch (Exception e) {
+  						// TODO: handle exception
+                    	  e.printStackTrace();
+  					
+                      } 
+            		 }
         return containerPanel;
     }
     public void danhSachTheoMa(JTextField txt){
@@ -299,6 +326,8 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
                     jPanel3.removeAll();
                     JPanel panel;
                     panel = new JPanel();
+                    if(txt.getText().length()>=9 && txt.getText().substring(0, 1).equals("S")) {
+
                     JPanel newPanel =  createPanelsTheoMa(txt.getText());
                     panel.add(newPanel);
                     panel.revalidate();
@@ -309,9 +338,12 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
                     scrollPane.getViewport().setPreferredSize(new Dimension(250, 400));
                     addTableStyle(scrollPane);
                     jPanel3.add(scrollPane);
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(pnlTraCuuSach.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            
+                
             }
 
             @Override

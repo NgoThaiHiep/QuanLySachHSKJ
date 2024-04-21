@@ -69,5 +69,8 @@
 	<classpathentry kind="lib" path="src/main/java/Li/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="src/main/java/Li/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="src/main/java/Li/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/core-3.5.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/jgoodies-looks-2.4.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

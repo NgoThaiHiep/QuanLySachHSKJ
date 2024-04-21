@@ -4,6 +4,8 @@ package test;
 import java.util.Date;
 import java.util.Scanner;
 
+import org.checkerframework.checker.units.qual.s;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -37,6 +39,7 @@ import DAO_IMP.ThoiGianHoatDongDAO_IMP;
 
 import entity.HoaDon;
 import entity.KhachHang;
+import entity.LoaiSanPham;
 import entity.MaXacNhan;
 import entity.NhanVien;
 import entity.Sach;
@@ -58,26 +61,28 @@ import java.time.format.DateTimeFormatter;
 
 public class main {
 	public static void main(String[] args) {
-		 EntityManagerFactory emf = Persistence.createEntityManagerFactory("QuanLyHieuSach MSSQL");
+//		 EntityManagerFactory emf = Persistence.createEntityManagerFactory("QuanLyHieuSach MSSQL");
 //		 EntityManager em = emf.createEntityManager();
 		
 //		TacGia_DAO  tacGia_DAO = new TacGiaDAO_IMP();
 //		TacGia tg = new TacGia();
 //		tg = tacGia_DAO.layThongTinTacGia("Tố Hữu");
 //		System.out.println(tg);
-		Sach_DAO sach_DAO = new SachDAO_IMP();
-		Sach s = new Sach();
+//		Sach_DAO sach_DAO = new SachDAO_IMP();
+//		Sach s = new Sach();
 //		s = sach_DAO.layThongTinSach("Sach00001");
 //		sach_DAO.insertGroupTacGia("Sach00001", tg.getMaTacGia());
 		
-		TheLoai_DAO theLoai_DAO = new TheLoaiDAO_IMP();
-		TheLoai tl = new TheLoai();
-		tl = theLoai_DAO.layThongTinTheLoai("Bi kịch");
-		sach_DAO = new SachDAO_IMP();
-		s = new Sach();
-		s = sach_DAO.layThongTinSach("Sach00001");
-		sach_DAO.insertGroupTheLoai(s.getMaSanPham(), tl.getMaTheLoai());
+//		TheLoai_DAO theLoai_DAO = new TheLoaiDAO_IMP();
+//		TheLoai tl = new TheLoai();
+//		tl = theLoai_DAO.layThongTinTheLoai("Bi kịch");
+//		sach_DAO = new SachDAO_IMP();
+//		s = new Sach();
+//		s = sach_DAO.layThongTinSach("Sach00001");
+//		sach_DAO.insertGroupTheLoai(s.getMaSanPham(), tl.getMaTheLoai());
 
+		SanPham_DAO sanPham_DAO = new SanPhamDAO_IMP();
+		sanPham_DAO.layDanhSachSanPham().forEach(System.out::println);
 //		  
 //		 chucVu_DAO_imp.getDSChucVu().forEach(System.out::println);
 //		 
@@ -352,9 +357,9 @@ public class main {
 //				SanPhamDAO_IMP sanPhamDAO_IMP = new SanPhamDAO_IMP();
 //				System.out.println(sanPhamDAO_IMP.layThongTinSanPham("VP00001"));
 				
-				SanPham_DAO sanPham_DAO = new SanPhamDAO_IMP();
-				sanPham_DAO.layDanhSachSanPham().forEach(System.out::println); 
-				
+//				SanPham_DAO sanPham_DAO = new SanPhamDAO_IMP();
+//				sanPham_DAO.layDanhSachSanPham().forEach(System.out::println); 
+//				
 //				VanPhongPhamDAO_IMP vanPhongPhamDAO_IMP = new VanPhongPhamDAO_IMP();
 //				VanPhongPham vp = new VanPhongPham();
 //				vp.setMaSanPham("VP00001");
@@ -368,7 +373,7 @@ public class main {
 //				vp.setNamSanXuat(2003);
 //				
 //				vanPhongPhamDAO_IMP.themVanPhongPham(vp);
-				String json = GSON.toJson( sachDAO_IMP.layThongTinSach("Sach00001"));
+				String json = GSON.toJson( sachDAO_IMP.layThongTinSach("Sach00011"));
 				System.out.println(json);
 				
 				System.out.println(sanPham_DAO.layThongTinSanPham("VP00001"));
@@ -382,7 +387,7 @@ public class main {
 		        String tenSanPham = jsonObject.get("tenSanPham").getAsString();
 		        int soLuongTon = jsonObject.get("soLuongTon").getAsInt();
 		        String moTa = jsonObject.get("moTa").getAsString();
-		        
+		        LoaiSanPham  loaiSanPham = GSON.fromJson(jsonObject.get("loaiSanPham"), LoaiSanPham.class);
 		        
 		        // In ra các giá trị đã trích xuất
 		        System.out.println("Tác giả: " + tacGia);
@@ -392,12 +397,20 @@ public class main {
 		        System.out.println("Tên sản phẩm: " + tenSanPham);
 		        System.out.println("Số lượng tồn: " + soLuongTon);
 		        System.out.println("Mô tả: " + moTa);
+		        System.out.println("Loại sản phẩm: " + loaiSanPham);
 		        
 		        System.out.println("-----------------------------------------");
 		        System.out.println("Lấy danh sách sản phẩm");
 		       
 		        System.out.println(json);
-		        
+		        Sach sach = new Sach();
+		       
+		        String theLoai1 = "";
+		        sach = sachDAO_IMP.layThongTinSach("Sach00011");
+		        for (TheLoai theLoai : sach.getTheLoai()) {
+		        	theLoai1 += theLoai.getTenTheLoai()+",";
+		        }
+		        System.out.println("Thể loại: "+theLoai1.trim().substring(0, theLoai1.length()-1));
 		        json = GSON.toJson(sanPham_DAO.layDanhSachSanPham());
 		        JsonArray jsonArray = GSON.fromJson(json, JsonArray.class);
 		        for (JsonElement jsonElement : jsonArray) {
@@ -448,21 +461,22 @@ public class main {
 				 maXacNhanDAO.xoaMaXacNhan(nv.getMaNV());
 				 break;
 			 case 7:
-				 KhachHang kh = new KhachHang("KH00001", "Ngô Thái Hiệp", "1234567890", "a");
-				 KhachHang_DAO khachHang_DAO = new KhachHangDAO_IMP();
-				 khachHang_DAO.InsertKhachHang(kh);
-				 System.out.println(khachHang_DAO.layThongTinKhachHang("1234567890"));
-				 System.out.println(khachHang_DAO.layThongTinKhachHang_TheoMaKH("KH00001"));
-				 kh = khachHang_DAO.layThongTinKhachHang_TheoMaKH("KH00001");
-				 kh.setDiemTL(120);
-				 khachHang_DAO.updateDiemTichLuy(kh);
-				 System.out.println(khachHang_DAO.layThongTinKhachHang_TheoMaKH("KH00001"));
-				 System.out.println(khachHang_DAO.generateVerifyCodeKH());
-				 System.out.println(khachHang_DAO.generateVerifyCode_KhachHangLe());
+//				 KhachHang kh = new KhachHang("KH00001", "Ngô Thái Hiệp", "1234567890", "a");
+//				 KhachHang_DAO khachHang_DAO = new KhachHangDAO_IMP();
+//				 khachHang_DAO.InsertKhachHang(kh);
+//				 System.out.println(khachHang_DAO.layThongTinKhachHang("1234567890"));
+//				 System.out.println(khachHang_DAO.layThongTinKhachHang_TheoMaKH("KH00001"));
+//				 kh = khachHang_DAO.layThongTinKhachHang_TheoMaKH("KH00001");
+//				 kh.setDiemTL(120);
+//				 khachHang_DAO.updateDiemTichLuy(kh);
+//				 System.out.println(khachHang_DAO.layThongTinKhachHang_TheoMaKH("KH00001"));
+//				 System.out.println(khachHang_DAO.generateVerifyCodeKH());
+//				 System.out.println(khachHang_DAO.generateVerifyCode_KhachHangLe());
 				
 				 break;
 			 case 8:
 				 HangCho_DAO hangCho_DAO = new HangChoDAO_IMP();
+					hangCho_DAO.layDanhSachHangChoTheoMaKhachHang("KH00003").forEach(System.out::println);
 				 hangCho_DAO.DeleteHangChoQuaNgay();
 				 break;
 			 case 9 :

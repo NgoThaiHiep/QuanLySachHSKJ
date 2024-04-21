@@ -28,7 +28,8 @@ public class HangChoDAO_IMP implements HangCho_DAO{
 	@Override
 	public ArrayList<HangCho> layDanhSachHangChoTheoMaKhachHang(String maKhachHang) {
 		// TODO Auto-generated method stub
-		return (ArrayList<HangCho>)em.createQuery("select c from HangCho c where c.maKhachHang = :maKhachHang", HangCho.class)
+		return (ArrayList<HangCho>)
+				em.createQuery("select c from HangCho c where c.khachHang = :maKhachHang", HangCho.class)
                 .setParameter("maKhachHang", maKhachHang)
                 .getResultList();
 	}

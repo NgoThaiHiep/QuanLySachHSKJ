@@ -41,7 +41,14 @@ public class Sach extends SanPham{
     private String ngonNgu;
    
 
-    public Sach(String maSanPham, String tenSanPham, LoaiSanPham loaiSanPham, NhaCungCap nhaCungCap, int soLuongTon,
+    public Set<TheLoai> getTheLoai() {
+		return theLoai;
+	}
+
+
+
+
+	public Sach(String maSanPham, String tenSanPham, LoaiSanPham loaiSanPham, NhaCungCap nhaCungCap, int soLuongTon,
 			double donGia, String moTa, String tinhTrang, String hinhAnh, int namXuatBan, int soTrang,
 			NhaXuatBan nhaXuatBan, String ngonNgu) {
 		super(maSanPham, tenSanPham, loaiSanPham, nhaCungCap, soLuongTon, donGia, moTa, tinhTrang, hinhAnh);

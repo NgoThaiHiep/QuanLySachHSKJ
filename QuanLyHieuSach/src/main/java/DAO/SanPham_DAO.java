@@ -9,9 +9,9 @@ public interface SanPham_DAO {
 	public ArrayList<SanPham> layDanhSachSanPham();
 	public boolean updateTinhTrang(String maSanPham, String tinhTrang);
 	public boolean updateSoLuong(String maSanPham, int soLuong);
-	public ArrayList<SanPham> layDanhSachTheoMaSach(String maSach);
+	public SanPham layDanhSachTheoMaSach(String maSach);
 	
-	public ArrayList<SanPham> layDanhSachTheoTenSach(String tenSach);
+	public SanPham layDanhSachTheoTenSach(String tenSach);
 	
 	public SanPham layThongTinSanPhamTheoTen(String tenSanPham);
 	

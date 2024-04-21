@@ -71,19 +71,31 @@ public class SanPhamDAO_IMP implements SanPham_DAO{
 	}
 
 	@Override
-	public ArrayList<SanPham> layDanhSachTheoMaSach(String maSach) {
+	public SanPham layDanhSachTheoMaSach(String maSach) {
 		// TODO Auto-generated method stub
-		return (ArrayList<SanPham>) em.createQuery("select c from SanPham c where c.maSach like :maSach", SanPham.class)
-                .setParameter("maSach","%"+ maSach +"%")
-                .getResultList();
+		EntityTransaction tx = em.getTransaction();
+		SanPham sanPham = new SanPham() {
+			
+		};
+		try {
+            tx.begin();
+			sanPham =  em.createQuery("select c from Sach c where c.maSanPham = :maSach", SanPham.class)
+					.setParameter("maSach", maSach)
+					.getSingleResult();
+			tx.commit();
+            return sanPham;
+        } catch (Exception e) {
+        	
+        }
+		return null;
 	}
 
 	@Override
-	public ArrayList<SanPham> layDanhSachTheoTenSach(String tenSach) {
+	public SanPham layDanhSachTheoTenSach(String tenSach) {
 		// TODO Auto-generated method stub
-		return (ArrayList<SanPham>) em.createQuery("select c from Sach c where c.tenSach like :tenSach", SanPham.class)
-                .setParameter("tenSach", "%"+ tenSach+"%")
-                .getResultList();
+		return  em.createQuery("select c from Sach c where c.tenSanPham = :tenSach", SanPham.class)
+                .setParameter("tenSach", tenSach)
+                .getSingleResult();
 	}
 
 	@Override

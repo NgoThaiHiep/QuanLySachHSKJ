@@ -10,14 +10,14 @@ import javax.swing.JComboBox;
 import DAO.NhaCungCap_DAO;
 import DAO.NhaXuatBan_DAO;
 import DAO.Sach_DAO;
-<<<<<<< HEAD
+
 
 import DAO.TacGia_DAO;
 import DAO.TheLoai_DAO;
 import entity.Sach;
 import entity.TacGia;
 
-=======
+
 import DAO.SanPham_DAO;
 import DAO.TacGia_DAO;
 import DAO.TheLoai_DAO;
@@ -34,7 +34,7 @@ import entity.NhaXuatBan;
 import entity.Sach;
 import entity.TacGia;
 import entity.TheLoai;
->>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
+
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Image;
@@ -73,15 +73,15 @@ import javax.swing.text.PlainDocument;
  * @author FPTSHOP
  */
 public class CellSach extends javax.swing.JPanel {
-<<<<<<< HEAD
+
     	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8271156350860022117L;
 	private Sach sach;
-=======
-    private Sach sach;
->>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
+
+
+
 	private NhaXuatBan_DAO nhaXuatBan_DAO;
 	private NhaCungCap_DAO nhaCungCap_DAO;
 	private TheLoai_DAO theLoai_DAO;
@@ -113,8 +113,26 @@ public class CellSach extends javax.swing.JPanel {
         
         lblMaSanPham1.setText(sach.getMaSanPham());
         lblTenSach1.setText(sach.getTenSanPham());
-        lblTacGia1.setText(sach.getTacGia().getMaTacGia());
-        lblTheLoai1.setText(sach.getTheLoai().getTenTheLoai());
+        tacGia_DAO = new TacGiaDAO_IMP();
+        ArrayList<TacGia> dstg = tacGia_DAO.layDanhSachTacGia();
+        
+        sach_DAO = new SachDAO_IMP();
+        sach = sach_DAO.layThongTinSach(sach.getMaSanPham());
+        String tacGia = "";
+        for (TacGia tacGia1 : sach.getTacGia()) {
+        	tacGia+= tacGia1.getTenTacGia()+",";
+            
+		}
+        String theLoai1 = "";
+        for (TheLoai theLoai : sach.getTheLoai()) {
+        	theLoai1 += theLoai.getTenTheLoai()+",";
+        }
+        
+        
+		
+		
+        lblTacGia1.setText(tacGia.substring(0, tacGia.length()-1));
+        lblTheLoai1.setText(theLoai1.trim().substring(0, theLoai1.length()-1));
         lblSoTrang1.setText(sach.getSoTrang()+"");
         lblGiaBan1.setText(sach.getDonGia()+"");
         lblSoLuongTon1.setText(sach.getSoLuongTon()+"");
@@ -750,7 +768,7 @@ public class CellSach extends javax.swing.JPanel {
         }
         
         TheLoai tl = new TheLoai(theLoai);
-        String soTrang = txtSoTrang.getText();
+        int soTrang = Integer.parseInt(txtSoTrang.getText());
         
         String txtgiaBan = txtGiaBan.getText();
               
@@ -759,7 +777,7 @@ public class CellSach extends javax.swing.JPanel {
 	     // Chuyển đổi thành số
 	     double giaBan = Double.parseDouble(cleanedInput);
              
-        String soLuongTon = txtSoLuongTon.getText();
+        int soLuongTon = Integer.parseInt(txtSoLuongTon.getText());
         String nhaXuatBan = cboNhaXuatBan.getSelectedItem()+"";
         String tinhTrang = lblTinhTrang1.getText();
         String nhaXuatBanDuocChon = nhaXuatBan;
@@ -790,14 +808,14 @@ public class CellSach extends javax.swing.JPanel {
         
         LoaiSanPham loaiSanPham = new LoaiSanPham(sach.getLoaiSanPham().getMaLoaiSanPham());
         NhaCungCap ncc = new NhaCungCap(nhaCungCap_Sua);
-        String namXuatBan = txtNamXuatBan.getText();
+        int namXuatBan = Integer.parseInt(txtNamXuatBan.getText());
         String hinhAnh = selectedFile.getAbsolutePath();
        tinhTrang = "Hết hàng";
-        if(Integer.parseInt(soLuongTon) >= soLuongToiThieu){
+        if(soLuongTon >= soLuongToiThieu){
             tinhTrang = "Còn hàng";
         }
-        sach = new Sach(tacGias,  Integer.parseInt(namXuatBan), Integer.parseInt(soTrang), tl, nxb, maSach, tenSach, loaiSanPham, ncc, Integer.parseInt(soLuongTon), giaBan, tinhTrang, hinhAnh);
-        sach_DAO = new Sach_DAO();
+        sach = new Sach(maSach, tenSach, loaiSanPham, ncc, soLuongTon, giaBan, "", tinhTrang,hinhAnh,namXuatBan, soTrang, nxb,"");
+        sach_DAO = new SachDAO_IMP();
        // System.out.println();
         
         if(sach_DAO.updateSach(sach)){
@@ -806,9 +824,9 @@ public class CellSach extends javax.swing.JPanel {
         lblTenSach1.setText(tenSach);
         lblTacGia1.setText(tacGia);
         lblTheLoai1.setText(theLoai);
-        lblSoTrang1.setText(soTrang);
+        lblSoTrang1.setText(soTrang+"");
         lblGiaBan1.setText(txtgiaBan);
-        lblSoLuongTon1.setText(soLuongTon);
+        lblSoLuongTon1.setText(soLuongTon+"");
         lblNhaXuatBan1.setText(nhaXuatBanDuocChon);
         lblTinhTrang1.setText(tinhTrang);
         

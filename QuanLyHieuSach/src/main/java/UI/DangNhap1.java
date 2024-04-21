@@ -188,8 +188,8 @@ public class DangNhap1 extends javax.swing.JFrame {
 //        nv = nhanVien_DAO.timKiemNhanVienTheoMaNV(tenDangNhap);
         taiKhoan_DAO = new TaiKhoanDAO_IMP();
         nhanVien_DAO = new NhanVienDAO_IMP();
-        nv =   nhanVien_DAO.timKiemNhanVienTheoMaNV("21081841");
-        System.out.println(nhanVien_DAO.timKiemNhanVienTheoMaNV("21081841"));
+        nv =   nhanVien_DAO.timKiemNhanVienTheoMaNV(tenDangNhap);
+        System.out.println(nhanVien_DAO.timKiemNhanVienTheoMaNV(tenDangNhap));
         tk = new TaiKhoan(nv, matKhau);
         
         

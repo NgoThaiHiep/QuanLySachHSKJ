@@ -10,6 +10,9 @@ import entity.KhachHang;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -34,6 +37,7 @@ public class frmHangCho1 extends javax.swing.JFrame {
         capNhatDanhSachTimKiemTheoSoDienThoai(txtTimKiemSoDienThoai);
     }
     private  int count = 0;
+	private Timer timer;
     public void capNhatDanhSachHangCho(){
     String colTieuDe1[] = new String[]{"STT", "Mã Khách Hàng", "Tên khách hàng", "Số điện thoại"};
     DefaultTableModel model = new DefaultTableModel(colTieuDe1, 0);
@@ -257,16 +261,28 @@ public class frmHangCho1 extends javax.swing.JFrame {
         txt.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-            capNhatDanhSachKhachHangTheoMa_HangCho(txt.getText());
+            	startTimer(txt.getText());
             }
             @Override
             public void removeUpdate(DocumentEvent e) {
-                capNhatDanhSachKhachHangTheoMa_HangCho(txt.getText());
+            	startTimer(txt.getText());
             }
             @Override
             public void changedUpdate(DocumentEvent e) {
             }
         });
+    }
+    private void startTimer(String txt) {
+        if (timer != null) {
+            timer.cancel(); // Hủy bỏ timer cũ nếu tồn tại
+        }
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+            	 capNhatDanhSachKhachHangTheoMa_HangCho(txt);
+            }
+        }, 1500); // Thực hiện sau 3 giây
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThanhToan;
