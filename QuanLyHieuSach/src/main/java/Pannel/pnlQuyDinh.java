@@ -5,6 +5,10 @@ import DAO.Thue_DAO;
 import DAO.QuyDinh_DAO;
 import DAO.TheLoai_DAO;
 import DAO.XuatXu_DAO;
+import DAO_IMP.QuyDinhDAO_IMP;
+import DAO_IMP.TheLoaiDAO_IMP;
+import DAO_IMP.ThueDAO_IMP;
+import DAO_IMP.XuatXuDAO_IMP;
 import entity.QuyDinh;
 import entity.Thue;
 import entity.TheLoai;
@@ -34,19 +38,19 @@ public class pnlQuyDinh extends javax.swing.JPanel {
         init();
     }
     public void init(){
-        theLoai_DAO = new TheLoai_DAO();
+        theLoai_DAO = new TheLoaiDAO_IMP();
         ArrayList<TheLoai> dstl =  theLoai_DAO.layDanhSachTheLoai();
         for (TheLoai theLoai : dstl) {
             cboTheLoai.addItem(theLoai.getTenTheLoai());
         }
-        xuatXu_DAO = new XuatXu_DAO();
+        xuatXu_DAO = new XuatXuDAO_IMP();
         ArrayList<XuatXu> dsxx = xuatXu_DAO.layDanhSachXuatXu();
         for (XuatXu xuatXu : dsxx) {
             cboXuatXu.addItem(xuatXu.getTenQuocGia());
         }
       //  addDataComboNgonNgu(cboNgonNgu);
         
-        quyDinh_DAO = new QuyDinh_DAO();
+        quyDinh_DAO = new QuyDinhDAO_IMP();
         QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
         if(quyDinh == null){
             txtSoLuongToiThieu.setText("0");
@@ -359,13 +363,13 @@ public class pnlQuyDinh extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboTheLoaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTheLoaiActionPerformed
-        // TODO add your handling code here:
-        thue_DAO  = new Thue_DAO();
+        
+        thue_DAO  = new ThueDAO_IMP();
         ArrayList<Thue> quyDinh =  thue_DAO.layDuLieuThue();
         for (Thue quyDinhThueTheLoai : quyDinh) {
             System.out.println(quyDinhThueTheLoai.getThue());
         }
-        theLoai_DAO = new TheLoai_DAO();
+        theLoai_DAO = new TheLoaiDAO_IMP();
         ArrayList<TheLoai> dsTheLoai = theLoai_DAO.layDanhSachTheLoai();
       
         System.out.println(cboTheLoai.getSelectedItem());
@@ -386,12 +390,12 @@ public class pnlQuyDinh extends javax.swing.JPanel {
 
     private void cboXuatXuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboXuatXuActionPerformed
         // TODO add your handling code here:
-        thue_DAO  = new Thue_DAO();
+        thue_DAO  = new ThueDAO_IMP();
         ArrayList<Thue> quyDinh =  thue_DAO.layDuLieuThue();
         for (Thue quyDinhThueTheLoai : quyDinh) {
             System.out.println(quyDinhThueTheLoai.getThue());
         }
-        theLoai_DAO = new TheLoai_DAO();
+        theLoai_DAO = new TheLoaiDAO_IMP();
       
          ArrayList<XuatXu> dsXuatXu = xuatXu_DAO.layDanhSachXuatXu();
             
@@ -435,7 +439,7 @@ public class pnlQuyDinh extends javax.swing.JPanel {
     private void btnApDungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApDungActionPerformed
         // TODO add your handling code here:
         
-        quyDinh_DAO = new QuyDinh_DAO();
+        quyDinh_DAO = new QuyDinhDAO_IMP();
         soLuongToiThieu = Integer.parseInt(txtSoLuongToiThieu.getText());
         soLuongToiDa = Integer.parseInt(txtSoLuongToiDa.getText());
         String priceWithoutCurrency = txtVAT.getText().replaceAll("[^\\d.]+", "");
@@ -443,7 +447,7 @@ public class pnlQuyDinh extends javax.swing.JPanel {
         VAT = (float)parsedNumber;
         QuyDinh quyDinh = new QuyDinh(soLuongToiThieu, soLuongToiDa, VAT);
         if(quyDinh_DAO.layDuLieuQuyDinh()!=null){
-            quyDinh_DAO.updateQuyDinh( quyDinh);
+            quyDinh_DAO.capNhatQuyDinh(quyDinh);;
         }else{
             System.out.println("2");
             System.out.println(soLuongToiThieu);
@@ -462,9 +466,9 @@ public class pnlQuyDinh extends javax.swing.JPanel {
 
     private void btnApDung1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApDung1ActionPerformed
         // TODO add your handling code here:
-        thue_DAO  = new Thue_DAO();
+        thue_DAO  = new ThueDAO_IMP();
         ArrayList<Thue> quyDinh =  thue_DAO.layDuLieuThue();
-        theLoai_DAO = new TheLoai_DAO();
+        theLoai_DAO = new TheLoaiDAO_IMP();
         ArrayList<TheLoai> dsTheLoai = theLoai_DAO.layDanhSachTheLoai();
         int dem = 0;
         String ma = "";
@@ -506,9 +510,9 @@ public class pnlQuyDinh extends javax.swing.JPanel {
 
     private void btnApDung2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApDung2ActionPerformed
         // TODO add your handling code here:
-        thue_DAO  = new Thue_DAO();
+        thue_DAO  = new ThueDAO_IMP();
         ArrayList<Thue> quyDinh =  thue_DAO.layDuLieuThue();
-        xuatXu_DAO = new XuatXu_DAO();
+        xuatXu_DAO = new XuatXuDAO_IMP();
         ArrayList<XuatXu> dsXuatXu = xuatXu_DAO.layDanhSachXuatXu();
         int dem = 0;
         String ma = "";
