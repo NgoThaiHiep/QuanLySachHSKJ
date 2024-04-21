@@ -10,6 +10,14 @@ import javax.swing.JComboBox;
 import DAO.NhaCungCap_DAO;
 import DAO.NhaXuatBan_DAO;
 import DAO.Sach_DAO;
+<<<<<<< HEAD
+
+import DAO.TacGia_DAO;
+import DAO.TheLoai_DAO;
+import entity.Sach;
+import entity.TacGia;
+
+=======
 import DAO.SanPham_DAO;
 import DAO.TacGia_DAO;
 import DAO.TheLoai_DAO;
@@ -26,6 +34,7 @@ import entity.NhaXuatBan;
 import entity.Sach;
 import entity.TacGia;
 import entity.TheLoai;
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Image;
@@ -64,7 +73,15 @@ import javax.swing.text.PlainDocument;
  * @author FPTSHOP
  */
 public class CellSach extends javax.swing.JPanel {
+<<<<<<< HEAD
+    	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8271156350860022117L;
+	private Sach sach;
+=======
     private Sach sach;
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
 	private NhaXuatBan_DAO nhaXuatBan_DAO;
 	private NhaCungCap_DAO nhaCungCap_DAO;
 	private TheLoai_DAO theLoai_DAO;

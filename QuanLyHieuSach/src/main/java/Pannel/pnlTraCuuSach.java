@@ -6,11 +6,14 @@ import java.util.List;
 
 import DAO.NhanVien_DAO;
 import DAO.Sach_DAO;
+import DAO.SanPham_DAO;
 import DAO_IMP.NhanVienDAO_IMP;
 import DAO_IMP.SachDAO_IMP;
+import DAO_IMP.SanPhamDAO_IMP;
 import ServiceUser.CellSach;
 import ServiceUser.ScrollBarCustom;
 import entity.Sach;
+import entity.SanPham;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,6 +36,8 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
     private NhanVien_DAO nhanVien_DAO;
     private static final int PANEL_HEIGHT = 230;
     private Sach sach;
+	private SanPham_DAO samPham_DAO;
+	private SanPhamDAO_IMP sanPham_DAO;
 
     /**
      * Creates new form Sach
@@ -245,7 +250,7 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));	
         sach_DAO = new SachDAO_IMP();
         nhanVien_DAO = new NhanVienDAO_IMP();
-        List<Sach> dssps = sach_DAO.layDanhSachSanPhamSach();
+        ArrayList<Sach> dssps = sach_DAO.layDanhSachSanPhamSach();
         for (Sach sach : dssps) { 
             try {
             	
@@ -261,15 +266,15 @@ public class pnlTraCuuSach extends javax.swing.JPanel {
                 Logger.getLogger(pnlTraCuuSach.class.getName()).log(Level.SEVERE, null, ex);
             }
 		}
-        return containerPanel;
-    }
+        return containerPanel;    }
  private JPanel createPanelsTheoMa(String maSach) throws IOException {
         JPanel containerPanel = new JPanel();
         containerPanel.removeAll();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));	
         sach_DAO = new SachDAO_IMP();
         nhanVien_DAO = new NhanVienDAO_IMP();
-        List<Sach> dssps = sach_DAO.layDanhSachTheoMaSach(maSach);
+        sanPham_DAO = new SanPhamDAO_IMP();
+        ArrayList<SanPham> dssps = sanPham_DAO.layDanhSachTheoMaSach(maSach);
         for (Sach sach : dssps) {     
             try {
                 JPanel newPanel = new CellSach(sach);

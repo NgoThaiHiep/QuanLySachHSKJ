@@ -5,10 +5,8 @@ import DAO.ChiTietHoaDon_DAO;
 import DAO.HangCho_DAO;
 import DAO.HoaDon_DAO;
 import DAO.KhachHang_DAO;
-import DAO.KhuyenMaiThanhToan_DAO;
 import DAO.QuyDinh_DAO;
 import DAO.Sach_DAO;
-import DAO.SanPham_DAO;
 import DAO.VanPhongPham_DAO;
 import DAO_IMP.ChiTietHoaDonDAO_IMP;
 import DAO_IMP.HangChoDAO_IMP;
@@ -25,20 +23,16 @@ import entity.KhachHang;
 import entity.KhuyenMaiThanhToan;
 import entity.NhanVien;
 import entity.QuyDinh;
-import entity.Sach;
 import entity.SanPham;
 import entity.TaiKhoan;
-import entity.VanPhongPham;
 import InHoaDon.FieldHoaDon;
 import InHoaDon.ParameterHoaDon;
 import InHoaDon.XuLyHoaDon;
 import ServiceUser.ScrollBarCustom;
-import ServiceUser.SelectedDate;
 import ServiceUser.TableActionCellEditor;
 import ServiceUser.TableActionCellRender;
 import ServiceUser.TableActionEvent;
 import java.awt.Font;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -173,12 +167,12 @@ public class pnlLapHoaDon extends javax.swing.JPanel {
        // lblTenNhanVien.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         QuyDinh qd = new QuyDinh();
         quyDinh_DAO = new QuyDinhDAO_IMP();
-        List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
-		for (QuyDinh quyDinh1 : quyDinh) {
+        QuyDinh quyDinh1 = quyDinh_DAO.layDuLieuQuyDinh();
+		
 			qd.setSoLuongToiThieu(quyDinh1.getSoLuongToiThieu());
 			qd.setSoLuongToiDa(quyDinh1.getSoLuongToiDa());
 			qd.setVAT(quyDinh1.getVAT());
-		}
+		
         lblTongTienThanhToan.setText("Tổng tiền thanh toán (đã gồm VAT "+ qd.getVAT() + " %) :");
         kiemTraDuLieuFloat( txtTienKhachDua);
         kiemTraDuLieuFloat(txtSoLuong);
@@ -1737,7 +1731,7 @@ public void inHoaDon() throws JRException {
                             double tienTraLai = Double.parseDouble(txtTienTraLaiKyTu);
                             QuyDinh qd = new QuyDinh();
                             quyDinh_DAO = new QuyDinhDAO_IMP();
-                            List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+                            QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
                             
                             HoaDon hoaDon = new HoaDon(lblMaHoaDonFont.getText(), localDate, nv, kh,soTienKhachDua,giaBan,tongTienSanPham ,qd.getVAT(),tienTraLai);
                     hoaDon_DAO = new HoaDonDAO_IMP();
@@ -1849,7 +1843,7 @@ public void inHoaDon() throws JRException {
     private void cboKhuyenMaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboKhuyenMaiActionPerformed
         quyDinh_DAO = new QuyDinhDAO_IMP();
         QuyDinh qd = new QuyDinh();
-        List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+        QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
         
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         

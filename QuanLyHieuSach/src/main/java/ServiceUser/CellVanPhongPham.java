@@ -12,12 +12,12 @@ import DAO.TheLoai_DAO;
 import DAO.ThuongHieu_DAO;
 import DAO.VanPhongPham_DAO;
 import DAO.XuatXu_DAO;
-import Entity.LoaiSanPham;
-import Entity.LoaiVanPhongPham;
-import Entity.NhaCungCap;
-import Entity.ThuongHieu;
-import Entity.VanPhongPham;
-import Entity.XuatXu;
+import entity.LoaiSanPham;
+import entity.LoaiVanPhongPham;
+import entity.NhaCungCap;
+import entity.ThuongHieu;
+import entity.VanPhongPham;
+import entity.XuatXu;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Image;
@@ -48,7 +48,11 @@ import javax.swing.text.PlainDocument;
  * @author FPTSHOP
  */
 public class CellVanPhongPham extends javax.swing.JPanel {
-    	private VanPhongPham vanPhongPham;
+    	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4778770899045401837L;
+		private VanPhongPham vanPhongPham;
 	private NhaCungCap_DAO nhaCungCap_DAO;
 	private TheLoai_DAO theLoai_DAO;
 	private List<Object> selectedItemsTheLoai;
