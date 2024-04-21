@@ -5,11 +5,12 @@
 package Them;
 
 import DAO.ThuongHieu_DAO;
-import Entity.ThuongHieu;
+import DAO_IMP.ThuongHieuDAO_IMP;
+import entity.ThuongHieu;
 import java.lang.System.Logger.Level;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import org.apache.log4j.Logger;
+
 
 /**
  *
@@ -24,12 +25,8 @@ public class ThemTH extends javax.swing.JFrame {
      */
     public ThemTH() {
         initComponents();
-        thuongHieu_DAO = new ThuongHieu_DAO();
-        try {
-            lblMaThuongHieu.setText(thuongHieu_DAO.generateThuongHieu());
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(ThemTH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        thuongHieu_DAO = new ThuongHieuDAO_IMP();
+        lblMaThuongHieu.setText(thuongHieu_DAO.generateThuongHieu());
     }
 
     /**
@@ -187,17 +184,13 @@ public class ThemTH extends javax.swing.JFrame {
         String tenThuongHieu = txtThuongHieu.getText();
         String moTa = txtMoTa.getText();
         
-        thuongHieu_DAO = new ThuongHieu_DAO();
+        thuongHieu_DAO = new ThuongHieuDAO_IMP();
         
         ThuongHieu thuongHieu = new ThuongHieu(maThuongHieu, tenThuongHieu);
 
         if(thuongHieu_DAO.InsertThuongHieu(thuongHieu)){
             lamMoiDuLieu();
-            try {
-                lblMaThuongHieu.setText(thuongHieu_DAO.generateThuongHieu());
-            } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(ThemTH.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
+            lblMaThuongHieu.setText(thuongHieu_DAO.generateThuongHieu());
             JOptionPane.showMessageDialog(this, "Thêm thành công");
         }
     }//GEN-LAST:event_btnThemActionPerformed
