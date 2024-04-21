@@ -1,6 +1,6 @@
 package DAO_IMP;
 
-import java.util.List;
+
 
 import DAO.QuyDinh_DAO;
 import entity.QuyDinh;
@@ -18,9 +18,9 @@ public class QuyDinhDAO_IMP implements QuyDinh_DAO {
 
 	
 	@Override
-	public List<QuyDinh> layDuLieuQuyDinh() {
-		return em.createNamedQuery("QuyDinh.findAll", QuyDinh.class)
-				.getResultList();
+	public QuyDinh layDuLieuQuyDinh() {
+		return em.createQuery("SELECT qd FROM QuyDinh qd", QuyDinh.class)
+				.getSingleResult();
 	}
 
 	@Override

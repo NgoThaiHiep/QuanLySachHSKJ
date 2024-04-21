@@ -59,10 +59,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class TrangChu extends javax.swing.JFrame {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
      * Creates new form TrangChu
      */
     private TaiKhoan tk ;
@@ -353,10 +349,10 @@ public class TrangChu extends javax.swing.JFrame {
                 }
             }else if (index == 5 && subIndex == 1) { 
                 
-                showForm(new pnlThongKe(tk));
+//                showForm(new pnlThongKe(tk));
                 
             } else if (index == 5 && subIndex == 2) {
-                showForm(new pnlThongKe(tk));
+//                showForm(new pnlThongKe(tk));
             } else if (index == 6) {
                 if ("NV".equals(lblChucVu)) {
                     JOptionPane.showMessageDialog(null, "Chỉ có Quản Lý mới có quyền sử dụng.");
@@ -594,9 +590,8 @@ public class TrangChu extends javax.swing.JFrame {
         thoiGianHoatDong_DAO.capNhatThoiGianLam(tghd);
        
         try {
-//            taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK(), "Đã đăng xuất");
-        	taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK().getMaNV(), "Đã đăng xuất");
-        } catch (SQLException ex) {
+            taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK().getMaNV(), "Đã đăng xuất");
+        } catch (Exception ex) {
             
         }
     }//GEN-LAST:event_formWindowClosing
@@ -629,11 +624,9 @@ public class TrangChu extends javax.swing.JFrame {
             tghd.setThoiGianDangXuat(LocalTime.parse(loCalTime, formatter));
             thoiGianHoatDong_DAO.capNhatThoiGianLam(tghd);
             taiKhoan_DAO = new TaiKhoanDAO_IMP();
-            try {
-                taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK().getMaNV(),"Đã đăng xuất");
-            } catch (SQLException ex) {
-                Logger.getLogger(TrangChu.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
+            	 taiKhoan_DAO.updataTinhTrangDangNhap(tk.getTenTK().getMaNV(), "Đã đăng xuất");
+           
             DangNhap1 dangNhap = new DangNhap1 ();
             this.setVisible(false);
             dangNhap.setVisible(true);

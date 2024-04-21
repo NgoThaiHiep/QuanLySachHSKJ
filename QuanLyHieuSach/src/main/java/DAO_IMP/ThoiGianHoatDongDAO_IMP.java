@@ -57,6 +57,25 @@ public class ThoiGianHoatDongDAO_IMP implements ThoiGianHoatDong_DAO {
 	@Override
 	public boolean capNhatThoiGianLam(ThoiGianHoatDong tghd) {
 		// TODO Auto-generated method stub
+//		UPDATE [dbo].[ThoiGianHoatDong] SET [ThoiGianDaLam] = ?,[ThoiGianDangXuat] = ? WHERE [ThoiGianHoatDongID] = ?
+		EntityTransaction tx = em.getTransaction();
+		try {
+            tx.begin();
+            em.createQuery(
+                    "UPDATE ThoiGianHoatDong SET thoiGianDaLam = :ThoiGianDaLam,"
+                    + " thoiGianDangXuat = :ThoiGianDangXuat "
+                    + "WHERE maThoiGian = :MaThoiGian")
+                    .setParameter("ThoiGianDaLam", tghd.getThoiGianDaLam())
+                    .setParameter("ThoiGianDangXuat", tghd.getThoiGianDangXuat())
+                    .setParameter("MaThoiGian", tghd.getMaThoiGian())
+                    .executeUpdate();
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+        	
+			e.printStackTrace();
+			tx.rollback();
+		}
 		return false;
 	}
 

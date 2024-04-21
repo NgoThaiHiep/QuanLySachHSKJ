@@ -8,12 +8,8 @@ import DAO_IMP.NhanVienDAO_IMP;
 import DAO_IMP.TaiKhoanDAO_IMP;
 import entity.NhanVien;
 import entity.TaiKhoan;
-import java.awt.Component;
 import java.awt.Cursor;
-import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -215,7 +211,7 @@ public class DangNhap1 extends javax.swing.JFrame {
                 this.dispose();
            }
         }else if(taiKhoan_DAO.login_DaDangNhap(tk)){
-             JOptionPane.showMessageDialog(null ,"Tài khoản đang được sử dụng");
+             JOptionPane.showMessageDialog(null ,"Tài khoản đang được sử dụng 1");
         }
         else{
             JOptionPane.showMessageDialog(null ,"Tên Đăng nhập hoặc mật khẩu sai");

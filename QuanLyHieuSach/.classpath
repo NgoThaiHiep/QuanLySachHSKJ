@@ -51,5 +51,22 @@
 	<classpathentry kind="lib" path="src/main/java/Li/flatlaf-3.2.5.jar"/>
 	<classpathentry kind="lib" path="src/main/java/Li/flatlaf-extras-3.2.5.jar"/>
 	<classpathentry kind="lib" path="src/main/java/Li/flatlaf-fonts-roboto-2.137.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/jasper-compiler-jdt-5.5.23.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/javax.mail.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/jsvg-1.2.0.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/swing-worker-1.1.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/swingx-1.6.1.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-beanutils-1.9.4.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-cli-1.0.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-collections-3.2.2.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-collections4-4.2.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="src/main/java/Li/commons-logging-1.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

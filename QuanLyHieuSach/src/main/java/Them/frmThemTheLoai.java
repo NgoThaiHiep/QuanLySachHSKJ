@@ -2,7 +2,8 @@
 package Them;
 
 import DAO.TheLoai_DAO;
-import Entity.TheLoai;
+import DAO_IMP.TheLoaiDAO_IMP;
+import entity.TheLoai;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,13 +22,11 @@ public class frmThemTheLoai extends javax.swing.JFrame {
      */
     public frmThemTheLoai() {
         initComponents();
-        theLoai_DAO = new  TheLoai_DAO();
+        theLoai_DAO = new  TheLoaiDAO_IMP();
         
-        try {
+       
             lblMaTheLoai1.setText(theLoai_DAO.generateTheLoai());
-        } catch (SQLException ex) {
-            Logger.getLogger(frmThemTheLoai.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }
 
     /**
@@ -145,20 +144,18 @@ public class frmThemTheLoai extends javax.swing.JFrame {
         
         String maTheLoai = lblMaTheLoai1.getText();
         String tenTheLoai = txtTenTheLoai.getText();
-        String moTa = jtaMoTa.getText();
+      
         
         TheLoai theLoai = new TheLoai(maTheLoai, tenTheLoai);
-         theLoai_DAO = new TheLoai_DAO();
+         theLoai_DAO = new TheLoaiDAO_IMP();
         System.out.println(theLoai);
         
         if(theLoai_DAO.InsertTheLoai(theLoai)){
             txtTenTheLoai.setText("");
             jtaMoTa.setText("");
-            try {
+           
                 lblMaTheLoai1.setText( theLoai_DAO.generateTheLoai());
-            } catch (SQLException ex) {
-                Logger.getLogger(frmThemTheLoai.class.getName()).log(Level.SEVERE, null, ex);
-            }
+         
            
             JOptionPane.showMessageDialog(this, "Thêm thành công thể loại");
         }

@@ -12,6 +12,7 @@ public interface SanPham_DAO {
 	public ArrayList<SanPham> layDanhSachTheoMaSach(String maSach);
 	
 	public ArrayList<SanPham> layDanhSachTheoTenSach(String tenSach);
+	
 	public SanPham layThongTinSanPhamTheoTen(String tenSanPham);
 	
 	

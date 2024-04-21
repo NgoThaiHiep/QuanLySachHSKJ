@@ -27,7 +27,7 @@ public class ThoiGianHoatDong {
 	@ManyToOne
 	@JoinColumn(name = "MaNV")
 	private NhanVien nhanVien;
-    private LocalDate  ngayDangNhap;
+    private LocalDate ngayDangNhap;
     private LocalTime thoiGianDangNhap;
     private LocalTime thoiGianDangXuat;
     private LocalTime thoiGianDaLam;

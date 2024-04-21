@@ -28,6 +28,8 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
+
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -139,15 +141,16 @@ public class pnlThemKhachHang extends javax.swing.JPanel {
         });
         duLieuSDT();
     }
-     public static ArrayList<String> readExcel_City() throws IOException {
+    public static ArrayList<String> readExcel_City() throws IOException {
 		//Đọc dữ liệu từ file Diachi.xlsx
                 ArrayList<String> cities = new ArrayList<>();
-		FileInputStream file = new FileInputStream("src\\Li\\Tinh_2023.xlsx");
+		FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Tinh_2023.xlsx");
 		//Nạp file input stream đưa về dạng excel
 		XSSFWorkbook wb = new XSSFWorkbook(file);
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
 		XSSFSheet sheet = wb.getSheetAt(0);
 		//Lấy các giá trị trong các cột
+		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
 		int v = 0;
 		for(Row row:sheet) {
 			
@@ -163,93 +166,98 @@ public class pnlThemKhachHang extends javax.swing.JPanel {
 		return cities;
 }   
 
-    public static String readExcel_City_Id(String ip) throws IOException {
-                    //Đọc dữ liệu từ file Diachi.xlsx
-                    String cities = "";
-                    FileInputStream file = new FileInputStream("src\\Li\\Tinh_2023.xlsx");
-                    //Nạp file input stream đưa về dạng excel
-                    XSSFWorkbook wb = new XSSFWorkbook(file);
-                    //Đọc file từ Sheet 1 (bắt đầu từ số 0)
-                    XSSFSheet sheet = wb.getSheetAt(0);
-                    //Lấy các giá trị trong các cột
-                   
-                    for(Row row:sheet) {
-                            
-                        if(row.getCell(1) !=null ) {
-                           if(row.getCell(1) != null && ip.equals(row.getCell(0)+"") ) {
+	    public static String readExcel_City_Id(String ip) throws IOException {
+	        //Đọc dữ liệu từ file Diachi.xlsx
+	        String cities = "";
+	        FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Tinh_2023.xlsx");
+	        //Nạp file input stream đưa về dạng excel
+	        XSSFWorkbook wb = new XSSFWorkbook(file);
+	        //Đọc file từ Sheet 1 (bắt đầu từ số 0)
+	        XSSFSheet sheet = wb.getSheetAt(0);
+	        //Lấy các giá trị trong các cột
+	        FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+	        int v = 0;
+	        for(Row row:sheet) {
+	                
+	            if(row.getCell(1) !=null ) {
+	               if(row.getCell(1) != null && ip.equals(row.getCell(0)+"") ) {
 	
-				cities = row.getCell(1)+"";
-                                break;
-				}
-                            }
-                        }                     
-                    wb.close();
-                    file.close();
-        return cities;
-    }   
-    public static ArrayList<String> readExcel_districts(JComboBox<String> cbo,JComboBox<String> cbo1,JComboBox<String> cbo2,String tb) throws IOException {
-	//Đọc dữ liệu từ file Diachi.xlsx
-            ArrayList<String> districts = new ArrayList<>();
-		FileInputStream file = new FileInputStream("src\\Li\\Book1.xlsx");
-		//Nạp file input stream đưa về dạng excel
-		XSSFWorkbook wb = new XSSFWorkbook(file);
-		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
-		XSSFSheet sheet = wb.getSheetAt(0);
-		//Lấy các giá trị trong các cột
-		int v = 0;
-                if(cbo.getSelectedItem().equals("Tỉnh/Thành phố")){
-                    cbo1.setEnabled(false);
-                    cbo2.setEnabled(false);
-                }else{
-                     cbo1.setEnabled(true);
-                    cbo1.setEditable(false);
-                    cbo2.setEnabled(true);
-                }
-		for(Row row:sheet) {
-			if(row.getCell(0) != null && cbo.getSelectedItem().equals(row.getCell(0)+"") ) {
-				if(!districts.contains(row.getCell(2)+"" )) {
-					districts.add(row.getCell(2)+"");
-					v++;
+		cities = row.getCell(1)+"";
+	                    break;
+		}
+	                }
+	            }                     
+	        wb.close();
+	        file.close();
+	return cities;
+	}  
+	    
+	    public static ArrayList<String> readExcel_districts(JComboBox<String> cbo,JComboBox<String> cbo1,JComboBox<String> cbo2,String tb) throws IOException {
+	    	//Đọc dữ liệu từ file Diachi.xlsx
+	                ArrayList<String> districts = new ArrayList<>();
+	    		FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Book1.xlsx");
+	    		//Nạp file input stream đưa về dạng excel
+	    		XSSFWorkbook wb = new XSSFWorkbook(file);
+	    		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
+	    		XSSFSheet sheet = wb.getSheetAt(0);
+	    		//Lấy các giá trị trong các cột
+	    		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+	    		//Duyệt các row
+	                    
+	    		int v = 0;
+	                    if(cbo.getSelectedItem().equals("Tỉnh/Thành phố")){
+	                        cbo1.setEnabled(false);
+	                        cbo2.setEnabled(false);
+	                    }else{
+	                         cbo1.setEnabled(true);
+	                        cbo1.setEditable(false);
+	                        cbo2.setEnabled(true);
+	                    }
+	    		for(Row row:sheet) {
+	    			if(row.getCell(0) != null && cbo.getSelectedItem().equals(row.getCell(0)+"") ) {
+	    				if(!districts.contains(row.getCell(2)+"" )) {
+	    					districts.add(row.getCell(2)+"");
+	    					v++;
+	    				}
+	    			}
+	    		}
+	                    
+	    		System.out.println(v);
+	    		wb.close();
+	    		file.close();
+	    		return districts;
+	    	}      
+	    public static ArrayList<String> readExcel_wardsDistrict(JComboBox<String> cbo,JComboBox<String> cbo1) throws IOException {
+			//Đọc dữ liệu từ file Diachi.xlsx
+	    	 ArrayList<String> wardsDistrict = new ArrayList<>();
+			FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Book1.xlsx");
+			//Nạp file input stream đưa về dạng excel
+			XSSFWorkbook wb = new XSSFWorkbook(file); 
+			//Đọc file từ Sheet 1 (bắt đầu từ số 0)
+			XSSFSheet sheet = wb.getSheetAt(0);
+			//Lấy các giá trị trong các cột
+			FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+			//Duyệt các row
+			int v = 0;
+	               
+	                if(cbo.getSelectedItem().equals("Quận/huyện")){
+	                    cbo1.setEnabled(false);
+	                }else{
+	                cbo.setEnabled(true);   
+	                }
+			for(Row row:sheet) {
+				if(row.getCell(2) != null && cbo.getSelectedItem().equals(row.getCell(2)+"") ) {
+					if(!wardsDistrict.contains(row.getCell(4)+"" )) {
+						wardsDistrict.add(row.getCell(4)+"");
+						
+					}
 				}
 			}
+			System.out.println(v);
+			wb.close();
+			file.close();
+			return wardsDistrict;
 		}
-                
-		System.out.println(v);
-		wb.close();
-		file.close();
-		return districts;
-	}    
-     public static ArrayList<String> readExcel_wardsDistrict(JComboBox<String> cbo,JComboBox<String> cbo1) throws IOException {
-		//Đọc dữ liệu từ file Diachi.xlsx
-    	 ArrayList<String> wardsDistrict = new ArrayList<>();
-		FileInputStream file = new FileInputStream("src\\Li\\Book1.xlsx");
-		//Nạp file input stream đưa về dạng excel
-		XSSFWorkbook wb = new XSSFWorkbook(file); 
-		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
-		XSSFSheet sheet = wb.getSheetAt(0);
-
-		
-		//Duyệt các row
-		int v = 0;
-               
-                if(cbo.getSelectedItem().equals("Quận/huyện")){
-                    cbo1.setEnabled(false);
-                }else{
-                cbo.setEnabled(true);   
-                }
-		for(Row row:sheet) {
-			if(row.getCell(2) != null && cbo.getSelectedItem().equals(row.getCell(2)+"") ) {
-				if(!wardsDistrict.contains(row.getCell(4)+"" )) {
-					wardsDistrict.add(row.getCell(4)+"");
-					
-				}
-			}
-		}
-		System.out.println(v);
-		wb.close();
-		file.close();
-		return wardsDistrict;
-	}
     private static String vietHoaChuCaiDauTienTrongJtextField(String input) {
         if (input == null || input.isEmpty()) {
             return input;

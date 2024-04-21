@@ -179,7 +179,7 @@ public class pnlThemNhanVien extends javax.swing.JPanel {
         
         // Đặt ảnh vào JLabel và thiết lập kích thước bằng với JLabel
         try {
-            selectedFile =new File("src\\IMG\\anhMacDinhNhanVien _daThayDoi.png");
+            selectedFile =new File("src\\main\\java\\IMG\\anhMacDinhNhanVien _daThayDoi.png");
             BufferedImage image = ImageIO.read(selectedFile); // Thay đổi đường dẫn đến ảnh
             ImageIcon icon = new ImageIcon(image);
             lblAnhNhanVien.setIcon(icon);
@@ -797,7 +797,7 @@ public class pnlThemNhanVien extends javax.swing.JPanel {
     public static ArrayList<String> readExcel_City() throws IOException {
 		//Đọc dữ liệu từ file Diachi.xlsx
                 ArrayList<String> cities = new ArrayList<>();
-		FileInputStream file = new FileInputStream("src\\Li\\Tinh_2023.xlsx");
+		FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Tinh_2023.xlsx");
 		//Nạp file input stream đưa về dạng excel
 		XSSFWorkbook wb = new XSSFWorkbook(file);
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
@@ -822,7 +822,7 @@ public class pnlThemNhanVien extends javax.swing.JPanel {
     public static String readExcel_City_Id(String ip) throws IOException {
                     //Đọc dữ liệu từ file Diachi.xlsx
                     String cities = "";
-                    FileInputStream file = new FileInputStream("src\\Li\\Tinh_2023.xlsx");
+                    FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Tinh_2023.xlsx");
                     //Nạp file input stream đưa về dạng excel
                     XSSFWorkbook wb = new XSSFWorkbook(file);
                     //Đọc file từ Sheet 1 (bắt đầu từ số 0)
@@ -847,7 +847,7 @@ public class pnlThemNhanVien extends javax.swing.JPanel {
     public static ArrayList<String> readExcel_districts(JComboBox<String> cbo,JComboBox<String> cbo1,JComboBox<String> cbo2,String tb) throws IOException {
 	//Đọc dữ liệu từ file Diachi.xlsx
             ArrayList<String> districts = new ArrayList<>();
-		FileInputStream file = new FileInputStream("src\\Li\\Book1.xlsx");
+		FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Book1.xlsx");
 		//Nạp file input stream đưa về dạng excel
 		XSSFWorkbook wb = new XSSFWorkbook(file);
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
@@ -882,7 +882,7 @@ public class pnlThemNhanVien extends javax.swing.JPanel {
      public static ArrayList<String> readExcel_wardsDistrict(JComboBox<String> cbo,JComboBox<String> cbo1) throws IOException {
 		//Đọc dữ liệu từ file Diachi.xlsx
     	 ArrayList<String> wardsDistrict = new ArrayList<>();
-		FileInputStream file = new FileInputStream("src\\Li\\Book1.xlsx");
+		FileInputStream file = new FileInputStream("src\\main\\java\\Li\\Book1.xlsx");
 		//Nạp file input stream đưa về dạng excel
 		XSSFWorkbook wb = new XSSFWorkbook(file); 
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)

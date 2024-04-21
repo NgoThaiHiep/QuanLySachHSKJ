@@ -78,7 +78,7 @@ public class SachDAO_IMP implements Sach_DAO{
 	public boolean kiemTraMaSach(String code) {
 		// TODO Auto-generated method stub
 		
-		return em.createQuery("select c from Sach c where c.maSach = :code", Sach.class)
+		return em.createQuery("select c from Sach c where c.maSanPham = :code", Sach.class)
                 .setParameter("code", code)
                 .getResultList().size() > 0;
 	}

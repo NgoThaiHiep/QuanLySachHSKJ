@@ -4,9 +4,11 @@ package Them;
 import DAO.NhaCungCap_DAO;
 import DAO.NhaXuatBan_DAO;
 import DAO.TheLoai_DAO;
-import Entity.NhaCungCap;
-import Entity.NhaXuatBan;
-import Entity.TheLoai;
+import DAO_IMP.NhaXuatBanDAO_IMP;
+import DAO_IMP.TheLoaiDAO_IMP;
+import entity.NhaCungCap;
+import entity.NhaXuatBan;
+import entity.TheLoai;
 import static Pannel.pnlTraCuuNhanVien.readExcel_City;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
@@ -34,7 +36,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
- * @author FPTSHOP
+ * @author NTH
  */
 public class frmNhaXuatBan extends javax.swing.JFrame {
 
@@ -51,14 +53,11 @@ public class frmNhaXuatBan extends javax.swing.JFrame {
      */
     public frmNhaXuatBan() {
         initComponents();
-        theLoai_DAO = new  TheLoai_DAO();
-        nhaXuatBan_DAO = new NhaXuatBan_DAO();
-        try {
+        theLoai_DAO = new  TheLoaiDAO_IMP();
+        nhaXuatBan_DAO = new NhaXuatBanDAO_IMP();
+       
                 lblMaNhaCungCapp1.setText( nhaXuatBan_DAO.generateNhaXuatBan());
-            } catch (SQLException ex) {
-                Logger.getLogger(frmNhaXuatBan.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           
+            
         try {
             cities = readExcel_City();
         } catch (IOException ex) {
@@ -351,15 +350,13 @@ private void duLieuSDT(){
         NhaXuatBan nhaXuatBan = new NhaXuatBan(maTheLoai, tenTheLoai, diaChi, soDienThoai, email);
        
         
-        nhaXuatBan_DAO = new NhaXuatBan_DAO();
+        nhaXuatBan_DAO = new NhaXuatBanDAO_IMP();
         
         if(nhaXuatBan_DAO.InsertNhaXuatBan(nhaXuatBan)){
             lamMoiDuLieu();
-            try {
+         
                 lblMaNhaCungCapp1.setText( nhaXuatBan_DAO.generateNhaXuatBan());
-            } catch (SQLException ex) {
-                Logger.getLogger(frmNhaXuatBan.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
            
             JOptionPane.showMessageDialog(this, "Thêm thành công thể loại");
         }
@@ -420,8 +417,8 @@ public static String readExcel_City_Id(String ip) throws IOException {
                     //Đọc file từ Sheet 1 (bắt đầu từ số 0)
                     XSSFSheet sheet = wb.getSheetAt(0);
                     //Lấy các giá trị trong các cột
-                    FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
-                    int v = 0;
+//                    FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//                    int v = 0;
                     for(Row row:sheet) {
                             
                         if(row.getCell(1) !=null ) {
@@ -445,7 +442,7 @@ public static String readExcel_City_Id(String ip) throws IOException {
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
 		XSSFSheet sheet = wb.getSheetAt(0);
 		//Lấy các giá trị trong các cột
-		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
 		//Duyệt các row
                 
 		int v = 0;
@@ -480,7 +477,7 @@ public static String readExcel_City_Id(String ip) throws IOException {
 		//Đọc file từ Sheet 1 (bắt đầu từ số 0)
 		XSSFSheet sheet = wb.getSheetAt(0);
 		//Lấy các giá trị trong các cột
-		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
+//		FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator();
 		//Duyệt các row
 		int v = 0;
                
@@ -504,7 +501,7 @@ public static String readExcel_City_Id(String ip) throws IOException {
 	}
     private void cboQuanHuyenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboQuanHuyenActionPerformed
         // TODO add your handling code here:
-        String t = cboQuanHuyen.getSelectedItem()+"";
+//        String t = cboQuanHuyen.getSelectedItem()+"";
 
         cboQuanHuyen.addItem(q);
         // System.out.println(districtComboBox.getSelectedItem()+"");

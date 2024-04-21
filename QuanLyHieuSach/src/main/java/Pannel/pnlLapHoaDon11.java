@@ -147,7 +147,13 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
 	hoaDon_DAO = new HoaDonDAO_IMP();
         
 	String formattedDate = null;
+<<<<<<< HEAD
         formattedDate = hoaDon_DAO.generateHoaDon(nv);
+=======
+        
+           formattedDate = hoaDon_DAO.generateHoaDon(nv);
+        
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
         lblMaHoaDonFont.setText(formattedDate);
         lblMaHoaDonFont.setFont(new java.awt.Font("Times New Roman", Font.BOLD, 15)); 
         
@@ -169,8 +175,12 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
         capNhatDanhSach_TheoMa_TimKiem(txtTimKiemMaSanPham);
         
         quyDinh_DAO = new QuyDinhDAO_IMP();
+<<<<<<< HEAD
         QuyDinh qd = new QuyDinh();
         List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+=======
+        QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
 
         lblTongTienThanhToan.setText("Tổng tiền thanh toán (đã gồm VAT "+ qd.getVAT() + " %) :");
         kiemTraDuLieuFloat( txtTienKhachDua);
@@ -1183,11 +1193,23 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
         // new frmHangCho().setVisible(true);
     	KhachHang kh = new KhachHang();
         khachHang_DAO = new KhachHangDAO_IMP();
+<<<<<<< HEAD
         if(txtSoDienThoai.getText().equals("")) {
 		   kh.setMaKhachHang(khachHang_DAO.generateVerifyCode_KhachHangLe());
 		}else{
 		  kh =   khachHang_DAO.layThongTinKhachHang(txtSoDienThoai.getText());
 		}
+=======
+        try {
+            if(txtSoDienThoai.getText().equals("")) {
+               kh.setMaKhachHang(khachHang_DAO.generateVerifyCode_KhachHangLe());
+            }else{
+              kh =   khachHang_DAO.layThongTinKhachHang(txtSoDienThoai.getText());
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(pnlLapHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
         LocalDate localDate = LocalDate.now();
         System.out.println(kh);
         DefaultTableModel model = (DefaultTableModel) tblGioHang.getModel();
@@ -1196,7 +1218,7 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
 
         SanPham sanPham = null ;
         int soLuong = 0;
-        double donGia = 0;
+        
         // Duyệt qua từng hàng và cột để lấy dữ liệu\
 
         String maKhachHang = "";
@@ -1227,7 +1249,7 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
                         if(col == 4){
                             Object cellValue = model.getValueAt(row, col).toString();
                             //              System.out.print("sách " + cellValue + "\t");
-                            donGia = Double.parseDouble((String) cellValue);
+                            double  donGia = Double.parseDouble((String) cellValue);
                         }
                         //thành tiền
                         if(col == 5){
@@ -1343,8 +1365,14 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tblGioHang.getModel();
 
+<<<<<<< HEAD
         
         
+=======
+        SanPham sanPham = new SanPham() {
+        	
+        } ;
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
         int soLuong = 0;
         double donGia = 0;
         
@@ -1368,12 +1396,23 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
         }
         KhachHang kh = new KhachHang();
         khachHang_DAO = new KhachHangDAO_IMP();
+<<<<<<< HEAD
         if(txtSoDienThoai.getText().equals("") ||  khachHang_DAO.layThongTinKhachHang(txtSoDienThoai.getText()) == null) {
 		    kh.setMaKhachHang(khachHang_DAO.generateVerifyCode_KhachHangLe());
 		    kh.setTenKhachHang("No name");
 		}else{
 		    kh = khachHang_DAO.layThongTinKhachHang(txtSoDienThoai.getText());
 		}
+=======
+       
+            if(txtSoDienThoai.getText().equals("") ||  khachHang_DAO.layThongTinKhachHang(txtSoDienThoai.getText()) == null) {
+                kh.setMaKhachHang(khachHang_DAO.generateVerifyCode_KhachHangLe());
+                kh.setTenKhachHang("No name");
+            }else{
+                kh = khachHang_DAO.layThongTinKhachHang(txtSoDienThoai.getText());
+            }
+       
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
         LocalDate localDate = LocalDate.now();
 
         int columnCount = model.getColumnCount();
@@ -1413,8 +1452,12 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
                     double tienTraLai = Double.parseDouble(txtTienTraLaiKyTu);
 
                     quyDinh_DAO = new QuyDinhDAO_IMP();
+<<<<<<< HEAD
                     QuyDinh qd = new QuyDinh();
                     List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+=======
+                    QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
 
                     HoaDon hoaDonTienMat = new HoaDon(lblMaHoaDonFont.getText(), localDate, nv, kh,soTienKhachDua,giaBan,tongTienSanPham ,qd.getVAT(),tienTraLai);
                     hoaDon_DAO = new HoaDonDAO_IMP();
@@ -1462,7 +1505,13 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
             }
             String formattedDate = null;
 
+<<<<<<< HEAD
             formattedDate = hoaDon_DAO.generateHoaDon(nv);
+=======
+           
+                formattedDate = hoaDon_DAO.generateHoaDon(nv);
+           
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
             lblMaHoaDonFont.setText(formattedDate);
             lblMaHoaDonFont.setFont(new java.awt.Font("Times New Roman", Font.BOLD, 15));
 
@@ -1523,8 +1572,12 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
     }
     private void cboKhuyenMaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboKhuyenMaiActionPerformed
         quyDinh_DAO = new QuyDinhDAO_IMP();
+<<<<<<< HEAD
         QuyDinh qd = new QuyDinh();
         List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+=======
+        QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
 
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
 
@@ -1644,8 +1697,12 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
     
     public void khauTru(){
         quyDinh_DAO = new QuyDinhDAO_IMP();
+<<<<<<< HEAD
         QuyDinh qd = new QuyDinh();
         List<QuyDinh> quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+=======
+        QuyDinh quyDinh = quyDinh_DAO.layDuLieuQuyDinh();
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
 
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
 
@@ -2069,7 +2126,11 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
 
     public class frmHangCho extends javax.swing.JFrame {
 
-    private KhachHang_DAO khachHang_DAO;
+    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+	private KhachHang_DAO khachHang_DAO;
     private HangCho_DAO hangCho_DAO;
 
     /**
@@ -2124,6 +2185,7 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
         row = new Object[12];
         String khachHang = hangCho.getKhachHang().getMaKhachHang();
             if (!maKhachHangSet.contains(khachHang)) { // Kiểm tra xem mã khách hàng đã xuất hiện chưa
+<<<<<<< HEAD
             ArrayList<KhachHang > dsKhachHangSoDienThoai = khachHang_DAO.danhSachKhachHangTheoSDT(sdt);
 			for (KhachHang khachHang1 : dsKhachHangSoDienThoai) {
 			    if(khachHang1.getMaKhachHang().equals(hangCho.getKhachHang().getMaKhachHang())){
@@ -2136,6 +2198,22 @@ public class pnlLapHoaDon11 extends javax.swing.JPanel {
 			        model.addRow(row);
 			    }
 			}
+=======
+           
+                ArrayList<KhachHang > dsKhachHangSoDienThoai = khachHang_DAO.danhSachKhachHangTheoSDT(sdt);
+                for (KhachHang khachHang1 : dsKhachHangSoDienThoai) {
+                    if(khachHang1.getMaKhachHang().equals(hangCho.getKhachHang().getMaKhachHang())){
+                        maKhachHangSet.add(khachHang); // Thêm mã khách hàng vào Set
+                        dem++;
+                        row[0] = dem;
+                        row[1] = khachHang;
+                        row[2] = khachHang1.getTenKhachHang();
+                        row[3] = khachHang1.getSoDienThoai();
+                        model.addRow(row);
+                    }
+                }
+            
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
             }
         }
         tblHangCho.setModel(model);

@@ -4,12 +4,14 @@ package entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+<<<<<<< HEAD
 @NamedQueries({
 	@NamedQuery(name = "QuyDinh.findAll", query = "select qd from QuyDinh qd")
 })
+=======
+
+>>>>>>> 152ce2948a92647d147a2f81aa589ba2eab0fbc9
 
 @Entity
 @Table(name = "QuyDinh")

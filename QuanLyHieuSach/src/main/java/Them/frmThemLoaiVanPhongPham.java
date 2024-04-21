@@ -6,7 +6,8 @@ package Them;
 
 
 import DAO.LoaiVanPhongPham_DAO;
-import Entity.LoaiVanPhongPham;
+import DAO_IMP.LoaiVanPhongPhamDAO_IMP;
+import entity.LoaiVanPhongPham;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +27,10 @@ public class frmThemLoaiVanPhongPham extends javax.swing.JFrame {
     public frmThemLoaiVanPhongPham() {
         
         initComponents();
-        loaiVanPhongPham_DAO = new LoaiVanPhongPham_DAO();
-        try {
+        loaiVanPhongPham_DAO = new LoaiVanPhongPhamDAO_IMP();
+       
                 lblMaLoaiVanPhongPham1.setText( loaiVanPhongPham_DAO.generatMaLoaiVanPhongPham());
-            } catch (SQLException ex) {
-                Logger.getLogger(frmThemTheLoai.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          
     }
 
     /**
@@ -200,16 +199,14 @@ public class frmThemLoaiVanPhongPham extends javax.swing.JFrame {
         
         LoaiVanPhongPham loaiVanPhongPham = new LoaiVanPhongPham(maLoaiVanPhongPham, tenLoaiVanPhongPham);
         
-        loaiVanPhongPham_DAO = new LoaiVanPhongPham_DAO();
+        loaiVanPhongPham_DAO = new LoaiVanPhongPhamDAO_IMP();
         
         
          if(loaiVanPhongPham_DAO.InsertLoaiVanPhongPham(loaiVanPhongPham)){
              lamMoiDuLieu();
-            try {
+          
                 lblMaLoaiVanPhongPham1.setText( loaiVanPhongPham_DAO.generatMaLoaiVanPhongPham());
-            } catch (SQLException ex) {
-                Logger.getLogger(frmThemTheLoai.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           
            
             JOptionPane.showMessageDialog(this, "Thêm thành công loại sản phẩm");
         }
